@@ -4,8 +4,13 @@
 # Core Django framework
 Django>=5.1,<5.3
 
-# MySQL database adapter (pure Python — no C++ build tools required on Windows)
+# MySQL database adapter (pure Python)
 PyMySQL>=1.1.0
 
 # Environment variable management
 django-environ>=0.11.2
+
+# Production server and static files
+gunicorn>=23.0.0
+whitenoise>=6.8.0
+dj-database-url>=2.3.0
