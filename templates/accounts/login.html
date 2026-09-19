@@ -1,0 +1,499 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — Nirmaan Foundation</title>
+  <meta name="description" content="Sign in to your Nirmaan Foundation account.">
+  <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #FFFFFF;
+      color: #1A1E1A;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Full-screen 50/50 split container */
+    .auth-fullscreen {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+      background: #FFFFFF;
+    }
+
+    /* Left panel: exactly 50vw, full height edge-to-edge */
+    .auth-panel-left {
+      flex: 0 0 50%;
+      width: 50vw;
+      min-height: 100vh;
+      position: relative;
+      background: #FAF8F2 url("{% static 'images/register_fullscreen_left.jpg' %}") center top / cover no-repeat;
+      overflow: hidden;
+    }
+
+    /* Right panel: exactly 50vw, full height */
+    .auth-panel-right {
+      flex: 0 0 50%;
+      width: 50vw;
+      min-height: 100vh;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 64px 28px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+
+
+    /* Top bar switch link */
+    .auth-top-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: #6E6B65;
+      position: relative;
+      z-index: 2;
+    }
+    .auth-top-link {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1E2520;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .auth-top-link:hover {
+      color: #2D4736;
+    }
+
+    /* Centered form box */
+    .auth-form-container {
+      max-width: 480px;
+      width: 100%;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+      padding: 16px 0;
+    }
+
+    .auth-heading {
+      font-size: 2.15rem;
+      font-weight: 700;
+      color: #141815;
+      letter-spacing: -0.025em;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .auth-subheading {
+      font-size: 0.93rem;
+      color: #6B6862;
+      line-height: 1.45;
+      margin-bottom: 24px;
+    }
+
+    /* Flash messages */
+    .auth-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 18px;
+    }
+    .auth-alert-error {
+      background: #FEF2F2;
+      color: #B91C1C;
+      border: 1px solid #FCA5A5;
+    }
+    .auth-alert-success {
+      background: #F0FDF4;
+      color: #15803D;
+      border: 1px solid #86EFAC;
+    }
+    .auth-alert-info {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #93C5FD;
+    }
+
+    /* Form groups */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: #2F332F;
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+    }
+    .forgot-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #2D4736;
+      text-decoration: underline;
+    }
+    .forgot-link:hover {
+      color: #141815;
+    }
+
+    /* Input wrapper with icons */
+    .input-wrapper {
+      position: relative;
+    }
+    .input-icon-left {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9C978F;
+      font-size: 1.05rem;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      border: 1.5px solid #DDD8CF;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: 'Inter', sans-serif;
+      color: #1A1E1A;
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+    .form-input::placeholder {
+      color: #A09C95;
+    }
+    .form-input:focus {
+      border-color: #2D4736;
+      box-shadow: 0 0 0 3px rgba(45, 71, 54, 0.12);
+    }
+    .form-input.is-invalid {
+      border-color: #EF4444;
+      background: #FFFBFB;
+    }
+    .form-input.is-invalid:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    }
+    .has-toggle .form-input {
+      padding-right: 42px;
+    }
+
+    /* Eye toggle */
+    .toggle-pw {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9C978F;
+      font-size: 1.05rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+    .toggle-pw:hover {
+      color: #2D4736;
+    }
+
+    .field-error {
+      font-size: 0.77rem;
+      color: #DC2626;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Primary submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 12.5px 20px;
+      background: #2D4736;
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    }
+    .btn-submit:hover {
+      background: #22372a;
+      box-shadow: 0 4px 16px rgba(45, 71, 54, 0.25);
+    }
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+
+    /* Divider */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 18px 0;
+      color: #9C978F;
+      font-size: 0.8rem;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E8E4DC;
+    }
+
+    /* Google Button */
+    .btn-google {
+      width: 100%;
+      padding: 10.5px 18px;
+      background: #FFFFFF;
+      border: 1.5px solid #DDD8CF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      color: #2D2A26;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+      text-decoration: none;
+    }
+    .btn-google:hover {
+      border-color: #B5B0A6;
+      background: #FAF9F7;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .google-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Footnote */
+    .auth-footnote {
+      text-align: center;
+      font-size: 0.76rem;
+      color: #8C8880;
+      margin-top: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .auth-fullscreen {
+        flex-direction: column;
+      }
+      .auth-panel-left {
+        display: none;
+      }
+      .auth-panel-right {
+        width: 100vw;
+        padding: 32px 24px;
+      }
+      .mobile-logo-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .mobile-logo-header img {
+        height: 42px;
+        width: auto;
+      }
+    }
+    @media (min-width: 992px) {
+      .mobile-logo-header {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-fullscreen">
+
+  <!-- ======= LEFT PANEL (Actual Size 50vw Fullscreen with High-Res Visual) ======= -->
+  <div class="auth-panel-left" aria-hidden="true"></div>
+
+  <!-- ======= RIGHT PANEL (Actual Size 50vw Fullscreen Form) ======= -->
+  <div class="auth-panel-right">
+
+    <!-- Mobile brand header -->
+    <div class="mobile-logo-header">
+      <a href="{% url 'home:index' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Nirmaan Foundation">
+      </a>
+    </div>
+
+    <!-- Top bar switch to register -->
+    <div class="auth-top-bar">
+      <span>Don't have an account?</span>
+      <a href="{% url 'accounts:register' %}" class="auth-top-link" id="register-link">
+        Sign Up &rarr;
+      </a>
+    </div>
+
+    <!-- Main form box -->
+    <div class="auth-form-container">
+      <h1 class="auth-heading">Welcome back</h1>
+      <p class="auth-subheading">Sign in to continue to your Nirmaan Foundation account.</p>
+
+      <!-- Flash messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="auth-alert {% if 'error' in message.tags %}auth-alert-error{% elif 'success' in message.tags %}auth-alert-success{% else %}auth-alert-info{% endif %}" role="alert">
+            <i class="bi bi-{% if 'error' in message.tags %}exclamation-circle-fill{% elif 'success' in message.tags %}check-circle-fill{% else %}info-circle-fill{% endif %}"></i>
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" action="{% url 'accounts:login' %}" novalidate id="login-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="auth-alert auth-alert-error" role="alert">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            <span>{{ form.non_field_errors|join:" " }}</span>
+          </div>
+        {% endif %}
+
+        <!-- Email Address with Mail Icon -->
+        <div class="form-group">
+          <label for="id_email" class="form-label">Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left"><i class="bi bi-envelope"></i></span>
+            <input
+              type="email"
+              name="email"
+              id="id_email"
+              class="form-input{% if form.email.errors %} is-invalid{% endif %}"
+              placeholder="example@mail.com"
+              value="{{ form.email.value|default:'' }}"
+              autocomplete="email"
+              required
+            >
+          </div>
+          {% if form.email.errors %}
+            <div class="field-error">
+              <i class="bi bi-exclamation-circle"></i>{{ form.email.errors|join:" " }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Password with Lock Icon, Eye Toggle, and Forgot Link -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="id_password" class="form-label" style="margin-bottom:0;">Password</label>
+            <a href="{% url 'accounts:password_reset' %}" class="forgot-link" id="forgot-password-link">Forgot password?</a>
+          </div>
+          <div class="input-wrapper has-toggle">
+            <span class="input-icon-left"><i class="bi bi-lock"></i></span>
+            <input
+              type="password"
+              name="password"
+              id="id_password"
+              class="form-input{% if form.password.errors %} is-invalid{% endif %}"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="toggle-pw" aria-label="Toggle password visibility" onclick="togglePw('id_password', this)">
+              <i class="bi bi-eye-slash"></i>
+            </button>
+          </div>
+          {% if form.password.errors %}
+            <div class="field-error">
+              <i class="bi bi-exclamation-circle"></i>{{ form.password.errors|join:" " }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Sign In Button with Arrow -->
+        <button type="submit" class="btn-submit" id="btn-sign-in">
+          <span>Sign In</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="auth-divider">or</div>
+
+      <!-- Google Login Button -->
+      <button type="button" class="btn-google" id="btn-google-login" onclick="alert('Google Sign-in will be connected in future assignment.')" title="Sign in with Google">
+        <svg class="google-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M46.6 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2v6h7.8c4.6-4.2 7.2-10.5 7.2-17.2z"/>
+          <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.8-6c-2.1 1.4-4.8 2.3-8.1 2.3-6.2 0-11.5-4.2-13.4-9.9H2.6v6.2C6.6 42.8 14.8 48 24 48z"/>
+          <path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-2.9-.8-4.6s.3-3.2.8-4.6v-6.2H2.6C1 16.3 0 20 0 24s1 7.7 2.6 10.8l8-6.2z"/>
+          <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.1 30.5 0 24 0 14.8 0 6.6 5.2 2.6 13.2l8 6.2C12.5 13.7 17.8 9.5 24 9.5z"/>
+        </svg>
+        <span>Sign in with Google</span>
+      </button>
+
+      <!-- Footnote -->
+      <p class="auth-footnote">Together for a kinder tomorrow. Empowering communities across India.</p>
+    </div>
+
+    <!-- Empty footer div for flex spacing -->
+    <div style="position:relative; z-index:2;"></div>
+
+  </div>
+</div>
+
+<script>
+  function togglePw(fieldId, btn) {
+    const field = document.getElementById(fieldId);
+    const icon = btn.querySelector('i');
+    if (field.type === 'password') {
+      field.type = 'text';
+      icon.className = 'bi bi-eye';
+    } else {
+      field.type = 'password';
+      icon.className = 'bi bi-eye-slash';
+    }
+  }
+</script>
+
+</body>
+</html>

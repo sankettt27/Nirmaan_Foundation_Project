@@ -1,0 +1,11 @@
+# Nirmaan Foundation — NGO CMS
+# Assignment 1: User Login and Registration System
+
+# Core Django framework
+Django>=5.1,<5.3
+
+# MySQL database adapter (pure Python — no C++ build tools required on Windows)
+PyMySQL>=1.1.0
+
+# Environment variable management
+django-environ>=0.11.2

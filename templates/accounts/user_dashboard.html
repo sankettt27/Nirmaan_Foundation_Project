@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard — Nirmaan Foundation{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-xl-7">
+
+    <div class="welcome-card">
+      <!-- Role badge -->
+      <span class="role-badge role-badge-user" id="role-badge">
+        <i class="bi bi-{% if user.role == 'volunteer' %}heart-fill{% elif user.role == 'donor' %}gift-fill{% else %}person-fill{% endif %}"></i>
+        {{ user.get_role_display }}
+      </span>
+
+      <!-- Welcome heading -->
+      <h1 class="welcome-name" id="welcome-heading">
+        Welcome, {{ user.get_full_name }}
+      </h1>
+      <p class="welcome-note">
+        You are logged in as a <strong>{{ user.get_role_display }}</strong>.
+        Authentication successful.
+      </p>
+
+      <!-- Account info tiles -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-4">
+          <div class="info-tile">
+            <div class="info-tile-label">Account</div>
+            <div class="info-tile-value">{{ user.email }}</div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="info-tile">
+            <div class="info-tile-label">Role</div>
+            <div class="info-tile-value">
+              <i class="bi bi-{% if user.role == 'volunteer' %}heart-fill{% elif user.role == 'donor' %}gift-fill{% else %}person{% endif %} me-1" style="color:#2E7D32;"></i>{{ user.get_role_display }}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="info-tile">
+            <div class="info-tile-label">Status</div>
+            <div class="info-tile-value">
+              <span class="status-dot"></span>Active
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder for future modules -->
+      <div class="p-3 rounded-3" style="background:#f0f7f1;border:1px dashed #b2dfb4;">
+        <p class="mb-0 text-muted" style="font-size:0.875rem;">
+          <i class="bi bi-info-circle me-2"></i>
+          Features accessible to your role will appear here in future assignments.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

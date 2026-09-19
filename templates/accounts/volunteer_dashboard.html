@@ -1,0 +1,188 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Volunteer Dashboard — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-volunteer{% endblock %}
+{% block sidebar_role_label %}Volunteer Portal{% endblock %}
+{% block header_title %}Volunteer Dashboard{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+
+  <a href="{% url 'accounts:volunteer_dashboard' %}" class="sidebar-nav-item active" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i>
+    Dashboard
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-profile">
+    <i class="bi bi-person-fill"></i>
+    My Profile
+  </a>
+
+  <div class="sidebar-nav-label">Volunteering</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-opportunities">
+    <i class="bi bi-calendar-event-fill"></i>
+    Opportunities
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-my-hours">
+    <i class="bi bi-clock-fill"></i>
+    My Hours
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-my-impact">
+    <i class="bi bi-award-fill"></i>
+    My Impact
+  </a>
+
+  <div class="sidebar-nav-label">Connect</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-messages">
+    <i class="bi bi-chat-dots-fill"></i>
+    Messages
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <!-- Welcome Banner -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-content">
+      <div class="dash-welcome-greeting">Good {{ time_of_day }},</div>
+      <div class="dash-welcome-name">{{ user.get_full_name }}</div>
+      <div class="dash-welcome-subtitle">
+        Thank you for being a part of Nirmaan Foundation. Every hour you contribute makes a lasting impact on the communities we serve.
+      </div>
+      <div class="dash-welcome-date">
+        <i class="bi bi-calendar3 me-1"></i> {{ current_date }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-grid">
+    <div class="stat-card" id="stat-hours-logged">
+      <div class="stat-icon stat-icon-green">
+        <i class="bi bi-clock-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Hours Logged</div>
+        <div class="stat-value">0</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> Start volunteering
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-events-attended">
+      <div class="stat-icon stat-icon-blue">
+        <i class="bi bi-calendar-check-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Events Attended</div>
+        <div class="stat-value">0</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> No events yet
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-impact-score">
+      <div class="stat-icon stat-icon-amber">
+        <i class="bi bi-award-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Impact Score</div>
+        <div class="stat-value">—</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> Builds over time
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widgets Row -->
+  <div class="widget-grid">
+
+    <!-- Upcoming Opportunities -->
+    <div class="widget-card" id="widget-opportunities">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-calendar-event"></i>
+          Upcoming Opportunities
+        </div>
+        <a href="#" class="widget-action">Browse All →</a>
+      </div>
+      <div class="widget-body">
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="bi bi-calendar-plus"></i>
+          </div>
+          <div class="empty-state-title">No upcoming opportunities</div>
+          <div class="empty-state-desc">New volunteer opportunities will be posted here by the admin team.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Activity Timeline -->
+    <div class="widget-card" id="widget-activity">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-activity"></i>
+          My Activity
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div>
+            <div class="activity-text">
+              You joined Nirmaan Foundation as a <strong>Volunteer</strong>
+            </div>
+            <div class="activity-time">{{ user.created_at|date:"M d, Y" }}</div>
+          </div>
+        </div>
+        <div style="padding:16px 0 8px; text-align:center;">
+          <p style="font-size:0.82rem; color:var(--dash-text-muted); margin:0;">
+            Your volunteer journey starts here! Check back for activity updates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="widget-grid widget-grid-single">
+    <div class="widget-card" id="widget-quick-actions">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-lightning-fill"></i>
+          Quick Actions
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="quick-actions" style="flex-direction:row;flex-wrap:wrap;">
+          <div class="quick-action-btn" id="btn-find-opportunities" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-search-heart-fill"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Find Opportunities</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+          <div class="quick-action-btn" id="btn-log-hours" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-clock-history"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Log My Hours</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+          <div class="quick-action-btn" id="btn-view-certificate" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-file-earmark-check-fill"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">My Certificate</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

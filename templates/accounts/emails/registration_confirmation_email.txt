@@ -1,0 +1,14 @@
+Welcome to Nirmaan Foundation, {{ user.get_full_name }}!
+
+Thank you for registering with Nirmaan Foundation. Your registration has been successfully confirmed.
+
+--- Registration Details ---
+Full Name: {{ user.get_full_name }}
+Email: {{ user.email }}
+Role: {{ role_display }}
+
+If you have any questions or need assistance, please feel free to reach out to us at nirmaanfoundation.org@gmail.com.
+
+Best regards,
+The Nirmaan Foundation Team
+https://nirmaanfoundation.org

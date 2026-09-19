@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Nirmaan Foundation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F9F8F6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1A1A1A;
+      line-height: 1.6;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #FFFFFF;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #EFEAE3;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #1E3A1A 0%, #2D5A27 50%, #5A9E32 100%);
+      padding: 36px 30px;
+      text-align: center;
+      color: #FFFFFF;
+    }
+    .header-brand {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .header-subtitle {
+      font-size: 13px;
+      color: #C8E6B8;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+    .content-body {
+      padding: 36px 32px;
+    }
+    .salutation {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+    }
+    .welcome-text {
+      font-size: 15px;
+      color: #4A5568;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .details-box {
+      background: #F8FBF6;
+      border: 1px solid #D5E8CE;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #F39A1E;
+      color: #FFFFFF;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .cta-wrapper {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #5A9E32;
+      color: #FFFFFF !important;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 34px;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(90, 158, 50, 0.3);
+    }
+    .info-callout {
+      background: #FFF9F0;
+      border-left: 4px solid #F39A1E;
+      padding: 14px 18px;
+      border-radius: 4px 8px 8px 4px;
+      font-size: 13px;
+      color: #7C5319;
+      margin-bottom: 28px;
+    }
+    .footer {
+      background: #FAFAFA;
+      border-top: 1px solid #EFEFEF;
+      padding: 24px 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #888888;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header-banner">
+      <div class="header-brand">Nirmaan Foundation</div>
+      <div class="header-subtitle">Empowering Lives & Communities</div>
+    </div>
+    <div class="content-body">
+      <div class="salutation">Welcome, {{ user.get_full_name }}! 👋</div>
+      <p class="welcome-text">
+        Thank you for joining <strong>Nirmaan Foundation</strong>. Your registration has been received and your account is now <strong>active</strong>.
+      </p>
+
+      <div class="details-box">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px dashed #E2EEDF;">
+            <td style="padding: 8px 0; color: #718096; font-size: 14px;">Full Name</td>
+            <td style="padding: 8px 0; text-align: right; font-weight: 700; color: #1A1A1A; font-size: 14px;">{{ user.get_full_name }}</td>
+          </tr>
+          <tr style="border-bottom: 1px dashed #E2EEDF;">
+            <td style="padding: 8px 0; color: #718096; font-size: 14px;">Registered Email</td>
+            <td style="padding: 8px 0; text-align: right; font-weight: 700; color: #1A1A1A; font-size: 14px;">{{ user.email }}</td>
+          </tr>
+          <tr style="border-bottom: 1px dashed #E2EEDF;">
+            <td style="padding: 8px 0; color: #718096; font-size: 14px;">Assigned Role</td>
+            <td style="padding: 8px 0; text-align: right; font-size: 14px;">
+              <span class="role-badge">{{ role_display }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #718096; font-size: 14px;">Account Status</td>
+            <td style="padding: 8px 0; text-align: right; font-weight: 700; color: #5A9E32; font-size: 14px;">Active</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="info-callout">
+        🌱 <strong>What's Next?</strong> You can now log into your portal to view volunteering programs, community drives, and track your ongoing impact.
+      </div>
+
+      <div class="cta-wrapper">
+        <a href="{{ login_url }}" class="cta-button" target="_blank">Sign In to Your Account</a>
+      </div>
+
+      <p style="font-size: 13px; color: #718096; margin-top: 24px;">
+        If you have any questions or need assistance, please reach out to us at
+        <a href="mailto:nirmaanfoundation.org@gmail.com" style="color: #5A9E32; font-weight: 600;">nirmaanfoundation.org@gmail.com</a>.
+      </p>
+    </div>
+
+    <div class="footer">
+      <p style="margin: 0 0 6px 0;"><strong>Nirmaan Foundation</strong> — Non-Profit Organization</p>
+      <p style="margin: 0 0 6px 0;">Building a brighter tomorrow through education, volunteering, and community action.</p>
+      <p style="margin: 0; font-size: 11px; color: #AAAAAA;">This is an automated confirmation of your registration. Please do not reply directly to this email.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nirmaan Foundation — NGO Management Platform">
+  <title>{% block title %}Dashboard — Nirmaan Foundation{% endblock %}</title>
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Dashboard Styles -->
+  <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<div class="dash-layout {% block dash_role_class %}{% endblock %}" id="dash-layout">
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="dash-sidebar" id="dash-sidebar">
+
+    <!-- Brand -->
+    <a href="{% url 'home:index' %}" class="sidebar-brand">
+      <div class="sidebar-brand-icon">
+        <img src="{% static 'images/logo.png' %}" alt="NF">
+      </div>
+      <div class="sidebar-brand-text">
+        <span class="sidebar-brand-name">Nirmaan Foundation</span>
+        <span class="sidebar-brand-sub">{% block sidebar_role_label %}Dashboard{% endblock %}</span>
+      </div>
+    </a>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      {% block sidebar_nav %}{% endblock %}
+    </nav>
+
+    <!-- User footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar">
+          {{ user.get_short_name|first|upper }}
+        </div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">{{ user.get_full_name }}</div>
+          <div class="sidebar-user-role">{{ user.get_role_display }}</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN AREA ═══ -->
+  <div class="dash-main">
+
+    <!-- Top Header -->
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <button class="btn-hamburger" id="btn-hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <h1 class="dash-header-title">{% block header_title %}Dashboard{% endblock %}</h1>
+      </div>
+      <div class="dash-header-right">
+        <button class="dash-header-btn" id="btn-notifications" title="Notifications">
+          <i class="bi bi-bell"></i>
+        </button>
+        <form method="post" action="{% url 'accounts:logout' %}" style="margin:0;">
+          {% csrf_token %}
+          <button type="submit" class="dash-logout-btn" id="btn-logout">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+          </button>
+        </form>
+      </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div style="padding: 16px 32px 0;">
+      {% for message in messages %}
+      <div class="alert alert-{% if 'error' in message.tags %}danger{% elif 'success' in message.tags %}success{% elif 'info' in message.tags %}info{% else %}secondary{% endif %}"
+           role="alert"
+           style="
+             font-family: var(--font-dash);
+             font-size: 0.85rem;
+             padding: 12px 18px;
+             border-radius: 8px;
+             display: flex;
+             align-items: center;
+             gap: 8px;
+             {% if 'error' in message.tags %}background:#fef2f2;color:#991b1b;border:1px solid #fecaca;
+             {% elif 'success' in message.tags %}background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;
+             {% elif 'info' in message.tags %}background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;
+             {% else %}background:#f8fafc;color:#475569;border:1px solid #e2e8f0;{% endif %}
+           ">
+        <i class="bi bi-{% if 'error' in message.tags %}exclamation-circle{% elif 'success' in message.tags %}check-circle{% else %}info-circle{% endif %}"></i>
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Dashboard Content -->
+    <div class="dash-content">
+      {% block dashboard_content %}{% endblock %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Sidebar toggle script -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('dash-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('sidebar-open');
+    overlay.classList.toggle('active');
+  }
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

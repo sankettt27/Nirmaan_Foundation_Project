@@ -1,0 +1,252 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Admin Dashboard — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Admin Dashboard{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+
+  <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-nav-item active" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i>
+    Dashboard
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-members">
+    <i class="bi bi-people-fill"></i>
+    Members
+    <span class="sidebar-badge">{{ total_members }}</span>
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-volunteers">
+    <i class="bi bi-heart-fill"></i>
+    Volunteers
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-donors">
+    <i class="bi bi-gift-fill"></i>
+    Donors
+  </a>
+
+  <div class="sidebar-nav-label">Tools</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-communications">
+    <i class="bi bi-envelope-fill"></i>
+    Communications
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-reports">
+    <i class="bi bi-bar-chart-line-fill"></i>
+    Reports
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-settings">
+    <i class="bi bi-gear-fill"></i>
+    Settings
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <!-- Welcome Banner -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-content">
+      <div class="dash-welcome-greeting">Good {{ time_of_day }},</div>
+      <div class="dash-welcome-name">{{ user.get_full_name }}</div>
+      <div class="dash-welcome-subtitle">
+        Welcome to your admin command center. Here's an overview of Nirmaan Foundation's platform activity.
+      </div>
+      <div class="dash-welcome-date">
+        <i class="bi bi-calendar3 me-1"></i> {{ current_date }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-grid">
+    <div class="stat-card" id="stat-total-members">
+      <div class="stat-icon stat-icon-blue">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Total Members</div>
+        <div class="stat-value">{{ total_members }}</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> All registered users
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-volunteers">
+      <div class="stat-icon stat-icon-green">
+        <i class="bi bi-heart-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Volunteers</div>
+        <div class="stat-value">{{ total_volunteers }}</div>
+        <div class="stat-change stat-change-up">
+          <i class="bi bi-arrow-up"></i> Active
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-donors">
+      <div class="stat-icon stat-icon-amber">
+        <i class="bi bi-gift-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Donors</div>
+        <div class="stat-value">{{ total_donors }}</div>
+        <div class="stat-change stat-change-up">
+          <i class="bi bi-arrow-up"></i> Active
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-admins">
+      <div class="stat-icon stat-icon-purple">
+        <i class="bi bi-shield-fill-check"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Administrators</div>
+        <div class="stat-value">{{ total_admins }}</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-lock-fill"></i> System admins
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widgets Row -->
+  <div class="widget-grid">
+
+    <!-- Recent Registrations Table -->
+    <div class="widget-card widget-card-full" id="widget-recent-users">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-clock-history"></i>
+          Recent Registrations
+        </div>
+        <a href="#" class="widget-action">View All →</a>
+      </div>
+      <div class="widget-body widget-body-flush">
+        {% if recent_users %}
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for member in recent_users %}
+            <tr>
+              <td>
+                <div class="td-name">{{ member.full_name }}</div>
+                <div class="td-email">{{ member.email }}</div>
+              </td>
+              <td>
+                <span class="role-pill role-pill-{{ member.role }}">{{ member.get_role_display }}</span>
+              </td>
+              <td>
+                <span class="role-pill {% if member.status == 'active' %}role-pill-volunteer{% else %}role-pill-user{% endif %}">
+                  {{ member.get_status_display }}
+                </span>
+              </td>
+              <td style="font-size:0.8rem;color:var(--dash-text-muted);">
+                {{ member.created_at|date:"M d, Y" }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="empty-state-title">No members yet</div>
+          <div class="empty-state-desc">New registrations will appear here.</div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions Row -->
+  <div class="widget-grid">
+    <div class="widget-card" id="widget-quick-actions">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-lightning-fill"></i>
+          Quick Actions
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="quick-actions">
+          <a href="{% url 'admin:index' %}" class="quick-action-btn" id="btn-manage-users">
+            <i class="bi bi-person-plus-fill"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Manage Users</div>
+              <div class="quick-action-desc">Add, edit, or deactivate members via Django Admin</div>
+            </div>
+          </a>
+          <div class="quick-action-btn" id="btn-send-announcement" style="opacity:0.5;cursor:default;">
+            <i class="bi bi-megaphone-fill"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Send Announcement</div>
+              <div class="quick-action-desc">Coming in a future assignment</div>
+            </div>
+          </div>
+          <div class="quick-action-btn" id="btn-view-reports" style="opacity:0.5;cursor:default;">
+            <i class="bi bi-graph-up-arrow"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">View Reports</div>
+              <div class="quick-action-desc">Coming in a future assignment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform Overview -->
+    <div class="widget-card" id="widget-platform-overview">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-info-circle"></i>
+          Platform Overview
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="quick-actions">
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">
+                <strong>{{ total_members }}</strong> total members registered on the platform
+              </div>
+              <div class="activity-time">All-time count</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">
+                <strong>{{ total_active }}</strong> accounts currently active
+              </div>
+              <div class="activity-time">Active status</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">
+                Registration system with email confirmation is <strong>operational</strong>
+              </div>
+              <div class="activity-time">System status</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

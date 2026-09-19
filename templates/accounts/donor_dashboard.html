@@ -1,0 +1,188 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Donor Dashboard — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-donor{% endblock %}
+{% block sidebar_role_label %}Donor Portal{% endblock %}
+{% block header_title %}Donor Dashboard{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+
+  <a href="{% url 'accounts:donor_dashboard' %}" class="sidebar-nav-item active" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i>
+    Dashboard
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-profile">
+    <i class="bi bi-person-fill"></i>
+    My Profile
+  </a>
+
+  <div class="sidebar-nav-label">Giving</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-donation-history">
+    <i class="bi bi-wallet2"></i>
+    Donation History
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-tax-receipts">
+    <i class="bi bi-file-earmark-text-fill"></i>
+    Tax Receipts
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-impact">
+    <i class="bi bi-heart-pulse-fill"></i>
+    My Impact
+  </a>
+
+  <div class="sidebar-nav-label">Connect</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-messages">
+    <i class="bi bi-chat-dots-fill"></i>
+    Messages
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <!-- Welcome Banner -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-content">
+      <div class="dash-welcome-greeting">Good {{ time_of_day }},</div>
+      <div class="dash-welcome-name">{{ user.get_full_name }}</div>
+      <div class="dash-welcome-subtitle">
+        Your generosity powers the change Nirmaan Foundation creates. Thank you for being a vital part of our mission.
+      </div>
+      <div class="dash-welcome-date">
+        <i class="bi bi-calendar3 me-1"></i> {{ current_date }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stat-grid">
+    <div class="stat-card" id="stat-total-donated">
+      <div class="stat-icon stat-icon-amber">
+        <i class="bi bi-currency-rupee"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Total Donated</div>
+        <div class="stat-value">₹0</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> Lifetime total
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-donations-made">
+      <div class="stat-icon stat-icon-blue">
+        <i class="bi bi-gift-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Donations Made</div>
+        <div class="stat-value">0</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> No donations yet
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card" id="stat-tax-receipts">
+      <div class="stat-icon stat-icon-green">
+        <i class="bi bi-file-earmark-check-fill"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-label">Tax Receipts</div>
+        <div class="stat-value">0</div>
+        <div class="stat-change stat-change-neutral">
+          <i class="bi bi-dash"></i> Available for download
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widgets Row -->
+  <div class="widget-grid">
+
+    <!-- Recent Donations -->
+    <div class="widget-card" id="widget-donations">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-clock-history"></i>
+          Recent Donations
+        </div>
+        <a href="#" class="widget-action">View All →</a>
+      </div>
+      <div class="widget-body">
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="bi bi-wallet2"></i>
+          </div>
+          <div class="empty-state-title">No donations recorded yet</div>
+          <div class="empty-state-desc">Your donation history will appear here once you make your first contribution.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact Stories -->
+    <div class="widget-card" id="widget-impact">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-heart-pulse"></i>
+          Your Impact
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div>
+            <div class="activity-text">
+              You joined Nirmaan Foundation as a <strong>Donor</strong>
+            </div>
+            <div class="activity-time">{{ user.created_at|date:"M d, Y" }}</div>
+          </div>
+        </div>
+        <div style="padding:16px 0 8px; text-align:center;">
+          <p style="font-size:0.82rem; color:var(--dash-text-muted); margin:0;">
+            See how your contributions are making a difference. Impact stories coming soon!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="widget-grid widget-grid-single">
+    <div class="widget-card" id="widget-quick-actions">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-lightning-fill"></i>
+          Quick Actions
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="quick-actions" style="flex-direction:row;flex-wrap:wrap;">
+          <div class="quick-action-btn" id="btn-make-donation" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-plus-circle-fill"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Make a Donation</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+          <div class="quick-action-btn" id="btn-download-receipts" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-download"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Download Receipts</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+          <div class="quick-action-btn" id="btn-recurring-giving" style="flex:1;min-width:200px;opacity:0.5;cursor:default;">
+            <i class="bi bi-arrow-repeat"></i>
+            <div class="quick-action-text">
+              <div class="quick-action-label">Recurring Giving</div>
+              <div class="quick-action-desc">Coming soon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

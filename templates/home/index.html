@@ -1,0 +1,555 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nirmaan Foundation — Empowering Communities Through Education</title>
+  <meta name="description" content="Nirmaan Foundation is an NGO empowering volunteers, donors, and partners to create lasting social impact through education and community development across India.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nirmaan Foundation — Empowering Communities Through Education">
+  <meta property="og:description" content="Join thousands of volunteers, donors, and partners working to transform education and communities across India.">
+  <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Home CSS -->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+  <!-- =====================================================
+       NAVBAR
+       ===================================================== -->
+  <nav class="nf-nav" id="main-nav">
+    <div class="nf-nav-inner">
+
+      <!-- Logo -->
+      <a href="{% url 'home:index' %}" class="nf-logo" id="nav-logo">
+        <img src="{% static 'images/logo.png' %}" alt="Nirmaan Foundation" class="nf-logo-img">
+      </a>
+
+      <!-- Nav Links -->
+      <ul class="nf-nav-links" id="nav-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#volunteer">Volunteer</a></li>
+        <li><a href="#partner">Partner With Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="nf-nav-actions" id="nav-actions">
+        {% if user.is_authenticated %}
+          {% if user.role == 'admin' %}
+            <a href="{% url 'accounts:admin_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">Dashboard</a>
+          {% elif user.role == 'donor' %}
+            <a href="{% url 'accounts:donor_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">My Dashboard</a>
+          {% else %}
+            <a href="{% url 'accounts:volunteer_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">My Dashboard</a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn-nav-login" id="nav-login-btn">Log In</a>
+        {% endif %}
+        <a href="#donate" class="btn-nav-donate" id="nav-donate-btn">Donate Now</a>
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button class="nf-nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       HERO SECTION
+       ===================================================== -->
+  <section class="nf-hero" id="hero">
+    <div class="nf-hero-bg"></div>
+    <div class="nf-hero-overlay"></div>
+    <div class="nf-hero-content">
+      <div class="nf-hero-tag">
+        <span></span>
+        India's Volunteer Movement
+      </div>
+      <h1 class="nf-hero-title">
+        One Mission.<br>
+        <em>Many Ways to</em><br>
+        Create Change.
+      </h1>
+      <p class="nf-hero-subtitle">
+        Whether you're a passionate volunteer, a generous donor, or a committed corporate partner — Nirmaan Foundation is your platform to transform education and communities across India.
+      </p>
+      <div class="nf-hero-actions">
+        <a href="#volunteer" class="btn-hero-primary" id="hero-volunteer-btn">
+          <i class="bi bi-heart-fill"></i> Become a Volunteer
+        </a>
+        <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn">
+          <i class="bi bi-play-circle"></i> Our Programs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       AUDIENCE CARDS
+       ===================================================== -->
+  <div class="nf-audience" id="audience">
+
+    <!-- Card 1: Young Volunteers -->
+    <div class="nf-aud-card reveal" id="card-volunteers">
+      <img src="{% static 'images/volunteer_card.jpg' %}" alt="Young volunteer teaching children" class="nf-aud-card-img">
+      <div class="nf-aud-card-body">
+        <span class="nf-aud-badge badge-orange">
+          <i class="bi bi-people-fill"></i> Volunteers
+        </span>
+        <div class="nf-aud-stat">7,500<span style="color:var(--nf-green);font-size:2rem;">+</span></div>
+        <div class="nf-aud-label">Young Volunteers Engaged</div>
+        <div class="nf-aud-title">Be the Change You Want to See</div>
+        <p class="nf-aud-desc">
+          Join India's fastest-growing youth volunteering network. Spend weekends teaching, mentoring, and transforming young lives in underserved communities.
+        </p>
+        <a href="#volunteer" class="nf-aud-cta" id="aud-volunteer-cta">
+          Start Volunteering
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: Individual Donors -->
+    <div class="nf-aud-card reveal reveal-delay-1" id="card-donors">
+      <img src="{% static 'images/donor_card.jpg' %}" alt="Donors supporting children's education" class="nf-aud-card-img">
+      <div class="nf-aud-card-body">
+        <span class="nf-aud-badge badge-green">
+          <i class="bi bi-gift-fill"></i> Donors
+        </span>
+        <div class="nf-aud-stat">30,000<span style="color:var(--nf-orange);font-size:2rem;">+</span></div>
+        <div class="nf-aud-label">Children Reached Every Year</div>
+        <div class="nf-aud-title">Turn Your Giving Into Impact</div>
+        <p class="nf-aud-desc">
+          Even a small donation goes a long way. Fund educational kits, support learning centres, and sponsor a child's journey through school.
+        </p>
+        <a href="#donate" class="nf-aud-cta" id="aud-donor-cta">
+          Donate Today
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Corporate Partners -->
+    <div class="nf-aud-card reveal reveal-delay-2" id="card-corporate">
+      <img src="{% static 'images/corporate_card.jpg' %}" alt="Corporate CSR partnership" class="nf-aud-card-img">
+      <div class="nf-aud-card-body">
+        <span class="nf-aud-badge badge-sage">
+          <i class="bi bi-building"></i> Partners
+        </span>
+        <div class="nf-aud-stat">10<span style="color:var(--nf-green);font-size:2rem;">+</span></div>
+        <div class="nf-aud-label">Years of Community Impact</div>
+        <div class="nf-aud-title">Amplify Your CSR Investment</div>
+        <p class="nf-aud-desc">
+          Partner with Nirmaan Foundation to design high-impact CSR programs — from skill training to digital literacy — that create measurable community outcomes.
+        </p>
+        <a href="#partner" class="nf-aud-cta" id="aud-partner-cta">
+          Partner With Us
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+       THE CHALLENGE SECTION
+       ===================================================== -->
+  <section class="nf-challenge nf-section" id="about">
+    <div class="nf-container">
+      <div class="nf-challenge-grid">
+
+        <!-- Left: Text + numbered challenges -->
+        <div>
+          <div class="nf-section-badge">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            The Problem
+          </div>
+          <h2 class="nf-section-title">
+            Thousands of Children Risk Being <em>Left Behind</em>
+          </h2>
+          <p class="nf-section-desc" style="margin-bottom: 48px;">
+            Despite progress, millions of children in India still lack access to quality education, safe learning environments, and opportunities to realise their full potential. Nirmaan Foundation exists to change this.
+          </p>
+
+          <div class="nf-challenge-numbers">
+            <div class="nf-challenge-item reveal">
+              <div class="nf-challenge-num">01</div>
+              <div>
+                <div class="nf-challenge-item-title">Opportunity Gaps in Learning</div>
+                <p class="nf-challenge-item-desc">
+                  Over 40% of children in low-income communities leave school before Class 8 due to lack of support and engagement. Early dropout robs children of a lifetime of opportunity.
+                </p>
+              </div>
+            </div>
+            <div class="nf-challenge-item reveal reveal-delay-1">
+              <div class="nf-challenge-num">02</div>
+              <div>
+                <div class="nf-challenge-item-title">Underfunded Classrooms</div>
+                <p class="nf-challenge-item-desc">
+                  Government schools in urban slums and rural areas are chronically understaffed and under-resourced. One teacher for 80 students cannot deliver quality education.
+                </p>
+              </div>
+            </div>
+            <div class="nf-challenge-item reveal reveal-delay-2">
+              <div class="nf-challenge-num">03</div>
+              <div>
+                <div class="nf-challenge-item-title">Missing Holistic Development</div>
+                <p class="nf-challenge-item-desc">
+                  Academic learning alone isn't enough. Children in underserved communities need sports, arts, life-skills, and emotional support — areas severely neglected today.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div>
+          <img
+            src="{% static 'images/hero_banner.jpg' %}"
+            alt="Children in an underserved community learning with volunteers"
+            class="nf-challenge-img reveal"
+          >
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PROGRAMS SECTION
+       ===================================================== -->
+  <section class="nf-programs nf-section" id="programs">
+    <div class="nf-container">
+      <div class="nf-programs-header">
+        <div>
+          <div class="nf-section-badge">
+            <i class="bi bi-grid-fill"></i>
+            What We Do
+          </div>
+          <h2 class="nf-section-title">
+            Programs Built Around <em>Real Needs</em>
+          </h2>
+        </div>
+        <a href="#programs" class="btn-join btn-join-outline" style="background:var(--nf-dark);color:#fff;border-color:transparent;white-space:nowrap;" id="all-programs-btn">
+          All Programs <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="nf-programs-grid">
+
+        <!-- Program 1 -->
+        <div class="nf-prog-card reveal" id="prog-card-1">
+          <img src="{% static 'images/volunteer_card.jpg' %}" alt="In-school learning support" class="nf-prog-card-img">
+          <div class="nf-prog-card-body">
+            <div class="nf-prog-tag">In Schools</div>
+            <h3 class="nf-prog-title">Strong Foundations</h3>
+            <p class="nf-prog-desc">
+              Weekend volunteer sessions in government schools and community centres that reinforce foundational literacy, numeracy, and life skills for children aged 6–14.
+            </p>
+            <a href="#programs" class="nf-prog-link" id="prog-1-link">
+              Learn more
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Program 2 -->
+        <div class="nf-prog-card reveal reveal-delay-1" id="prog-card-2">
+          <img src="{% static 'images/donor_card.jpg' %}" alt="Beyond-school holistic development" class="nf-prog-card-img">
+          <div class="nf-prog-card-body">
+            <div class="nf-prog-tag">Beyond Schools</div>
+            <h3 class="nf-prog-title">Holistic Growth</h3>
+            <p class="nf-prog-desc">
+              After-school clubs for sports, arts, music, and socio-emotional learning that nurture the whole child — building confidence, creativity, and resilience beyond textbooks.
+            </p>
+            <a href="#programs" class="nf-prog-link" id="prog-2-link">
+              Learn more
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Program 3 -->
+        <div class="nf-prog-card reveal reveal-delay-2" id="prog-card-3">
+          <img src="{% static 'images/corporate_card.jpg' %}" alt="Youth leadership and changemakers" class="nf-prog-card-img">
+          <div class="nf-prog-card-body">
+            <div class="nf-prog-tag">Youth Leadership</div>
+            <h3 class="nf-prog-title">Future Changemakers</h3>
+            <p class="nf-prog-desc">
+              A flagship leadership track for young adults (18–25) that equips college students with social entrepreneurship, civic engagement, and community mobilisation skills.
+            </p>
+            <a href="#programs" class="nf-prog-link" id="prog-3-link">
+              Learn more
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       IMPACT STATS
+       ===================================================== -->
+  <section class="nf-impact" id="impact">
+    <div class="nf-impact-inner">
+      <h2 class="nf-impact-heading">
+        A Decade of<br><em>Measurable Change</em>
+      </h2>
+      <div class="nf-stat-block reveal">
+        <div class="nf-stat-num">30K<span style="font-size:1.8rem;">+</span></div>
+        <div class="nf-stat-label">Children Impacted Every Year</div>
+      </div>
+      <div class="nf-stat-block reveal reveal-delay-1">
+        <div class="nf-stat-num">7.5K<span style="font-size:1.8rem;">+</span></div>
+        <div class="nf-stat-label">Active Volunteers Nationwide</div>
+      </div>
+      <div class="nf-stat-block reveal reveal-delay-2">
+        <div class="nf-stat-num">18<span style="font-size:1.8rem;">+</span></div>
+        <div class="nf-stat-label">Cities Across India</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       TESTIMONIAL
+       ===================================================== -->
+  <section class="nf-testimonial nf-section" id="stories">
+    <div class="nf-testimonial-inner">
+      <div class="nf-quote-icon">"</div>
+      <blockquote class="nf-quote-text">
+        "I walked into a classroom as a 21-year-old with no teaching experience. I walked out two years later knowing that I had changed more lives than I had imagined — including my own."
+      </blockquote>
+      <div class="nf-quote-author">
+        <img
+          src="{% static 'images/volunteer_card.jpg' %}"
+          alt="Priya Sharma — Nirmaan Volunteer"
+          class="nf-quote-avatar"
+        >
+        <div>
+          <div class="nf-quote-name">Priya Sharma</div>
+          <div class="nf-quote-role">Volunteer, Nirmaan Foundation — Bengaluru Chapter</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       JOIN US — DUAL CTA CARDS
+       ===================================================== -->
+  <section class="nf-join" id="volunteer" aria-label="Join Nirmaan Foundation">
+    <div class="nf-join-grid">
+
+      <!-- Orange Card: Volunteer -->
+      <div class="nf-join-card nf-join-card-orange reveal" id="join-volunteer-card">
+        <h2 class="nf-join-card-title">
+          Ready to <em>Volunteer</em><br>This Weekend?
+        </h2>
+        <p class="nf-join-card-desc">
+          Sign up in minutes. Choose your city and availability. We'll match you with a classroom that needs you. No prior experience required — just a willingness to show up.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="{% url 'accounts:register' %}" class="btn-join btn-join-white" id="join-register-btn">
+            <i class="bi bi-person-plus-fill"></i> Register Now
+          </a>
+          <a href="#programs" class="btn-join btn-join-outline" id="join-learn-more-btn">
+            Learn More <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Green Card: Donate -->
+      <div class="nf-join-card nf-join-card-green reveal reveal-delay-1" id="join-donate-card">
+        <h2 class="nf-join-card-title">
+          Your Donation <em>Directly</em><br>Reaches a Child
+        </h2>
+        <p class="nf-join-card-desc">
+          ₹500 a month funds an educational kit for one child for a year. ₹2,000 supports a community learning session. Every rupee is accounted for — we publish annual impact reports.
+        </p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#donate" class="btn-join btn-join-white" id="join-donate-btn">
+            <i class="bi bi-heart-fill"></i> Donate Now
+          </a>
+          <a href="#partner" class="btn-join btn-join-outline" id="join-csr-btn">
+            CSR Partnerships <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       PARTNERS RIBBON
+       ===================================================== -->
+  <div class="nf-partners" id="partner">
+    <div class="nf-partners-inner">
+      <p class="nf-partners-label">Trusted by organisations across India</p>
+      <div class="nf-partners-logos">
+        <span class="nf-partner-item">Tata Trusts</span>
+        <span class="nf-partner-item">Infosys Foundation</span>
+        <span class="nf-partner-item">Azim Premji Foundation</span>
+        <span class="nf-partner-item">Wipro Cares</span>
+        <span class="nf-partner-item">HDFC Parivartan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer class="nf-footer" id="contact">
+    <div class="nf-footer-inner">
+      <div class="nf-footer-top">
+
+        <!-- Brand Column -->
+        <div>
+          <div class="nf-footer-brand-name">
+            <img src="{% static 'images/logo_white_text.png' %}" alt="Nirmaan Foundation" class="nf-footer-logo-img">
+          </div>
+          <p class="nf-footer-tagline">
+            Empowering communities through education, volunteerism, and sustainable development across India since 2014.
+          </p>
+          <div class="nf-footer-social">
+            <a href="#" aria-label="Facebook" id="footer-facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" aria-label="Twitter / X" id="footer-twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" aria-label="Instagram" id="footer-instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn" id="footer-linkedin"><i class="bi bi-linkedin"></i></a>
+            <a href="#" aria-label="YouTube" id="footer-youtube"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Link Columns -->
+        <div class="nf-footer-links">
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">About</div>
+            <ul>
+              <li><a href="#about">Our Story</a></li>
+              <li><a href="#about">Mission & Vision</a></li>
+              <li><a href="#about">Leadership</a></li>
+              <li><a href="#about">Annual Reports</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Programs</div>
+            <ul>
+              <li><a href="#programs">Strong Foundations</a></li>
+              <li><a href="#programs">Holistic Growth</a></li>
+              <li><a href="#programs">Future Changemakers</a></li>
+              <li><a href="#programs">Digital Literacy</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Get Involved</div>
+            <ul>
+              <li><a href="{% url 'accounts:register' %}">Volunteer</a></li>
+              <li><a href="#donate">Donate</a></li>
+              <li><a href="#partner">Partner / CSR</a></li>
+              <li><a href="#contact">Internships</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Contact</div>
+            <ul>
+              <li><a href="mailto:hello@nirmaanfoundation.org"><i class="bi bi-envelope me-1"></i> hello@nirmaanfoundation.org</a></li>
+              <li><a href="tel:+918000000000"><i class="bi bi-telephone me-1"></i> +91 80 0000 0000</a></li>
+              <li><a href="#contact"><i class="bi bi-geo-alt me-1"></i> Bengaluru, Karnataka</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="nf-footer-divider">
+
+      <div class="nf-footer-bottom">
+        <p class="nf-footer-copy">
+          &copy; 2026 Nirmaan Foundation. All rights reserved. Registered NGO under Section 12A & 80G.
+        </p>
+        <div class="nf-footer-bottom-links">
+          <a href="#" id="footer-privacy">Privacy Policy</a>
+          <a href="#" id="footer-terms">Terms of Use</a>
+          <a href="#" id="footer-refund">Refund Policy</a>
+          <a href="{% url 'accounts:login' %}" id="footer-login">Staff Login</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       JAVASCRIPT — Scroll Reveal + Mobile Nav
+       ===================================================== -->
+  <script>
+    // ---- Scroll Reveal ----
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ---- Mobile Nav Toggle ----
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navActions = document.getElementById('nav-actions');
+    toggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navActions.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // ---- Navbar Scroll Shadow ----
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      if (window.scrollY > 20) {
+        nav.style.boxShadow = '0 4px 24px rgba(13,9,1,.10)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    });
+
+    // ---- Counter Animation for Stats ----
+    function animateCounter(el, target, suffix) {
+      let start = 0;
+      const duration = 1800;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) { start = target; clearInterval(timer); }
+        el.textContent = Math.floor(start).toLocaleString('en-IN') + suffix;
+      }, 16);
+    }
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const num = entry.target.querySelector('.nf-stat-num');
+          if (num) {
+            const full = num.innerText;
+            // parse number from text like "30K+" → 30000
+            const text = full.replace(/[^0-9KM.]/g, '');
+            const multiplier = text.includes('K') ? 1000 : text.includes('M') ? 1000000 : 1;
+            const base = parseFloat(text.replace(/[KM]/gi,''));
+            const target = base * multiplier;
+            const suffix = full.includes('K') ? 'K+' : full.includes('M') ? 'M+' : '+';
+            animateCounter(num, base, suffix);
+          }
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.nf-stat-block').forEach(b => statsObserver.observe(b));
+  </script>
+
+</body>
+</html>

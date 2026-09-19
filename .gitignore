@@ -1,0 +1,50 @@
+# Nirmaan Foundation — .gitignore
+# ─────────────────────────────────────────────────────────────
+
+# ── Environment variables (NEVER commit these) ────────────────
+.env
+.env.*
+!.env.example
+*.jpeg
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# ── Virtual environments ──────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# ── Django ────────────────────────────────────────────────────
+*.log
+db.sqlite3
+staticfiles/
+media/
+local_settings.py
+
+# ── IDE / Editor ──────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Build artifacts ───────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# ── Testing ───────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
