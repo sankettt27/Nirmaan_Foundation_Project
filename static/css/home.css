@@ -790,3 +790,59 @@ a { text-decoration: none; color: inherit; }
   .nf-stat-block + .nf-stat-block { border-left: none; border-top: 1px solid rgba(255,255,255,.1); padding-left: 0; padding-top: 24px; }
   .nf-footer-links { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   BANNER SLIDER (CMS — Assignment 2)
+   ============================================================ */
+
+.nf-hero-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.nf-hero-slide {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 0;
+}
+
+.nf-hero-slide .nf-hero-bg {
+  background-size: cover;
+  background-position: center;
+}
+
+.nf-hero-slide.nf-slide-active {
+  opacity: 1;
+  z-index: 1;
+  position: relative;
+}
+
+.nf-slider-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.nf-slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.nf-slider-dot.active,
+.nf-slider-dot:hover {
+  background: #fff;
+  border-color: #fff;
+  transform: scale(1.2);
+}

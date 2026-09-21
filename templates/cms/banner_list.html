@@ -1,0 +1,99 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Banners — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Image Banners{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='banners' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <!-- Page Header with Add Button -->
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Image Banners</h2>
+      <p class="cms-page-desc">Manage hero section slider images and content</p>
+    </div>
+    <a href="{% url 'cms:banner_create' %}" class="cms-btn cms-btn-primary" id="btn-add-banner">
+      <i class="bi bi-plus-lg"></i> Add Banner
+    </a>
+  </div>
+
+  <!-- Banners Table -->
+  <div class="cms-table-card">
+    {% if banners %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Preview</th>
+          <th>Title</th>
+          <th>Button</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for banner in banners %}
+        <tr>
+          <td><span class="cms-order-badge">{{ banner.order }}</span></td>
+          <td>
+            {% if banner.image %}
+              <img src="{{ banner.image.url }}" alt="{{ banner.title }}" class="cms-thumb">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-image"></i></div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-item-title">{{ banner.title }}</div>
+            <div class="cms-item-subtitle">{{ banner.subtitle|truncatewords:12 }}</div>
+          </td>
+          <td>
+            {% if banner.button_text %}
+              <span class="cms-tag">{{ banner.button_text }}</span>
+            {% else %}
+              <span class="cms-text-muted">—</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if banner.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:banner_edit' banner.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:banner_delete' banner.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-images"></i></div>
+      <h3>No Banners Yet</h3>
+      <p>Create your first banner to display on the hero section of the home page.</p>
+      <a href="{% url 'cms:banner_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Banner
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

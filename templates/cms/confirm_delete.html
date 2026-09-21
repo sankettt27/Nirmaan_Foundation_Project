@@ -1,0 +1,42 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Delete {{ object_type }} — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Delete {{ object_type }}{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-delete-card">
+    <div class="cms-delete-icon">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+    </div>
+    <h2 class="cms-delete-title">Delete {{ object_type }}?</h2>
+    <p class="cms-delete-desc">
+      Are you sure you want to permanently delete <strong>"{{ object }}"</strong>?
+      This action cannot be undone.
+    </p>
+
+    <div class="cms-delete-actions">
+      <form method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="cms-btn cms-btn-danger-solid" id="btn-confirm-delete">
+          <i class="bi bi-trash3"></i> Yes, Delete
+        </button>
+      </form>
+      <a href="{% url cancel_url %}" class="cms-btn cms-btn-outline" id="btn-cancel-delete">
+        Cancel
+      </a>
+    </div>
+  </div>
+
+{% endblock %}

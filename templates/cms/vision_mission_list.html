@@ -1,0 +1,89 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Vision & Mission — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Vision & Mission{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='vision_mission' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Vision & Mission</h2>
+      <p class="cms-page-desc">Manage the organisation's vision and mission statements</p>
+    </div>
+    <a href="{% url 'cms:vision_mission_create' %}" class="cms-btn cms-btn-primary" id="btn-add-vm">
+      <i class="bi bi-plus-lg"></i> Add Item
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if items %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Type</th>
+          <th>Title</th>
+          <th>Icon</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td><span class="cms-order-badge">{{ item.order }}</span></td>
+          <td>
+            <span class="cms-tag {% if item.section_type == 'vision' %}cms-tag-blue{% else %}cms-tag-green{% endif %}">
+              {{ item.get_section_type_display }}
+            </span>
+          </td>
+          <td>
+            <div class="cms-item-title">{{ item.title }}</div>
+            <div class="cms-item-subtitle">{{ item.content|truncatewords:15 }}</div>
+          </td>
+          <td><i class="bi {{ item.icon }}" style="font-size:1.2rem;"></i></td>
+          <td>
+            {% if item.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:vision_mission_edit' item.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:vision_mission_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-eye"></i></div>
+      <h3>No Vision / Mission Items</h3>
+      <p>Add vision and mission content to display on the home page.</p>
+      <a href="{% url 'cms:vision_mission_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Item
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

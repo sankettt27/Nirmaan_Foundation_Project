@@ -1,0 +1,172 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Home Page CMS — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Home Page CMS{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+
+  <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i>
+    Dashboard
+  </a>
+  <a href="{% url 'cms:cms_dashboard' %}" class="sidebar-nav-item active" id="nav-home-cms">
+    <i class="bi bi-house-gear-fill"></i>
+    Home Page CMS
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-members">
+    <i class="bi bi-people-fill"></i>
+    Members
+  </a>
+
+  <div class="sidebar-nav-label">Tools</div>
+
+  <a href="#" class="sidebar-nav-item" id="nav-communications">
+    <i class="bi bi-envelope-fill"></i>
+    Communications
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-reports">
+    <i class="bi bi-bar-chart-line-fill"></i>
+    Reports
+  </a>
+  <a href="#" class="sidebar-nav-item" id="nav-settings">
+    <i class="bi bi-gear-fill"></i>
+    Settings
+  </a>
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <!-- CMS Welcome Banner -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-content">
+      <div class="dash-welcome-greeting">Home Page Content Manager</div>
+      <div class="dash-welcome-name">Manage Your Public Website</div>
+      <div class="dash-welcome-subtitle">
+        Create, edit, and publish content that appears on the Nirmaan Foundation public home page. Changes go live immediately.
+      </div>
+    </div>
+  </div>
+
+  <!-- CMS Section Cards -->
+  <div class="cms-section-grid">
+
+    <!-- Banners Card -->
+    <div class="cms-section-card" id="cms-card-banners">
+      <div class="cms-card-icon cms-icon-orange">
+        <i class="bi bi-images"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Image Banners</h3>
+        <p class="cms-card-desc">Hero section slider with images, titles, and call-to-action buttons</p>
+        <div class="cms-card-stats">
+          <span class="cms-stat-badge">{{ banner_count }} total</span>
+          <span class="cms-stat-badge cms-stat-active">{{ banner_active }} active</span>
+        </div>
+      </div>
+      <a href="{% url 'cms:banner_list' %}" class="cms-card-action">
+        Manage <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Vision / Mission Card -->
+    <div class="cms-section-card" id="cms-card-vision-mission">
+      <div class="cms-card-icon cms-icon-blue">
+        <i class="bi bi-eye-fill"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Vision & Mission</h3>
+        <p class="cms-card-desc">Organisation's vision and mission statements displayed on the about section</p>
+        <div class="cms-card-stats">
+          <span class="cms-stat-badge">{{ vm_count }} total</span>
+          <span class="cms-stat-badge cms-stat-active">{{ vm_active }} active</span>
+        </div>
+      </div>
+      <a href="{% url 'cms:vision_mission_list' %}" class="cms-card-action">
+        Manage <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Statistics Card -->
+    <div class="cms-section-card" id="cms-card-statistics">
+      <div class="cms-card-icon cms-icon-green">
+        <i class="bi bi-bar-chart-fill"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Impact Statistics</h3>
+        <p class="cms-card-desc">Animated counters showing key metrics like volunteers, children reached, and cities</p>
+        <div class="cms-card-stats">
+          <span class="cms-stat-badge">{{ stat_count }} total</span>
+          <span class="cms-stat-badge cms-stat-active">{{ stat_active }} active</span>
+        </div>
+      </div>
+      <a href="{% url 'cms:statistic_list' %}" class="cms-card-action">
+        Manage <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Initiatives Card -->
+    <div class="cms-section-card" id="cms-card-initiatives">
+      <div class="cms-card-icon cms-icon-purple">
+        <i class="bi bi-rocket-takeoff-fill"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Initiatives / Programs</h3>
+        <p class="cms-card-desc">Program showcase cards with images, descriptions, and tags</p>
+        <div class="cms-card-stats">
+          <span class="cms-stat-badge">{{ initiative_count }} total</span>
+          <span class="cms-stat-badge cms-stat-active">{{ initiative_active }} active</span>
+        </div>
+      </div>
+      <a href="{% url 'cms:initiative_list' %}" class="cms-card-action">
+        Manage <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Quick Info -->
+  <div class="widget-grid" style="margin-top: 24px;">
+    <div class="widget-card" id="widget-cms-info">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-info-circle"></i>
+          How It Works
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="quick-actions">
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">Content you create here is <strong>immediately visible</strong> on the public home page</div>
+              <div class="activity-time">Real-time updates</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">Use the <strong>"Active"</strong> toggle to publish or unpublish items without deleting</div>
+              <div class="activity-time">Soft publish/unpublish</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div>
+              <div class="activity-text">Set the <strong>"Order"</strong> field to control display sequence (lower = first)</div>
+              <div class="activity-time">Custom ordering</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

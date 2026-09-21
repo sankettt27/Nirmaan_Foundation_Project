@@ -61,8 +61,47 @@
   </nav>
 
   <!-- =====================================================
-       HERO SECTION
+       HERO SECTION (Dynamic via CMS Banners)
        ===================================================== -->
+  {% if has_banners %}
+  <section class="nf-hero nf-hero-slider" id="hero">
+    {% for banner in banners %}
+    <div class="nf-hero-slide {% if forloop.first %}nf-slide-active{% endif %}" data-slide="{{ forloop.counter0 }}">
+      <div class="nf-hero-bg" {% if banner.image %}style="background-image: url('{{ banner.image.url }}');"{% endif %}></div>
+      <div class="nf-hero-overlay"></div>
+      <div class="nf-hero-content">
+        <div class="nf-hero-tag">
+          <span></span>
+          India's Volunteer Movement
+        </div>
+        <h1 class="nf-hero-title">{{ banner.title|linebreaksbr }}</h1>
+        {% if banner.subtitle %}
+        <p class="nf-hero-subtitle">{{ banner.subtitle }}</p>
+        {% endif %}
+        <div class="nf-hero-actions">
+          {% if banner.button_text %}
+          <a href="{{ banner.button_link|default:'#volunteer' }}" class="btn-hero-primary" id="hero-banner-btn-{{ forloop.counter }}">
+            <i class="bi bi-heart-fill"></i> {{ banner.button_text }}
+          </a>
+          {% endif %}
+          <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn-{{ forloop.counter }}">
+            <i class="bi bi-play-circle"></i> Our Programs
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% if banners|length > 1 %}
+    <div class="nf-slider-dots" id="slider-dots">
+      {% for banner in banners %}
+      <button class="nf-slider-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}" aria-label="Banner {{ forloop.counter }}"></button>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  {% else %}
+  <!-- Static fallback hero (no CMS banners configured) -->
   <section class="nf-hero" id="hero">
     <div class="nf-hero-bg"></div>
     <div class="nf-hero-overlay"></div>
@@ -89,6 +128,7 @@
       </div>
     </div>
   </section>
+  {% endif %}
 
   <!-- =====================================================
        AUDIENCE CARDS
@@ -242,8 +282,27 @@
       </div>
 
       <div class="nf-programs-grid">
-
-        <!-- Program 1 -->
+        {% if has_initiatives %}
+          {% for item in initiatives %}
+          <div class="nf-prog-card reveal {% if forloop.counter == 2 %}reveal-delay-1{% elif forloop.counter == 3 %}reveal-delay-2{% endif %}" id="prog-card-{{ forloop.counter }}">
+            {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.title }}" class="nf-prog-card-img">
+            {% else %}
+              <img src="{% static 'images/volunteer_card.jpg' %}" alt="{{ item.title }}" class="nf-prog-card-img">
+            {% endif %}
+            <div class="nf-prog-card-body">
+              {% if item.tag %}<div class="nf-prog-tag">{{ item.tag }}</div>{% endif %}
+              <h3 class="nf-prog-title">{{ item.title }}</h3>
+              <p class="nf-prog-desc">{{ item.description }}</p>
+              <a href="{{ item.link|default:'#programs' }}" class="nf-prog-link" id="prog-{{ forloop.counter }}-link">
+                Learn more
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+        <!-- Static fallback programs -->
         <div class="nf-prog-card reveal" id="prog-card-1">
           <img src="{% static 'images/volunteer_card.jpg' %}" alt="In-school learning support" class="nf-prog-card-img">
           <div class="nf-prog-card-body">
@@ -259,7 +318,6 @@
           </div>
         </div>
 
-        <!-- Program 2 -->
         <div class="nf-prog-card reveal reveal-delay-1" id="prog-card-2">
           <img src="{% static 'images/donor_card.jpg' %}" alt="Beyond-school holistic development" class="nf-prog-card-img">
           <div class="nf-prog-card-body">
@@ -275,7 +333,6 @@
           </div>
         </div>
 
-        <!-- Program 3 -->
         <div class="nf-prog-card reveal reveal-delay-2" id="prog-card-3">
           <img src="{% static 'images/corporate_card.jpg' %}" alt="Youth leadership and changemakers" class="nf-prog-card-img">
           <div class="nf-prog-card-body">
@@ -290,19 +347,28 @@
             </a>
           </div>
         </div>
-
+        {% endif %}
       </div>
     </div>
   </section>
 
   <!-- =====================================================
-       IMPACT STATS
+       IMPACT STATS (Dynamic via CMS Statistics)
        ===================================================== -->
   <section class="nf-impact" id="impact">
     <div class="nf-impact-inner">
       <h2 class="nf-impact-heading">
         A Decade of<br><em>Measurable Change</em>
       </h2>
+      {% if has_statistics %}
+        {% for stat in statistics %}
+        <div class="nf-stat-block reveal {% if forloop.counter == 2 %}reveal-delay-1{% elif forloop.counter == 3 %}reveal-delay-2{% endif %}">
+          <div class="nf-stat-num">{{ stat.value }}</div>
+          <div class="nf-stat-label">{{ stat.label }}</div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <!-- Static fallback stats -->
       <div class="nf-stat-block reveal">
         <div class="nf-stat-num">30K<span style="font-size:1.8rem;">+</span></div>
         <div class="nf-stat-label">Children Impacted Every Year</div>
@@ -315,6 +381,7 @@
         <div class="nf-stat-num">18<span style="font-size:1.8rem;">+</span></div>
         <div class="nf-stat-label">Cities Across India</div>
       </div>
+      {% endif %}
     </div>
   </section>
 
@@ -549,6 +616,38 @@
       });
     }, { threshold: 0.5 });
     document.querySelectorAll('.nf-stat-block').forEach(b => statsObserver.observe(b));
+
+    // ---- Banner Slider (CMS) ----
+    (function() {
+      const slides = document.querySelectorAll('.nf-hero-slide');
+      const dots = document.querySelectorAll('.nf-slider-dot');
+      if (slides.length <= 1) return;
+
+      let current = 0;
+      let interval;
+
+      function goTo(index) {
+        slides[current].classList.remove('nf-slide-active');
+        dots[current] && dots[current].classList.remove('active');
+        current = index % slides.length;
+        slides[current].classList.add('nf-slide-active');
+        dots[current] && dots[current].classList.add('active');
+      }
+
+      function startAuto() {
+        interval = setInterval(() => goTo(current + 1), 5000);
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          clearInterval(interval);
+          goTo(parseInt(dot.dataset.slide));
+          startAuto();
+        });
+      });
+
+      startAuto();
+    })();
   </script>
 
 </body>

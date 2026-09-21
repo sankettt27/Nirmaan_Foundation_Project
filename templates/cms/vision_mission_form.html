@@ -1,0 +1,99 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}{{ form_title }} — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}{{ form_title }}{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='vision_mission' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">{{ form_title }}</h2>
+      <p class="cms-page-desc">Define vision or mission content for the home page</p>
+    </div>
+    <a href="{% url 'cms:vision_mission_list' %}" class="cms-btn cms-btn-outline">
+      <i class="bi bi-arrow-left"></i> Back to List
+    </a>
+  </div>
+
+  <div class="cms-form-card">
+    <form method="post" class="cms-form" id="vm-form">
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div class="cms-form-errors">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <div>
+          <strong>Please fix the errors below:</strong>
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="cms-form-grid">
+        <div class="cms-field-row">
+          <div class="cms-field">
+            <label class="cms-label" for="{{ form.section_type.id_for_label }}">Section Type <span class="cms-required">*</span></label>
+            {{ form.section_type }}
+          </div>
+          <div class="cms-field">
+            <label class="cms-label" for="{{ form.icon.id_for_label }}">Icon Class</label>
+            {{ form.icon }}
+            <p class="cms-help">Bootstrap icon class (e.g., bi-eye-fill, bi-bullseye)</p>
+          </div>
+        </div>
+
+        <div class="cms-field">
+          <label class="cms-label" for="{{ form.title.id_for_label }}">Title <span class="cms-required">*</span></label>
+          {{ form.title }}
+        </div>
+
+        <div class="cms-field">
+          <label class="cms-label" for="{{ form.content.id_for_label }}">Content <span class="cms-required">*</span></label>
+          {{ form.content }}
+        </div>
+
+        <div class="cms-field-row">
+          <div class="cms-field">
+            <label class="cms-label" for="{{ form.order.id_for_label }}">Display Order</label>
+            {{ form.order }}
+            <p class="cms-help">Lower numbers appear first</p>
+          </div>
+          <div class="cms-field cms-field-checkbox">
+            <label class="cms-toggle-label">
+              {{ form.is_active }}
+              <span class="cms-toggle-text">Active (visible on home page)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cms-form-actions">
+        <button type="submit" class="cms-btn cms-btn-primary" id="btn-submit-vm">
+          <i class="bi bi-check-lg"></i> {{ submit_text }}
+        </button>
+        <a href="{% url 'cms:vision_mission_list' %}" class="cms-btn cms-btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

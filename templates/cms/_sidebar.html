@@ -1,0 +1,45 @@
+{% comment %}
+cms/_sidebar.html — Shared sidebar navigation for all CMS pages.
+Include with: {% include 'cms/_sidebar.html' %}
+{% endcomment %}
+
+<div class="sidebar-nav-label">Main</div>
+
+<a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
+  <i class="bi bi-grid-1x2-fill"></i>
+  Dashboard
+</a>
+<a href="{% url 'cms:cms_dashboard' %}" class="sidebar-nav-item {% if active_cms == 'dashboard' %}active{% endif %}" id="nav-home-cms">
+  <i class="bi bi-house-gear-fill"></i>
+  Home Page CMS
+</a>
+<a href="#" class="sidebar-nav-item" id="nav-members">
+  <i class="bi bi-people-fill"></i>
+  Members
+</a>
+
+<div class="sidebar-nav-label">CMS Sections</div>
+
+<a href="{% url 'cms:banner_list' %}" class="sidebar-nav-item {% if active_cms == 'banners' %}active{% endif %}" id="nav-banners">
+  <i class="bi bi-images"></i>
+  Banners
+</a>
+<a href="{% url 'cms:vision_mission_list' %}" class="sidebar-nav-item {% if active_cms == 'vision_mission' %}active{% endif %}" id="nav-vision-mission">
+  <i class="bi bi-eye-fill"></i>
+  Vision & Mission
+</a>
+<a href="{% url 'cms:statistic_list' %}" class="sidebar-nav-item {% if active_cms == 'statistics' %}active{% endif %}" id="nav-statistics">
+  <i class="bi bi-bar-chart-fill"></i>
+  Statistics
+</a>
+<a href="{% url 'cms:initiative_list' %}" class="sidebar-nav-item {% if active_cms == 'initiatives' %}active{% endif %}" id="nav-initiatives">
+  <i class="bi bi-rocket-takeoff-fill"></i>
+  Initiatives
+</a>
+
+<div class="sidebar-nav-label">Tools</div>
+
+<a href="#" class="sidebar-nav-item" id="nav-settings">
+  <i class="bi bi-gear-fill"></i>
+  Settings
+</a>

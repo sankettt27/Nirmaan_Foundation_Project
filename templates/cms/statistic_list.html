@@ -1,0 +1,84 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Statistics — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Impact Statistics{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='statistics' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Impact Statistics</h2>
+      <p class="cms-page-desc">Manage animated counter stats displayed on the home page</p>
+    </div>
+    <a href="{% url 'cms:statistic_create' %}" class="cms-btn cms-btn-primary" id="btn-add-stat">
+      <i class="bi bi-plus-lg"></i> Add Statistic
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if statistics %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Value</th>
+          <th>Label</th>
+          <th>Icon</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in statistics %}
+        <tr>
+          <td><span class="cms-order-badge">{{ stat.order }}</span></td>
+          <td><strong class="cms-stat-value">{{ stat.value }}</strong></td>
+          <td>
+            <div class="cms-item-title">{{ stat.label }}</div>
+          </td>
+          <td><i class="bi {{ stat.icon }}" style="font-size:1.2rem;"></i></td>
+          <td>
+            {% if stat.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:statistic_edit' stat.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:statistic_delete' stat.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-bar-chart"></i></div>
+      <h3>No Statistics Yet</h3>
+      <p>Add impact statistics to showcase on the home page counter section.</p>
+      <a href="{% url 'cms:statistic_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Statistic
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

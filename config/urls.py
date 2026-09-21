@@ -20,4 +20,11 @@ urlpatterns = [
 
     # All accounts-related URLs (login, register, dashboard, password reset)
     path('', include('accounts.urls', namespace='accounts')),
+
+    # CMS — Home Page Content Management (admin-only)
+    path('', include('cms.urls', namespace='cms')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Serve media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

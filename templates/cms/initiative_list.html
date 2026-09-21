@@ -1,0 +1,97 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Initiatives — Home Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Initiatives / Programs{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='initiatives' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Initiatives / Programs</h2>
+      <p class="cms-page-desc">Manage program showcase cards on the home page</p>
+    </div>
+    <a href="{% url 'cms:initiative_create' %}" class="cms-btn cms-btn-primary" id="btn-add-initiative">
+      <i class="bi bi-plus-lg"></i> Add Initiative
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if initiatives %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Preview</th>
+          <th>Title</th>
+          <th>Tag</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in initiatives %}
+        <tr>
+          <td><span class="cms-order-badge">{{ item.order }}</span></td>
+          <td>
+            {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.title }}" class="cms-thumb">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-image"></i></div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-item-title">{{ item.title }}</div>
+            <div class="cms-item-subtitle">{{ item.description|truncatewords:12 }}</div>
+          </td>
+          <td>
+            {% if item.tag %}
+              <span class="cms-tag">{{ item.tag }}</span>
+            {% else %}
+              <span class="cms-text-muted">—</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if item.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:initiative_edit' item.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:initiative_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-rocket-takeoff"></i></div>
+      <h3>No Initiatives Yet</h3>
+      <p>Add programs and initiatives to showcase on the home page.</p>
+      <a href="{% url 'cms:initiative_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Initiative
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

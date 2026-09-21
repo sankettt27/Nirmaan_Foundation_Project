@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     # Nirmaan Foundation apps
     'accounts',
     'home',
+    'cms',
 ]
 
 # ─────────────────────────────────────────────────────────────
