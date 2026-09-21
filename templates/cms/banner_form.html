@@ -62,7 +62,9 @@
         </div>
 
         <div class="cms-field">
-          <label class="cms-label" for="{{ form.image.id_for_label }}">Banner Image</label>
+          <label class="cms-label" for="{{ form.image.id_for_label }}">
+            Banner Image <span class="cms-size-hint">(Recommended: 1920 × 800 px · 16:9 ratio)</span>
+          </label>
           {% if object.image %}
           <div class="cms-current-image">
             <img src="{{ object.image.url }}" alt="Current banner">
@@ -70,7 +72,7 @@
           </div>
           {% endif %}
           {{ form.image }}
-          {% if form.image.help_text %}<p class="cms-help">{{ form.image.help_text }}</p>{% endif %}
+          <p class="cms-help">Recommended resolution: 1920 × 800 px (16:9 widescreen). High-quality JPG or WebP image.</p>
         </div>
 
         <div class="cms-field-row">

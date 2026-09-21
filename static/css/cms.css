@@ -554,6 +554,27 @@
   font-style: italic;
 }
 
+.cms-help {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.cms-size-hint {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  letter-spacing: 0.01em;
+  vertical-align: middle;
+}
+
 .cms-form-actions {
   display: flex;
   gap: 12px;

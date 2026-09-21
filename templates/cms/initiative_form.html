@@ -65,7 +65,9 @@
         </div>
 
         <div class="cms-field">
-          <label class="cms-label" for="{{ form.image.id_for_label }}">Initiative Image</label>
+          <label class="cms-label" for="{{ form.image.id_for_label }}">
+            Program Image <span class="cms-size-hint">(Recommended: 800 × 500 px · 16:10 ratio)</span>
+          </label>
           {% if object.image %}
           <div class="cms-current-image">
             <img src="{{ object.image.url }}" alt="Current image">
@@ -73,7 +75,7 @@
           </div>
           {% endif %}
           {{ form.image }}
-          {% if form.image.help_text %}<p class="cms-help">{{ form.image.help_text }}</p>{% endif %}
+          <p class="cms-help">Recommended resolution: 800 × 500 px (16:10 landscape). Displayed on home and programs pages.</p>
         </div>
 
         <div class="cms-field">

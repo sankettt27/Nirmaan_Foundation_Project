@@ -57,6 +57,12 @@ class BannerForm(forms.ModelForm):
     class Meta:
         model = Banner
         fields = ['title', 'subtitle', 'image', 'button_text', 'button_link', 'order', 'is_active']
+        labels = {
+            'image': 'Banner Image (Recommended: 1920 × 800 px · 16:9 ratio)',
+        }
+        help_texts = {
+            'image': 'Recommended resolution: 1920 × 800 px (16:9 widescreen). High-quality JPG or WebP image.',
+        }
         widgets = {
             'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., One Mission. Many Ways to Create Change.'}),
             'subtitle': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Supporting text for the banner...', 'rows': 3}),
@@ -121,6 +127,12 @@ class InitiativeForm(forms.ModelForm):
             'detailed_content', 'key_features', 'curriculum_highlight', 'beneficiaries_reached',
             'order', 'is_active'
         ]
+        labels = {
+            'image': 'Program Image (Recommended: 800 × 500 px · 16:10 ratio)',
+        }
+        help_texts = {
+            'image': 'Recommended resolution: 800 × 500 px (16:10 landscape). Displayed on home and programs pages.',
+        }
         widgets = {
             'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Strong Foundations'}),
             'description': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Brief description for home page card...'}),
@@ -162,6 +174,12 @@ class TeamMemberForm(forms.ModelForm):
     class Meta:
         model = TeamMember
         fields = ['name', 'role', 'category', 'bio', 'photo', 'linkedin_url', 'order', 'is_active']
+        labels = {
+            'photo': 'Profile Photo (Recommended: 600 × 600 px · 1:1 Square)',
+        }
+        help_texts = {
+            'photo': 'Recommended resolution: 600 × 600 px (1:1 square ratio) centered portrait photo.',
+        }
         widgets = {
             'name': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Dr. Ananya Sen'}),
             'role': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Co-Founder & Executive Director'}),
@@ -182,6 +200,12 @@ class AboutEventForm(forms.ModelForm):
     class Meta:
         model = AboutEvent
         fields = ['title', 'event_date', 'location', 'tag', 'description', 'image', 'order', 'is_active']
+        labels = {
+            'image': 'Event Photo (Recommended: 800 × 500 px · 16:10 ratio)',
+        }
+        help_texts = {
+            'image': 'Recommended resolution: 800 × 500 px (16:10 landscape) for gallery cards and event showcases.',
+        }
         widgets = {
             'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Annual Children STEM Expo 2026'}),
             'event_date': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., February 2026 or Ongoing'}),
@@ -202,6 +226,12 @@ class ImpactStoryForm(forms.ModelForm):
     class Meta:
         model = ImpactStory
         fields = ['name', 'role_or_school', 'location', 'quote', 'story', 'photo', 'order', 'is_active']
+        labels = {
+            'photo': 'Beneficiary Photo (Recommended: 600 × 600 px · 1:1 Square)',
+        }
+        help_texts = {
+            'photo': 'Recommended resolution: 600 × 600 px (1:1 square ratio) or 800 × 600 px (4:3 ratio).',
+        }
         widgets = {
             'name': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Rajesh Kumar / ZP Govt School'}),
             'role_or_school': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Class 9 Scholar'}),
@@ -222,6 +252,12 @@ class AnnualReportForm(forms.ModelForm):
     class Meta:
         model = AnnualReport
         fields = ['title', 'fiscal_year', 'summary', 'file_url', 'cover_image', 'order', 'is_active']
+        labels = {
+            'cover_image': 'Report Cover Image (Recommended: 600 × 850 px · 3:4 Portrait / A4)',
+        }
+        help_texts = {
+            'cover_image': 'Recommended resolution: 600 × 850 px (3:4 portrait or A4 aspect ratio).',
+        }
         widgets = {
             'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Annual Impact & Financial Disclosure Report'}),
             'fiscal_year': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., 2024–2025'}),
@@ -261,6 +297,12 @@ class PartnerOrganizationForm(forms.ModelForm):
     class Meta:
         model = PartnerOrganization
         fields = ['name', 'category', 'logo', 'website_url', 'testimonial', 'representative_name', 'order', 'is_active']
+        labels = {
+            'logo': 'Organization Logo (Recommended: 400 × 400 px · 1:1 Square, PNG Transparent)',
+        }
+        help_texts = {
+            'logo': 'Recommended resolution: 400 × 400 px (1:1 square ratio). Optimal format: transparent PNG.',
+        }
         widgets = {
             'name': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Infosys Foundation / Wipro Cares'}),
             'category': forms.Select(attrs=_select_attrs),
