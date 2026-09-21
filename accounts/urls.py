@@ -38,6 +38,7 @@ urlpatterns = [
     path('dashboard/admin/', views.admin_dashboard_view, name='admin_dashboard'),
     path('dashboard/volunteer/', views.volunteer_dashboard_view, name='volunteer_dashboard'),
     path('dashboard/donor/', views.donor_dashboard_view, name='donor_dashboard'),
+    path('dashboard/user/', views.volunteer_dashboard_view, name='user_dashboard'),
 
     # ── Password Reset (OTP-Based) ───────────────────────────
     path(

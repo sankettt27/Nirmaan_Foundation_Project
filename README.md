@@ -38,6 +38,28 @@ Implements an end-to-end authentication ecosystem:
 
 ---
 
+## 📌 Assignment 2 — Home Page Content Management System (CMS) & Sub-Pages
+
+Implements a dynamic, non-technical Content Management System enabling full administrative control over public-facing media and narratives:
+- **Core CMS Modules (`/dashboard/admin/home/`):**
+  - **Hero Slider / Banners:** Upload, title, subtitle, CTA destination, order, active/draft toggle.
+  - **Vision & Mission Statements:** Individual statement blocks with icon selector and display sequence.
+  - **Impact Statistics:** Numeric counters and labels with soft-delete toggle.
+  - **Initiatives & Flagship Programs:** Category tags, short cards, curriculum highlights, and beneficiaries reached.
+- **6 Dedicated Public Sub-Pages (Bhumi.ngo Design Reference):**
+  - **About Us (`/about/`):** Milestone timeline journey, executive leadership team, and events gallery.
+  - **Programs (`/programs/`):** Full program directory, curriculum frameworks, and pedagogy highlights.
+  - **Impact (`/impact/`):** Social metrics, student transformation case studies, and audited annual reports.
+  - **Volunteer (`/volunteer/`):** 4-step volunteer roadmap, open role listings, and volunteer FAQs.
+  - **Partner With Us (`/partner/`):** Corporate CSR turnkey models, 80G tax benefit notes, and partner logo wall.
+  - **Contact Us (`/contact/`):** Working message inquiry form, national HQ & chapter office cards, and helpline touchpoints.
+- **Image Size & Aspect Ratio Guidance in Brackets:**
+  - Every form input explicitly guides admins with optimal image dimensions directly in the field label (e.g. `Banner Image (Recommended: 1920 × 800 px · 16:9 ratio)` and `Profile Photo (Recommended: 600 × 600 px · 1:1 Square)`).
+- **Interactive Contact & Inquiry Pipeline:**
+  - Public contact submissions are saved directly to the `ContactInquiry` database table and surfaced in the admin CMS with unread badges and one-click resolved toggles.
+
+---
+
 ## 🛠️ Technology Stack
 
 | Layer | Technology | Purpose |
@@ -153,27 +175,60 @@ Navigate to `http://127.0.0.1:8000/` in your browser.
 
 ## 🚦 Endpoints & Access Control Matrix
 
+### Public Portal & Dedicated Sub-Pages
 | Endpoint | Method | Access Level | Description |
 |:---|:---:|:---|:---|
-| `/` | GET | Public | Landing page with mission, hero, and role CTA cards |
-| `/login/` | GET, POST | Public | User sign-in with role-based dashboard redirection |
+| `/` | GET | Public | Dynamic home page with hero slider, vision & mission, stats, and initiatives |
+| `/about/` | GET | Public | About Us with interactive milestones timeline, leadership team, and events |
+| `/programs/` | GET | Public | Comprehensive initiatives catalog, curriculum highlights, and pedagogy model |
+| `/impact/` | GET | Public | Impact metrics, beneficiary transformation case studies, and annual reports |
+| `/volunteer/` | GET | Public | 4-step volunteer roadmap, open role listings, and volunteer FAQs |
+| `/partner/` | GET | Public | CSR collaboration models, institutional grant tiers, and corporate partner logos |
+| `/contact/` | GET, POST | Public | Working contact inquiry form (persists to DB), helplines, and chapter offices |
+
+### Authentication & Role Dashboards
+| Endpoint | Method | Access Level | Description |
+|:---|:---:|:---|:---|
+| `/login/` | GET, POST | Public | User sign-in with automatic role-based dashboard redirection |
 | `/register/` | GET, POST | Public | New user sign-up (automatically creates Volunteer role) |
 | `/logout/` | POST | Authenticated | Secure session termination and token invalidation |
-| `/dashboard/admin/` | GET | Role: `admin` | Administrator panel with live counts and user tables |
-| `/dashboard/volunteer/`| GET | Role: `volunteer` | Volunteer portal with community drives and hours |
-| `/dashboard/donor/` | GET | Role: `donor` | Donor portal with contribution metrics and tax receipts|
+| `/dashboard/admin/` | GET | Role: `admin` | Platform analytics, user directory, and administrative quick actions |
+| `/dashboard/volunteer/`| GET | Role: `volunteer` | Volunteer portal with community drives, badges, and impact hours |
+| `/dashboard/donor/` | GET | Role: `donor` | Donor portal with contribution metrics and tax receipts |
 | `/password-reset/` | GET, POST | Public | Request password reset email / 6-digit OTP |
 | `/password-reset/verify/`| GET, POST | Public | Verify 6-digit OTP code and set new password |
-| `/admin/` | GET, POST | Staff (`is_staff`) | Django administration back-office |
+
+### Admin Content Management System (CMS)
+| Endpoint | Method | Access Level | Description |
+|:---|:---:|:---|:---|
+| `/dashboard/admin/home/` | GET | Role: `admin` | CMS Dashboard overview with section cards & unread inquiry badges |
+| `.../home/banners/` | GET, POST | Role: `admin` | Manage hero banners, slider sequencing, and active status |
+| `.../home/vision-mission/` | GET, POST | Role: `admin` | Manage vision & mission statement blocks |
+| `.../home/statistics/` | GET, POST | Role: `admin` | Manage impact metrics, numeric counters, and icons |
+| `.../home/initiatives/` | GET, POST | Role: `admin` | Manage initiatives, tags, and curriculum highlights |
+| `/dashboard/admin/team/` | GET, POST | Role: `admin` | Manage leadership team, designations, and photos |
+| `/dashboard/admin/milestones/` | GET, POST | Role: `admin` | Manage historical timeline journey milestones |
+| `/dashboard/admin/events/` | GET, POST | Role: `admin` | Manage community events, drives, and photo gallery |
+| `/dashboard/admin/stories/` | GET, POST | Role: `admin` | Manage student transformation stories and quotes |
+| `/dashboard/admin/reports/` | GET, POST | Role: `admin` | Manage annual audited reports and disclosures |
+| `/dashboard/admin/opportunities/` | GET, POST | Role: `admin` | Manage open volunteer roles and weekly commitments |
+| `/dashboard/admin/partners/` | GET, POST | Role: `admin` | Manage corporate CSR partner logos and endorsements |
+| `/dashboard/admin/offices/` | GET, POST | Role: `admin` | Manage chapter offices and contact touchpoints |
+| `/dashboard/admin/faqs/` | GET, POST | Role: `admin` | Manage categorized FAQs (accordion) |
+| `/dashboard/admin/inquiries/` | GET, POST | Role: `admin` | View inquiries, toggle resolved status, or delete |
 
 ---
 
 ## 🧪 Automated Testing
 
-Run the test suite covering registration, authentication, role redirection, and password reset flows:
+Run the full test suite covering authentication, session security, CMS models, public pages, permissions, and CRUD operations:
 
 ```bash
-python manage.py test tests.test_assignment1
+# Run both Assignment 1 and Assignment 2 test suites (66 total tests):
+python manage.py test tests.test_assignment1 tests.test_assignment2 --settings=config.test_settings -v 1
+
+# Or run Assignment 2 tests exclusively:
+python manage.py test tests.test_assignment2 --settings=config.test_settings -v 2
 ```
 
 ---
@@ -183,9 +238,10 @@ python manage.py test tests.test_assignment1
 1. **Password Hashing:** Passwords are never stored in plaintext; hashed using PBKDF2 with SHA-256 and salt.
 2. **CSRF Enforcement:** All forms implement secure CSRF tokens verified on every state-altering POST request.
 3. **Privilege Escalation Prevention:** Public registration strictly creates standard accounts (`role='volunteer'`); administrative accounts cannot be self-assigned.
-4. **Backend Role Guards:** Access to dashboards is enforced server-side using `@role_required` decorators, preventing unauthorized URL tampering.
+4. **Backend Role Guards:** Access to dashboards and CMS admin endpoints is enforced server-side using `@role_required` decorators, preventing unauthorized URL tampering.
 5. **Credential Protection:** Secrets and database connection strings are managed through environment variables and never committed to Git (`.env` strictly excluded).
 6. **Session Timeout:** Automatic inactivity timeout after 30 minutes of idle time.
+7. **Safe Image Uploads:** User-uploaded assets are isolated and validated in model forms with explicit aspect ratio checks.
 
 ---
 
@@ -193,4 +249,7 @@ python manage.py test tests.test_assignment1
 
 - **Developer:** Sanket Zinjurke
 - **Organization:** Nirmaan Foundation
-- **Milestone:** Assignment 1 — User Authentication & Registration System
+- **Milestones:**
+  - Assignment 1 — User Authentication & Registration System (Completed & Verified)
+  - Assignment 2 — Home Page Content Management System & Sub-Pages (Completed & Verified)
+

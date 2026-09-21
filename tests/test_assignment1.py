@@ -73,7 +73,7 @@ class RegistrationTests(TestCase):
     def test_valid_registration_creates_user(self):
         """Valid POST creates a user, logs them in, and redirects to dashboard."""
         response = self.client.post(self.url, self.valid_data)
-        self.assertRedirects(response, reverse('accounts:user_dashboard'))
+        self.assertRedirects(response, reverse('accounts:volunteer_dashboard'))
         self.assertTrue(CustomUser.objects.filter(email='jane@example.com').exists())
 
     def test_registered_user_has_role_user(self):
@@ -149,7 +149,7 @@ class RegistrationTests(TestCase):
         user = make_user()
         self.client.force_login(user)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('accounts:user_dashboard'))
+        self.assertRedirects(response, reverse('accounts:volunteer_dashboard'))
 
 
 # ─────────────────────────────────────────────────────────────
@@ -189,7 +189,7 @@ class LoginTests(TestCase):
             'email': 'user@example.com',
             'password': 'TestP@ss99',
         })
-        self.assertRedirects(response, reverse('accounts:user_dashboard'))
+        self.assertRedirects(response, reverse('accounts:volunteer_dashboard'))
 
     def test_invalid_password_rejected(self):
         """Wrong password → 200 (form re-rendered), no session."""
@@ -222,7 +222,7 @@ class LoginTests(TestCase):
         """A logged-in user visiting /login/ should be redirected to their dashboard."""
         self.client.force_login(self.regular_user)
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('accounts:user_dashboard'))
+        self.assertRedirects(response, reverse('accounts:volunteer_dashboard'))
 
 
 # ─────────────────────────────────────────────────────────────
