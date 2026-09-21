@@ -1,0 +1,244 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Partner With Us — CSR & Institutional Alliances | Nirmaan Foundation{% endblock %}
+
+{% block content %}
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section class="nf-page-hero">
+  <div class="nf-page-hero-inner">
+    <span class="nf-badge nf-badge-gold"><i class="bi bi-briefcase-fill me-1"></i> Corporate & Institutional CSR</span>
+    <h1 class="nf-page-hero-title">Co-Create Transformational Educational Impact at Scale</h1>
+    <p class="nf-page-hero-subtitle">
+      We partner with leading corporate enterprises, philanthropic foundations, and government agencies to deliver high-accountability CSR programs aligned with Schedule VII and UN SDGs.
+    </p>
+    <div class="nf-page-hero-cta">
+      <a href="#partner-inquiry" class="btn-primary-warm">Initiate CSR Partnership <i class="bi bi-arrow-right ms-1"></i></a>
+      <a href="{% url 'home:impact' %}#reports" class="btn-secondary-warm">View CSR Audit Reports</a>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     CSR COMPLIANCE METRICS
+     ===================================================== -->
+<section class="nf-section" style="padding: 36px 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">100%</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text);">MCA CSR-1 Registered</div>
+        <div class="nf-stat-sub" style="font-size: 0.8rem; color: var(--color-text-muted);">Fully compliant for corporate CSR funds</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">80G & 12A</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text);">Tax Exemption Benefits</div>
+        <div class="nf-stat-sub" style="font-size: 0.8rem; color: var(--color-text-muted);">Valid under IT Act 1961</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">50+</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text);">CSR Partners & Grants</div>
+        <div class="nf-stat-sub" style="font-size: 0.8rem; color: var(--color-text-muted);">Multi-year corporate alliances</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary);">Quarterly</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text);">Audited Reporting</div>
+        <div class="nf-stat-sub" style="font-size: 0.8rem; color: var(--color-text-muted);">Transparent metric tracking</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     COLLABORATION MODELS
+     ===================================================== -->
+<section class="nf-section">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Engagement Frameworks</span>
+      <h2 class="nf-section-title">Flexible Models of CSR Collaboration</h2>
+      <p class="nf-section-subtitle">
+        Tailored grant architecture and turnkey project management meeting your company's CSR mandate and employee engagement goals.
+      </p>
+    </div>
+
+    <div class="nf-features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="nf-card reveal" style="padding: 32px;">
+        <div class="nf-feature-icon" style="background: #FFF4E5; color: var(--color-primary); margin-bottom: 20px;">
+          <i class="bi bi-building"></i>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text); margin-bottom: 12px;">Whole-School Transformation</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Adopt an entire government school for 3–5 years. Covers foundational learning, library refurbishment, sanitation facilities, teacher training, and science labs.
+        </p>
+        <span class="nf-badge nf-badge-gold">Turnkey CSR Project</span>
+      </div>
+
+      <div class="nf-card reveal" style="padding: 32px;">
+        <div class="nf-feature-icon" style="background: #E8F5E9; color: var(--color-forest); margin-bottom: 20px;">
+          <i class="bi bi-cpu"></i>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text); margin-bottom: 12px;">STEM & Tinkering Labs</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Fund state-of-the-art experiential STEM equipment, computer workstations, and weekly robotics tutoring for underprivileged youth.
+        </p>
+        <span class="nf-badge nf-badge-forest">Digital Equity</span>
+      </div>
+
+      <div class="nf-card reveal" style="padding: 32px;">
+        <div class="nf-feature-icon" style="background: #EBF3FF; color: #1E60D5; margin-bottom: 20px;">
+          <i class="bi bi-people"></i>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text); margin-bottom: 12px;">Corporate Employee Volunteering</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Curated volunteering days, virtual mentoring programs, payroll giving drives, and corporate hackathons for social causes.
+        </p>
+        <span class="nf-badge" style="background: #EBF3FF; color: #1E60D5;">Employee Engagement</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TRUSTED CORPORATE PARTNERS
+     ===================================================== -->
+<section class="nf-section" style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-forest">Corporate Network</span>
+      <h2 class="nf-section-title">Trusted by Leading Organizations</h2>
+      <p class="nf-section-subtitle">
+        We are proud to collaborate with esteemed institutional leaders, tech giants, and visionary foundations.
+      </p>
+    </div>
+
+    <div class="nf-partners-grid">
+      {% if has_partners %}
+        {% for partner in partners %}
+        <div class="nf-card nf-partner-card reveal">
+          <div class="nf-partner-logo-wrap">
+            {% if partner.logo %}
+              <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="nf-partner-logo">
+            {% else %}
+              <div class="nf-partner-logo-fallback">{{ partner.name|slice:":2"|upper }}</div>
+            {% endif %}
+          </div>
+          <h4 class="nf-partner-name">{{ partner.name }}</h4>
+          <span class="nf-partner-cat">{{ partner.get_category_display|default:partner.category }}</span>
+          {% if partner.testimonial %}
+          <p class="nf-partner-quote">"{{ partner.testimonial }}"</p>
+          {% if partner.representative_name %}
+          <span class="nf-partner-rep">— {{ partner.representative_name }}</span>
+          {% endif %}
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Partners -->
+        <div class="nf-card nf-partner-card reveal">
+          <div class="nf-partner-logo-wrap">
+            <div class="nf-partner-logo-fallback" style="background: #FFF4E5; color: var(--color-primary);">TC</div>
+          </div>
+          <h4 class="nf-partner-name">Tata Consultancy Services</h4>
+          <span class="nf-partner-cat">Corporate CSR</span>
+          <p class="nf-partner-quote">"Nirmaan's ground-level rigor and transparent tracking made our STEM classroom sponsorship a huge success."</p>
+        </div>
+
+        <div class="nf-card nf-partner-card reveal">
+          <div class="nf-partner-logo-wrap">
+            <div class="nf-partner-logo-fallback" style="background: #E8F5E9; color: var(--color-forest);">IN</div>
+          </div>
+          <h4 class="nf-partner-name">Infosys Foundation</h4>
+          <span class="nf-partner-cat">Institutional Grant</span>
+          <p class="nf-partner-quote">"Their committed volunteer network ensures that educational materials actually turn into measurable learning gains."</p>
+        </div>
+
+        <div class="nf-card nf-partner-card reveal">
+          <div class="nf-partner-logo-wrap">
+            <div class="nf-partner-logo-fallback" style="background: #EBF3FF; color: #1E60D5);">WF</div>
+          </div>
+          <h4 class="nf-partner-name">Wipro Cares</h4>
+          <span class="nf-partner-cat">Corporate CSR</span>
+          <p class="nf-partner-quote">"A truly dedicated partner with top-tier governance, child safety protocols, and responsive project coordinators."</p>
+        </div>
+
+        <div class="nf-card nf-partner-card reveal">
+          <div class="nf-partner-logo-wrap">
+            <div class="nf-partner-logo-fallback" style="background: #FDF2E9; color: #D96010);">CF</div>
+          </div>
+          <h4 class="nf-partner-name">Cognizant Foundation</h4>
+          <span class="nf-partner-cat">Education Grant</span>
+          <p class="nf-partner-quote">"Empowering youth mentors has created a ripple effect of educational passion across municipal schools."</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PARTNER INQUIRY CTA
+     ===================================================== -->
+<section class="nf-section" id="partner-inquiry">
+  <div class="nf-container nf-container-narrow">
+    <div class="nf-card reveal" style="padding: 40px; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); text-align: center;">
+      <span class="nf-badge nf-badge-gold">Get In Touch</span>
+      <h2 style="font-size: 2rem; font-weight: 800; color: var(--color-text); margin: 16px 0 12px;">Start a Conversation With Our CSR Leadership</h2>
+      <p style="color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.6; max-width: 620px; margin: 0 auto 28px;">
+        Let’s design a high-impact program tailored to your CSR priorities, geographical interests, and employee volunteering ambitions.
+      </p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="{% url 'home:contact' %}?category=partner" class="btn-primary-warm">Submit CSR Inquiry <i class="bi bi-arrow-right ms-1"></i></a>
+        <a href="mailto:csr@nirmaanfoundation.org" class="btn-secondary-warm"><i class="bi bi-envelope me-1"></i> csr@nirmaanfoundation.org</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PARTNER FAQS
+     ===================================================== -->
+{% if faqs %}
+<section class="nf-section" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+  <div class="nf-container nf-container-narrow">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">CSR & Legal FAQs</span>
+      <h2 class="nf-section-title">Frequently Asked Questions by Partners</h2>
+    </div>
+
+    <div class="nf-faq-accordion">
+      {% for faq in faqs %}
+      <div class="nf-faq-item reveal">
+        <button class="nf-faq-question" aria-expanded="false">
+          <span>{{ faq.question }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="nf-faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll('.nf-faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+      const answer = button.nextElementSibling;
+      if (!isExpanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = '0';
+      }
+    });
+  });
+</script>
+{% endblock %}

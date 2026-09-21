@@ -1,0 +1,87 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Volunteer Roles — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Volunteer Opportunities{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='opportunities' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Volunteer Opportunities & Roles</h2>
+      <p class="cms-page-desc">Open teaching, mentoring, and support roles displayed on the Volunteer page</p>
+    </div>
+    <a href="{% url 'cms:opportunity_create' %}" class="cms-btn cms-btn-primary" id="btn-add-opportunity">
+      <i class="bi bi-plus-lg"></i> Add New Role
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if opportunities %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Role Title</th>
+          <th>Mode & Location</th>
+          <th>Commitment</th>
+          <th>Description Preview</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for opp in opportunities %}
+        <tr>
+          <td><span class="cms-order-badge">{{ opp.order }}</span></td>
+          <td><div class="cms-item-title">{{ opp.title }}</div></td>
+          <td>
+            <span class="cms-tag">{{ opp.get_mode_display|default:opp.mode }}</span>
+            {% if opp.location %}<div style="font-size: 0.85rem; color: #666;">{{ opp.location }}</div>{% endif %}
+          </td>
+          <td><div style="font-weight: 600; font-size: 0.9rem;">{{ opp.commitment }}</div></td>
+          <td><div class="cms-item-subtitle">{{ opp.description|truncatewords:10 }}</div></td>
+          <td>
+            {% if opp.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:opportunity_edit' opp.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:opportunity_delete' opp.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-person-workspace"></i></div>
+      <h3>No Volunteer Roles Listed</h3>
+      <p>Publish weekend educator, STEM instructor, or virtual mentor positions for prospective volunteers.</p>
+      <a href="{% url 'cms:opportunity_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Role
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

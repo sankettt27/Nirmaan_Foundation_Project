@@ -1,0 +1,211 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Contact Us — Chapter Offices & Inquiries | Nirmaan Foundation{% endblock %}
+
+{% block content %}
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section class="nf-page-hero">
+  <div class="nf-page-hero-inner">
+    <span class="nf-badge nf-badge-gold"><i class="bi bi-chat-square-dots-fill me-1"></i> Reach Out To Us</span>
+    <h1 class="nf-page-hero-title">Let’s Connect & Build Better Classrooms Together</h1>
+    <p class="nf-page-hero-subtitle">
+      Whether you want to volunteer, partner for CSR, donate, or nominate a school in your neighbourhood, our team is here to assist you.
+    </p>
+  </div>
+</section>
+
+<!-- =====================================================
+     CONTACT FORM & OFFICES SECTION
+     ===================================================== -->
+<section class="nf-section">
+  <div class="nf-container">
+    <div class="nf-contact-layout">
+
+      <!-- LEFT: INQUIRY FORM -->
+      <div class="nf-card nf-contact-form-card reveal">
+        <h2 class="nf-contact-form-title">Send Us a Message</h2>
+        <p class="nf-contact-form-sub">Fill out the details below and we’ll route your inquiry to the right coordinator.</p>
+
+        <form method="POST" action="{% url 'home:contact' %}" class="nf-contact-form">
+          {% csrf_token %}
+
+          <div class="nf-form-row">
+            <div class="nf-form-group">
+              <label for="name" class="nf-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" id="name" name="name" class="nf-input" placeholder="e.g. Priya Sharma" required>
+            </div>
+            <div class="nf-form-group">
+              <label for="email" class="nf-label">Email Address <span class="text-danger">*</span></label>
+              <input type="email" id="email" name="email" class="nf-input" placeholder="e.g. priya@example.com" required>
+            </div>
+          </div>
+
+          <div class="nf-form-row">
+            <div class="nf-form-group">
+              <label for="phone" class="nf-label">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="nf-input" placeholder="e.g. +91 98765 43210">
+            </div>
+            <div class="nf-form-group">
+              <label for="category" class="nf-label">Inquiry Category <span class="text-danger">*</span></label>
+              <select id="category" name="category" class="nf-input nf-select" required>
+                <option value="general">General Inquiry</option>
+                <option value="volunteer">Volunteering Opportunities</option>
+                <option value="partner" {% if request.GET.category == 'partner' %}selected{% endif %}>CSR & Corporate Partnerships</option>
+                <option value="donation">Donations & 80G Tax Receipts</option>
+                <option value="programs">School Collaboration & Programs</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="nf-form-group">
+            <label for="subject" class="nf-label">Subject</label>
+            <input type="text" id="subject" name="subject" class="nf-input" placeholder="e.g. Interest in weekend English teaching">
+          </div>
+
+          <div class="nf-form-group">
+            <label for="message" class="nf-label">Message <span class="text-danger">*</span></label>
+            <textarea id="message" name="message" rows="5" class="nf-input nf-textarea" placeholder="Please share how you would like to get involved or any questions you have..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary-warm w-100" style="padding: 14px; font-size: 1.05rem; justify-content: center;">
+            <i class="bi bi-send-fill me-2"></i> Send Inquiry
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: CHAPTER OFFICES & INFO -->
+      <div class="nf-contact-sidebar reveal">
+        <div class="nf-card nf-quick-contact-box">
+          <h3 class="nf-box-title">Central Touchpoints</h3>
+          <div class="nf-contact-line">
+            <i class="bi bi-envelope-at-fill text-primary"></i>
+            <div>
+              <div class="nf-line-lbl">General Inquiries</div>
+              <a href="mailto:hello@nirmaanfoundation.org" class="nf-line-val">hello@nirmaanfoundation.org</a>
+            </div>
+          </div>
+          <div class="nf-contact-line">
+            <i class="bi bi-telephone-outbound-fill text-forest"></i>
+            <div>
+              <div class="nf-line-lbl">Helpline (Mon–Sat, 9am–6pm)</div>
+              <a href="tel:+918000000000" class="nf-line-val">+91 80 0000 0000</a>
+            </div>
+          </div>
+          <div class="nf-contact-line">
+            <i class="bi bi-briefcase-fill text-warning"></i>
+            <div>
+              <div class="nf-line-lbl">CSR Alliances</div>
+              <a href="mailto:csr@nirmaanfoundation.org" class="nf-line-val">csr@nirmaanfoundation.org</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regional Offices -->
+        <h3 class="nf-offices-heading"><i class="bi bi-geo-alt-fill text-primary me-2"></i>Our Chapter Offices</h3>
+
+        <div class="nf-offices-list">
+          {% if has_offices %}
+            {% for office in offices %}
+            <div class="nf-card nf-office-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="nf-office-city">{{ office.city }}</h4>
+                {% if office.is_hq %}
+                  <span class="nf-badge nf-badge-gold">National Headquarters</span>
+                {% endif %}
+              </div>
+              <p class="nf-office-addr"><i class="bi bi-pin-map me-1"></i> {{ office.address }}</p>
+              {% if office.email %}
+              <p class="nf-office-sub"><i class="bi bi-envelope me-1"></i> <a href="mailto:{{ office.email }}">{{ office.email }}</a></p>
+              {% endif %}
+              {% if office.phone %}
+              <p class="nf-office-sub"><i class="bi bi-telephone me-1"></i> <a href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
+              {% endif %}
+            </div>
+            {% endfor %}
+          {% else %}
+            <!-- Default Fallback Offices -->
+            <div class="nf-card nf-office-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="nf-office-city">Bengaluru</h4>
+                <span class="nf-badge nf-badge-gold">National Headquarters</span>
+              </div>
+              <p class="nf-office-addr"><i class="bi bi-pin-map me-1"></i> #42, Shanti Nagar Main Road, Bengaluru, Karnataka 560027</p>
+              <p class="nf-office-sub"><i class="bi bi-envelope me-1"></i> <a href="mailto:bangalore@nirmaanfoundation.org">bangalore@nirmaanfoundation.org</a></p>
+              <p class="nf-office-sub"><i class="bi bi-telephone me-1"></i> <a href="tel:+918022223333">+91 80 2222 3333</a></p>
+            </div>
+
+            <div class="nf-card nf-office-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="nf-office-city">Pune Chapter</h4>
+                <span class="nf-badge nf-badge-forest">Western Region</span>
+              </div>
+              <p class="nf-office-addr"><i class="bi bi-pin-map me-1"></i> 3rd Floor, Lotus Plaza, Karve Road, Kothrud, Pune, Maharashtra 411038</p>
+              <p class="nf-office-sub"><i class="bi bi-envelope me-1"></i> <a href="mailto:pune@nirmaanfoundation.org">pune@nirmaanfoundation.org</a></p>
+            </div>
+
+            <div class="nf-card nf-office-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h4 class="nf-office-city">Hyderabad Chapter</h4>
+                <span class="nf-badge nf-badge-forest">Telangana</span>
+              </div>
+              <p class="nf-office-addr"><i class="bi bi-pin-map me-1"></i> Plot 18, Road No. 2, Banjara Hills, Hyderabad, Telangana 500034</p>
+              <p class="nf-office-sub"><i class="bi bi-envelope me-1"></i> <a href="mailto:hyderabad@nirmaanfoundation.org">hyderabad@nirmaanfoundation.org</a></p>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     COMMON FAQS
+     ===================================================== -->
+{% if faqs %}
+<section class="nf-section" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+  <div class="nf-container nf-container-narrow">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Common Questions</span>
+      <h2 class="nf-section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="nf-faq-accordion">
+      {% for faq in faqs|slice:":6" %}
+      <div class="nf-faq-item reveal">
+        <button class="nf-faq-question" aria-expanded="false">
+          <span>{{ faq.question }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="nf-faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll('.nf-faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+      const answer = button.nextElementSibling;
+      if (!isExpanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = '0';
+      }
+    });
+  });
+</script>
+{% endblock %}

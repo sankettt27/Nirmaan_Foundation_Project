@@ -1,0 +1,340 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}About Us — Nirmaan Foundation{% endblock %}
+
+{% block content %}
+
+  <!-- Page Header Hero -->
+  <section class="nf-page-hero">
+    <div class="nf-container">
+      <div class="nf-page-hero-tag">
+        <span></span>
+        About Nirmaan Foundation
+      </div>
+      <h1 class="nf-page-hero-title">
+        Empowering India's Future Through <em>Education & Community</em>
+      </h1>
+      <p class="nf-page-hero-desc">
+        Since 2014, Nirmaan Foundation has mobilized youth volunteers, partnered with schools, and engaged committed donors to ensure no child is denied a quality education.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission & Vision Section -->
+  <section class="nf-section" id="vision-mission" style="background:#fff;">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-compass-fill"></i>
+          Our Purpose
+        </div>
+        <h2 class="nf-section-title">
+          Driven by Purpose, Guided by <em>Clear Values</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          We believe education is the fundamental cornerstone of an equitable society.
+        </p>
+      </div>
+
+      <div class="nf-vm-grid">
+        <!-- Vision Card -->
+        <div class="nf-vm-card nf-vm-vision reveal">
+          <div class="nf-vm-icon-wrap">
+            <i class="bi bi-eye-fill"></i>
+          </div>
+          <div class="nf-vm-badge">Our Vision</div>
+          {% if has_vision_mission and vision_items %}
+            {% for item in vision_items %}
+              <h3 class="nf-vm-title">{{ item.title }}</h3>
+              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
+            {% endfor %}
+          {% else %}
+            <h3 class="nf-vm-title">Education for Every Child</h3>
+            <p class="nf-vm-text">
+              A future where every child in India has access to quality education, holistic development, and the opportunity to realise their full potential — regardless of socioeconomic background.
+            </p>
+          {% endif %}
+          <div class="nf-vm-pillars">
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Equal Opportunity</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Holistic Learning</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Dignity & Inclusion</span>
+          </div>
+        </div>
+
+        <!-- Mission Card -->
+        <div class="nf-vm-card nf-vm-mission reveal reveal-delay-1">
+          <div class="nf-vm-icon-wrap">
+            <i class="bi bi-bullseye"></i>
+          </div>
+          <div class="nf-vm-badge">Our Mission</div>
+          {% if has_vision_mission and mission_items %}
+            {% for item in mission_items %}
+              <h3 class="nf-vm-title">{{ item.title }}</h3>
+              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
+            {% endfor %}
+          {% else %}
+            <h3 class="nf-vm-title">Mobilising Communities for Change</h3>
+            <p class="nf-vm-text">
+              To mobilise young volunteers, engage committed donors, and partner with institutions to deliver high-quality educational support, life skills, and mentorship to children in underserved communities across India.
+            </p>
+          {% endif %}
+          <div class="nf-vm-pillars">
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Youth Leadership</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Transparent Giving</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Scalable Impact</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Journey / Milestones -->
+  <section class="nf-section" id="timeline" style="background:var(--nf-bg);">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-clock-history"></i>
+          Our Journey
+        </div>
+        <h2 class="nf-section-title">
+          A Decade of <em>Milestones & Growth</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          From a handful of university volunteers in 2014 to a nationwide community impacting over 30,000 children annually.
+        </p>
+      </div>
+
+      <div class="nf-timeline-wrap">
+        {% if has_milestones %}
+          {% for milestone in milestones %}
+          <div class="nf-timeline-item reveal {% if forloop.counter|divisibleby:2 %}even{% endif %}">
+            <div class="nf-timeline-badge">{{ milestone.year }}</div>
+            <div class="nf-timeline-card">
+              <div class="nf-timeline-icon"><i class="bi {{ milestone.icon|default:'bi-flag-fill' }}"></i></div>
+              <h3 class="nf-timeline-title">{{ milestone.title }}</h3>
+              <p class="nf-timeline-desc">{{ milestone.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Static Fallback Timeline -->
+          <div class="nf-timeline-item reveal">
+            <div class="nf-timeline-badge">2014</div>
+            <div class="nf-timeline-card">
+              <div class="nf-timeline-icon"><i class="bi bi-flag-fill"></i></div>
+              <h3 class="nf-timeline-title">The Foundation Begins</h3>
+              <p class="nf-timeline-desc">Started in Bengaluru with 15 passionate college students teaching weekend foundational math and reading in two underserved municipal schools.</p>
+            </div>
+          </div>
+          <div class="nf-timeline-item reveal even">
+            <div class="nf-timeline-badge">2017</div>
+            <div class="nf-timeline-card">
+              <div class="nf-timeline-icon"><i class="bi bi-mortarboard-fill"></i></div>
+              <h3 class="nf-timeline-title">Strong Foundations Program Launch</h3>
+              <p class="nf-timeline-desc">Formalized structured weekend literacy curricula, scaling to 12 government schools and engaging over 500 volunteer mentors.</p>
+            </div>
+          </div>
+          <div class="nf-timeline-item reveal">
+            <div class="nf-timeline-badge">2020</div>
+            <div class="nf-timeline-card">
+              <div class="nf-timeline-icon"><i class="bi bi-laptop-fill"></i></div>
+              <h3 class="nf-timeline-title">Digital Learning Hubs</h3>
+              <p class="nf-timeline-desc">Pioneered low-cost digital classrooms and tablet learning centers to bridge the digital divide during school lockdowns.</p>
+            </div>
+          </div>
+          <div class="nf-timeline-item reveal even">
+            <div class="nf-timeline-badge">2024–Present</div>
+            <div class="nf-timeline-card">
+              <div class="nf-timeline-icon"><i class="bi bi-award-fill"></i></div>
+              <h3 class="nf-timeline-title">Nationwide Expansion</h3>
+              <p class="nf-timeline-desc">Operating across 18+ cities with 7,500+ active volunteers, touching 30,000+ young lives every single weekend.</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership & Team Section -->
+  <section class="nf-section" id="team" style="background:#fff;">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-people-fill"></i>
+          Leadership & Governance
+        </div>
+        <h2 class="nf-section-title">
+          Meet the People <em>Driving the Mission</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          Passionate educators, social entrepreneurs, and youth leaders dedicated to transparent and impactful community leadership.
+        </p>
+      </div>
+
+      <div class="nf-team-grid">
+        {% if has_team %}
+          {% for member in team_members %}
+          <div class="nf-team-card reveal">
+            <div class="nf-team-photo-wrap">
+              {% if member.photo %}
+                <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="nf-team-photo">
+              {% else %}
+                <div class="nf-team-photo-placeholder"><i class="bi bi-person-fill"></i></div>
+              {% endif %}
+            </div>
+            <div class="nf-team-body">
+              <span class="nf-team-category">{{ member.get_category_display }}</span>
+              <h3 class="nf-team-name">{{ member.name }}</h3>
+              <div class="nf-team-role">{{ member.role }}</div>
+              {% if member.bio %}
+                <p class="nf-team-bio">{{ member.bio }}</p>
+              {% endif %}
+              {% if member.linkedin_url %}
+                <a href="{{ member.linkedin_url }}" target="_blank" rel="noopener" class="nf-team-social" aria-label="LinkedIn">
+                  <i class="bi bi-linkedin"></i> Connect on LinkedIn
+                </a>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Static Fallback Team -->
+          <div class="nf-team-card reveal">
+            <div class="nf-team-photo-wrap">
+              <img src="{% static 'images/volunteer_card.jpg' %}" alt="Anand Kumar" class="nf-team-photo">
+            </div>
+            <div class="nf-team-body">
+              <span class="nf-team-category">Leadership Team</span>
+              <h3 class="nf-team-name">Anand Kumar</h3>
+              <div class="nf-team-role">Co-Founder & Executive Director</div>
+              <p class="nf-team-bio">12+ years in development sector and grassroots education policy. Alumnus of TISS Mumbai.</p>
+            </div>
+          </div>
+          <div class="nf-team-card reveal reveal-delay-1">
+            <div class="nf-team-photo-wrap">
+              <img src="{% static 'images/donor_card.jpg' %}" alt="Dr. Priya Iyer" class="nf-team-photo">
+            </div>
+            <div class="nf-team-body">
+              <span class="nf-team-category">Leadership Team</span>
+              <h3 class="nf-team-name">Dr. Priya Iyer</h3>
+              <div class="nf-team-role">Head of Curriculum & Pedagogy</div>
+              <p class="nf-team-bio">Child psychologist and education specialist designing experiential literacy modules.</p>
+            </div>
+          </div>
+          <div class="nf-team-card reveal reveal-delay-2">
+            <div class="nf-team-photo-wrap">
+              <img src="{% static 'images/corporate_card.jpg' %}" alt="Vikramaditya Rao" class="nf-team-photo">
+            </div>
+            <div class="nf-team-body">
+              <span class="nf-team-category">Advisory Board</span>
+              <h3 class="nf-team-name">Vikramaditya Rao</h3>
+              <div class="nf-team-role">Strategic Advisor & CSR Lead</div>
+              <p class="nf-team-bio">Senior advisor bridging institutional CSR investments with grassroots community programs.</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Events & Activities Gallery Section -->
+  <section class="nf-section" id="events" style="background:var(--nf-bg);">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-calendar-event-fill"></i>
+          Community in Action
+        </div>
+        <h2 class="nf-section-title">
+          Recent Events & <em>Classroom Activities</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          Take a look at how our volunteers, partner schools, and students come together across India.
+        </p>
+      </div>
+
+      <div class="nf-events-grid">
+        {% if has_events %}
+          {% for event in events %}
+          <div class="nf-event-card reveal">
+            <div class="nf-event-img-wrap">
+              {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="nf-event-img">
+              {% else %}
+                <img src="{% static 'images/volunteer_card.jpg' %}" alt="{{ event.title }}" class="nf-event-img">
+              {% endif %}
+              {% if event.tag %}<span class="nf-event-tag">{{ event.tag }}</span>{% endif %}
+            </div>
+            <div class="nf-event-body">
+              <div class="nf-event-meta">
+                {% if event.event_date %}<span><i class="bi bi-calendar3"></i> {{ event.event_date }}</span>{% endif %}
+                {% if event.location %}<span><i class="bi bi-geo-alt"></i> {{ event.location }}</span>{% endif %}
+              </div>
+              <h3 class="nf-event-title">{{ event.title }}</h3>
+              <p class="nf-event-desc">{{ event.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Static Fallback Events -->
+          <div class="nf-event-card reveal">
+            <div class="nf-event-img-wrap">
+              <img src="{% static 'images/hero_banner.jpg' %}" alt="Weekend Teaching Drive" class="nf-event-img">
+              <span class="nf-event-tag">Classroom Drive</span>
+            </div>
+            <div class="nf-event-body">
+              <div class="nf-event-meta">
+                <span><i class="bi bi-calendar3"></i> Weekend Classroom</span>
+                <span><i class="bi bi-geo-alt"></i> Bengaluru & Mumbai</span>
+              </div>
+              <h3 class="nf-event-title">Annual Foundational Literacy Festival</h3>
+              <p class="nf-event-desc">Interactive reading and math games conducted across 45 government schools, celebrating student progress with learning kits.</p>
+            </div>
+          </div>
+          <div class="nf-event-card reveal reveal-delay-1">
+            <div class="nf-event-img-wrap">
+              <img src="{% static 'images/volunteer_card.jpg' %}" alt="Volunteer Orientation" class="nf-event-img">
+              <span class="nf-event-tag">Volunteer Summit</span>
+            </div>
+            <div class="nf-event-body">
+              <div class="nf-event-meta">
+                <span><i class="bi bi-calendar3"></i> Bi-monthly</span>
+                <span><i class="bi bi-geo-alt"></i> Pan-India Chapters</span>
+              </div>
+              <h3 class="nf-event-title">Youth Changemakers Workshop</h3>
+              <p class="nf-event-desc">Empowering college student leaders with pedagogical tools, empathy-first mentoring, and classroom facilitation techniques.</p>
+            </div>
+          </div>
+          <div class="nf-event-card reveal reveal-delay-2">
+            <div class="nf-event-img-wrap">
+              <img src="{% static 'images/corporate_card.jpg' %}" alt="STEM Lab Opening" class="nf-event-img">
+              <span class="nf-event-tag">CSR Partnership</span>
+            </div>
+            <div class="nf-event-body">
+              <div class="nf-event-meta">
+                <span><i class="bi bi-calendar3"></i> Ongoing</span>
+                <span><i class="bi bi-geo-alt"></i> Urban Slum Centers</span>
+              </div>
+              <h3 class="nf-event-title">Digital Robotics & STEM Innovation Hub</h3>
+              <p class="nf-event-desc">Setting up smart classroom labs with hands-on coding and science experiments for grades 6–10 students in underserved schools.</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="nf-section-cta">
+    <div class="nf-container text-center">
+      <h2 class="nf-cta-heading">Be Part of the Next Chapter</h2>
+      <p class="nf-cta-sub">Whether by volunteering your weekends or donating to educate a child, your presence matters.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
+        <a href="{% url 'home:volunteer' %}" class="btn-hero-primary"><i class="bi bi-heart-fill"></i> Become a Volunteer</a>
+        <a href="{% url 'home:contact' %}" class="btn-hero-secondary" style="background:#fff;color:var(--nf-dark);border-color:#fff;">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

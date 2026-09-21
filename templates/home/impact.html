@@ -1,0 +1,261 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Our Impact & Transparency — Nirmaan Foundation{% endblock %}
+
+{% block content %}
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section class="nf-page-hero">
+  <div class="nf-page-hero-inner">
+    <span class="nf-badge nf-badge-gold">Measurable Transformation</span>
+    <h1 class="nf-page-hero-title">Over a Decade of Impact Driven by Evidence & Empathy</h1>
+    <p class="nf-page-hero-subtitle">
+      We hold ourselves to the highest standards of data transparency, outcome tracking, and financial governance to ensure every rupee and volunteer hour creates lasting social mobility.
+    </p>
+    <div class="nf-page-hero-cta">
+      <a href="#stories" class="btn-primary-warm">Read Beneficiary Stories <i class="bi bi-arrow-down ms-1"></i></a>
+      <a href="#reports" class="btn-secondary-warm">Download Annual Reports</a>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     KEY IMPACT METRICS
+     ===================================================== -->
+<section class="nf-section" style="padding: 48px 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px;">
+      {% if statistics %}
+        {% for stat in statistics %}
+        <div class="nf-stat-block reveal" style="text-align: center; padding: 20px; background: #fff; border-radius: 16px; border: 1px solid var(--color-border);">
+          <div class="nf-stat-num" style="font-size: 2.8rem; font-weight: 800; color: var(--color-primary); line-height: 1.1;">{{ stat.number }}</div>
+          <div class="nf-stat-lbl" style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-top: 8px;">{{ stat.label }}</div>
+          <div class="nf-stat-sub" style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 4px;">Verified Outcome</div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="nf-stat-block reveal" style="text-align: center; padding: 20px; background: #fff; border-radius: 16px; border: 1px solid var(--color-border);">
+          <div class="nf-stat-num" style="font-size: 2.8rem; font-weight: 800; color: var(--color-primary);">30,000+</div>
+          <div class="nf-stat-lbl" style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-top: 8px;">Students Supported</div>
+          <div class="nf-stat-sub" style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 4px;">Enrolled in ongoing programs</div>
+        </div>
+        <div class="nf-stat-block reveal" style="text-align: center; padding: 20px; background: #fff; border-radius: 16px; border: 1px solid var(--color-border);">
+          <div class="nf-stat-num" style="font-size: 2.8rem; font-weight: 800; color: var(--color-primary);">12,000+</div>
+          <div class="nf-stat-lbl" style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-top: 8px;">Volunteers Mobilized</div>
+          <div class="nf-stat-sub" style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 4px;">Across colleges and corporates</div>
+        </div>
+        <div class="nf-stat-block reveal" style="text-align: center; padding: 20px; background: #fff; border-radius: 16px; border: 1px solid var(--color-border);">
+          <div class="nf-stat-num" style="font-size: 2.8rem; font-weight: 800; color: var(--color-primary);">150+</div>
+          <div class="nf-stat-lbl" style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-top: 8px;">Partner Schools</div>
+          <div class="nf-stat-sub" style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 4px;">Government & civic schools</div>
+        </div>
+        <div class="nf-stat-block reveal" style="text-align: center; padding: 20px; background: #fff; border-radius: 16px; border: 1px solid var(--color-border);">
+          <div class="nf-stat-num" style="font-size: 2.8rem; font-weight: 800; color: var(--color-primary);">94%</div>
+          <div class="nf-stat-lbl" style="font-size: 1rem; font-weight: 600; color: var(--color-text); margin-top: 8px;">Pass & Retention Rate</div>
+          <div class="nf-stat-sub" style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 4px;">Continuous grade promotion</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     BENEFICIARY VOICES & CASE STORIES
+     ===================================================== -->
+<section class="nf-section" id="stories">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Voices From The Ground</span>
+      <h2 class="nf-section-title">Every Metric is a Child’s Changed Life</h2>
+      <p class="nf-section-subtitle">
+        Real stories of resilience, academic excellence, and self-belief nurtured through dedicated volunteer mentorship.
+      </p>
+    </div>
+
+    <div class="nf-stories-grid">
+      {% if has_stories %}
+        {% for story in stories %}
+        <div class="nf-card nf-story-card reveal">
+          <div class="nf-story-media">
+            {% if story.photo %}
+              <img src="{{ story.photo.url }}" alt="{{ story.name }}" class="nf-story-img">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80" alt="{{ story.name }}" class="nf-story-img">
+            {% endif %}
+          </div>
+          <div class="nf-story-body">
+            <div class="nf-story-quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="nf-story-quote">"{{ story.quote }}"</p>
+            <p class="nf-story-text">{{ story.story }}</p>
+            <div class="nf-story-author">
+              <strong class="nf-story-name">{{ story.name }}</strong>
+              <span class="nf-story-sub">{{ story.role_or_school }}{% if story.location %}, {{ story.location }}{% endif %}</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Stories -->
+        <div class="nf-card nf-story-card reveal">
+          <div class="nf-story-media">
+            <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80" alt="Pooja Sharma" class="nf-story-img">
+          </div>
+          <div class="nf-story-body">
+            <div class="nf-story-quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="nf-story-quote">"Before Nirmaan’s math mentors came, I was afraid of science. Today I am studying Computer Science Engineering."</p>
+            <p class="nf-story-text">Pooja joined the Ignite program in Grade 7 at a civic school in Bengaluru. With 3 years of continuous weekend tutoring and scholarship support, she topped her school in Class 10 board exams.</p>
+            <div class="nf-story-author">
+              <strong class="nf-story-name">Pooja Sharma</strong>
+              <span class="nf-story-sub">Engineering Student & Disha Scholar, Bengaluru</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nf-card nf-story-card reveal">
+          <div class="nf-story-media">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80" alt="Ramesh Rao" class="nf-story-img">
+          </div>
+          <div class="nf-story-body">
+            <div class="nf-story-quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="nf-story-quote">"Nirmaan volunteers brought experiential science models to our school. Classroom attendance jumped from 60% to 92%."</p>
+            <p class="nf-story-text">Headmaster Rao witnessed a dramatic change in student enthusiasm after Nirmaan established a mini-robotics lab in their government high school, fostering practical curiosity and peer learning.</p>
+            <div class="nf-story-author">
+              <strong class="nf-story-name">Ramesh Rao</strong>
+              <span class="nf-story-sub">Headmaster, Govt. High School, Pune</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nf-card nf-story-card reveal">
+          <div class="nf-story-media">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&auto=format&fit=crop&q=80" alt="Ananya Sen" class="nf-story-img">
+          </div>
+          <div class="nf-story-body">
+            <div class="nf-story-quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="nf-story-quote">"Volunteering for 2 hours every Sunday transformed not just my students’ English fluency, but my own worldview."</p>
+            <p class="nf-story-text">Ananya, a software professional, has been volunteering for over 3 years with Nirmaan's weekend reading circle. She now leads a cohort of 15 youth mentors in Hyderabad.</p>
+            <div class="nf-story-author">
+              <strong class="nf-story-name">Ananya Sen</strong>
+              <span class="nf-story-sub">Volunteer Chapter Lead & Tech Professional, Hyderabad</span>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TRANSPARENCY & ANNUAL REPORTS
+     ===================================================== -->
+<section class="nf-section" id="reports" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-forest">Governance & Transparency</span>
+      <h2 class="nf-section-title">Audited Financials & Annual Progress Reports</h2>
+      <p class="nf-section-subtitle">
+        We believe that public trust is earned through uncompromising accountability. Download our complete audited statements and milestone reports.
+      </p>
+    </div>
+
+    <div class="nf-reports-grid">
+      {% if has_reports %}
+        {% for report in reports %}
+        <div class="nf-card nf-report-card reveal">
+          <div class="nf-report-badge">{{ report.fiscal_year }}</div>
+          <h3 class="nf-report-title">{{ report.title }}</h3>
+          <p class="nf-report-desc">{{ report.summary }}</p>
+          {% if report.file_url %}
+            <a href="{{ report.file_url }}" target="_blank" rel="noopener noreferrer" class="btn-primary-warm btn-sm w-100 mt-3">
+              <i class="bi bi-file-earmark-pdf-fill me-1"></i> Download PDF
+            </a>
+          {% else %}
+            <a href="#" class="btn-outline-warm btn-sm w-100 mt-3 disabled">Report Document (Coming Soon)</a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Reports -->
+        <div class="nf-card nf-report-card reveal">
+          <div class="nf-report-badge">FY 2024–25</div>
+          <h3 class="nf-report-title">Annual Impact & Financial Disclosure Report</h3>
+          <p class="nf-report-desc">Full audited balance sheet, expenditure breakdown across schooling initiatives, and comprehensive child assessment metrics.</p>
+          <a href="#" class="btn-primary-warm btn-sm w-100 mt-3">
+            <i class="bi bi-file-earmark-pdf-fill me-1"></i> View Report Summary
+          </a>
+        </div>
+
+        <div class="nf-card nf-report-card reveal">
+          <div class="nf-report-badge">FY 2023–24</div>
+          <h3 class="nf-report-title">Annual Report: Scaling Classroom Equity</h3>
+          <p class="nf-report-desc">Audited financial statements, volunteer retention audit, and expansion outcomes across 8 new tier-2 districts.</p>
+          <a href="#" class="btn-primary-warm btn-sm w-100 mt-3">
+            <i class="bi bi-file-earmark-pdf-fill me-1"></i> View Report Summary
+          </a>
+        </div>
+
+        <div class="nf-card nf-report-card reveal">
+          <div class="nf-report-badge">FY 2022–23</div>
+          <h3 class="nf-report-title">Decade Milestone & Impact Audit</h3>
+          <p class="nf-report-desc">10-year longitudinal evaluation of student career transitions, partner school capacity, and 80G tax certification audit.</p>
+          <a href="#" class="btn-primary-warm btn-sm w-100 mt-3">
+            <i class="bi bi-file-earmark-pdf-fill me-1"></i> View Report Summary
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Compliance Certifications Banner -->
+    <div class="nf-compliance-banner reveal mt-5" style="background: #fff; border-radius: 16px; padding: 28px; border: 1px solid var(--color-border); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-around; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #EBF7EE; color: var(--color-forest); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: var(--color-text);">Section 80G & 12A Certified</div>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">50% Tax Exemption on all donations</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #FFF4E5; color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+          <i class="bi bi-award-fill"></i>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: var(--color-text);">Guidestar India Gold Certified</div>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">Highest transparency score</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #EBF3FF; color: #1E60D5; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+          <i class="bi bi-file-earmark-lock-fill"></i>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: var(--color-text);">FCRA & CSR Form 1 Compliant</div>
+          <div style="font-size: 0.85rem; color: var(--color-text-muted);">MCA Registered for Corporate CSR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     CALL TO ACTION
+     ===================================================== -->
+<section class="nf-cta-banner">
+  <div class="nf-cta-inner">
+    <h2 class="nf-cta-title">Help Us Reach the Next 50,000 Children</h2>
+    <p class="nf-cta-desc">
+      Your time, expertise, and contribution enable us to open more classrooms, train more educators, and unlock every child's potential.
+    </p>
+    <div class="nf-cta-btns">
+      <a href="{% url 'home:volunteer' %}" class="btn-primary-warm">Join as Volunteer</a>
+      <a href="{% url 'home:partner' %}" class="btn-outline-warm" style="border-color: rgba(255,255,255,0.4); color: #fff;">CSR Alliances</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

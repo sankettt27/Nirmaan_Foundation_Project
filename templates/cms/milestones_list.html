@@ -1,0 +1,82 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Milestones Timeline — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Milestones Timeline{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='milestones' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Journey Milestones Timeline</h2>
+      <p class="cms-page-desc">Chronological history and achievements featured on the About page</p>
+    </div>
+    <a href="{% url 'cms:milestone_create' %}" class="cms-btn cms-btn-primary" id="btn-add-milestone">
+      <i class="bi bi-plus-lg"></i> Add Milestone
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if milestones %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Year</th>
+          <th>Milestone Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in milestones %}
+        <tr>
+          <td><span class="cms-order-badge">{{ m.order }}</span></td>
+          <td><strong style="color: #E09520; font-size: 1.1rem;">{{ m.year }}</strong></td>
+          <td><div class="cms-item-title">{{ m.title }}</div></td>
+          <td><div class="cms-item-subtitle">{{ m.description|truncatewords:12 }}</div></td>
+          <td>
+            {% if m.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:milestone_edit' m.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:milestone_delete' m.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-clock-history"></i></div>
+      <h3>No Milestones Yet</h3>
+      <p>Add key founding and growth milestones to display on the journey timeline.</p>
+      <a href="{% url 'cms:milestone_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Milestone
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

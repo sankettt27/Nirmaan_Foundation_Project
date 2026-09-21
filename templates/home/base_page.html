@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ page_title|default:"Nirmaan Foundation — Empowering Communities Through Education" }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Nirmaan Foundation is an NGO empowering volunteers, donors, and partners to create lasting social impact through education and community development across India.{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ page_title|default:"Nirmaan Foundation" }}{% endblock %}">
+  <meta property="og:description" content="Join thousands of volunteers, donors, and partners working to transform education and communities across India.">
+  <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Home CSS -->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- =====================================================
+       NAVBAR
+       ===================================================== -->
+  <nav class="nf-nav" id="main-nav">
+    <div class="nf-nav-inner">
+
+      <!-- Logo -->
+      <a href="{% url 'home:index' %}" class="nf-logo" id="nav-logo">
+        <img src="{% static 'images/logo.png' %}" alt="Nirmaan Foundation" class="nf-logo-img">
+      </a>
+
+      <!-- Nav Links -->
+      <ul class="nf-nav-links" id="nav-links">
+        <li><a href="{% url 'home:about' %}" class="{% if active_nav == 'about' %}active{% endif %}">About Us</a></li>
+        <li><a href="{% url 'home:programs' %}" class="{% if active_nav == 'programs' %}active{% endif %}">Programs</a></li>
+        <li><a href="{% url 'home:impact' %}" class="{% if active_nav == 'impact' %}active{% endif %}">Impact</a></li>
+        <li><a href="{% url 'home:volunteer' %}" class="{% if active_nav == 'volunteer' %}active{% endif %}">Volunteer</a></li>
+        <li><a href="{% url 'home:partner' %}" class="{% if active_nav == 'partner' %}active{% endif %}">Partner With Us</a></li>
+        <li><a href="{% url 'home:contact' %}" class="{% if active_nav == 'contact' %}active{% endif %}">Contact</a></li>
+      </ul>
+
+      <!-- Actions -->
+      <div class="nf-nav-actions" id="nav-actions">
+        {% if user.is_authenticated %}
+          {% if user.role == 'admin' %}
+            <a href="{% url 'accounts:admin_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">Dashboard</a>
+          {% elif user.role == 'donor' %}
+            <a href="{% url 'accounts:donor_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">My Dashboard</a>
+          {% else %}
+            <a href="{% url 'accounts:volunteer_dashboard' %}" class="btn-nav-login" id="nav-dashboard-btn">My Dashboard</a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn-nav-login" id="nav-login-btn">Log In</a>
+        {% endif %}
+        <a href="{% url 'home:index' %}#donate" class="btn-nav-donate" id="nav-donate-btn">Donate Now</a>
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button class="nf-nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  {% if messages %}
+  <div class="nf-messages-container" style="max-width: 1280px; margin: 85px auto 0; padding: 12px 32px 0;">
+    {% for message in messages %}
+    <div class="nf-alert nf-alert-{{ message.tags }}" style="padding: 14px 20px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-weight: 500; {% if message.tags == 'success' %}background:#EBF7EE; color:#2E9442; border:1px solid #C4EDCF;{% else %}background:#FDF2E9; color:#E07020; border:1px solid #F8D7BE;{% endif %}">
+      <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill{% else %}bi-info-circle-fill{% endif %}"></i>
+      <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer class="nf-footer">
+    <div class="nf-footer-inner">
+      <div class="nf-footer-top">
+
+        <!-- Brand Column -->
+        <div>
+          <div class="nf-footer-brand-name">
+            <img src="{% static 'images/logo_white_text.png' %}" alt="Nirmaan Foundation" class="nf-footer-logo-img">
+          </div>
+          <p class="nf-footer-tagline">
+            Empowering communities through education, volunteerism, and sustainable development across India since 2014.
+          </p>
+          <div class="nf-footer-social">
+            <a href="#" aria-label="Facebook" id="footer-facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" aria-label="Twitter / X" id="footer-twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" aria-label="Instagram" id="footer-instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn" id="footer-linkedin"><i class="bi bi-linkedin"></i></a>
+            <a href="#" aria-label="YouTube" id="footer-youtube"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Link Columns -->
+        <div class="nf-footer-links">
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">About</div>
+            <ul>
+              <li><a href="{% url 'home:about' %}">Our Story & Mission</a></li>
+              <li><a href="{% url 'home:about' %}#timeline">Milestone Timeline</a></li>
+              <li><a href="{% url 'home:about' %}#team">Leadership & Team</a></li>
+              <li><a href="{% url 'home:about' %}#events">Events & Activities</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Programs</div>
+            <ul>
+              <li><a href="{% url 'home:programs' %}">All Programs</a></li>
+              <li><a href="{% url 'home:programs' %}#in-schools">In-School Teaching</a></li>
+              <li><a href="{% url 'home:programs' %}#holistic">Holistic Development</a></li>
+              <li><a href="{% url 'home:programs' %}#digital">Digital Literacy</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Get Involved</div>
+            <ul>
+              <li><a href="{% url 'home:volunteer' %}">Volunteer Network</a></li>
+              <li><a href="{% url 'home:partner' %}">CSR Partnerships</a></li>
+              <li><a href="{% url 'home:impact' %}">Impact & Reports</a></li>
+              <li><a href="{% url 'accounts:register' %}">Create Account</a></li>
+            </ul>
+          </div>
+          <div class="nf-footer-col">
+            <div class="nf-footer-col-title">Contact</div>
+            <ul>
+              <li><a href="mailto:hello@nirmaanfoundation.org"><i class="bi bi-envelope me-1"></i> hello@nirmaanfoundation.org</a></li>
+              <li><a href="tel:+918000000000"><i class="bi bi-telephone me-1"></i> +91 80 0000 0000</a></li>
+              <li><a href="{% url 'home:contact' %}"><i class="bi bi-geo-alt me-1"></i> Chapter Offices</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <hr class="nf-footer-divider">
+
+      <div class="nf-footer-bottom">
+        <p class="nf-footer-copy">
+          &copy; 2026 Nirmaan Foundation. All rights reserved. Registered NGO under Section 12A & 80G.
+        </p>
+        <div class="nf-footer-bottom-links">
+          <a href="#" id="footer-privacy">Privacy Policy</a>
+          <a href="#" id="footer-terms">Terms of Use</a>
+          <a href="#" id="footer-refund">Refund Policy</a>
+          <a href="{% url 'accounts:login' %}" id="footer-login">Staff Login</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       JAVASCRIPT — Scroll Reveal + Mobile Nav
+       ===================================================== -->
+  <script>
+    // ---- Scroll Reveal ----
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ---- Mobile Nav Toggle ----
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const navActions = document.getElementById('nav-actions');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        navActions.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen);
+      });
+    }
+
+    // ---- Navbar Scroll Shadow ----
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('main-nav');
+      if (nav) {
+        if (window.scrollY > 20) {
+          nav.style.boxShadow = '0 4px 24px rgba(13,9,1,.10)';
+        } else {
+          nav.style.boxShadow = 'none';
+        }
+      }
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

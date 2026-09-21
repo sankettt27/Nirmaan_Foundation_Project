@@ -1,0 +1,97 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Team & Leadership — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Team & Advisory Board{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='team' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Team, Trustees & Chapter Leads</h2>
+      <p class="cms-page-desc">Manage leadership profiles, bios, photos, and roles displayed on the About page</p>
+    </div>
+    <a href="{% url 'cms:team_create' %}" class="cms-btn cms-btn-primary" id="btn-add-team">
+      <i class="bi bi-plus-lg"></i> Add Team Member
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if team_members %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Role & Category</th>
+          <th>Bio Preview</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in team_members %}
+        <tr>
+          <td><span class="cms-order-badge">{{ member.order }}</span></td>
+          <td>
+            {% if member.photo %}
+              <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="cms-thumb" style="border-radius: 50%;">
+            {% else %}
+              <div class="cms-thumb-placeholder" style="border-radius: 50%;"><i class="bi bi-person"></i></div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-item-title">{{ member.name }}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600; font-size: 0.9rem;">{{ member.role }}</div>
+            <span class="cms-tag">{{ member.get_category_display }}</span>
+          </td>
+          <td>
+            <div class="cms-item-subtitle">{{ member.bio|truncatewords:10|default:"—" }}</div>
+          </td>
+          <td>
+            {% if member.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:team_edit' member.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:team_delete' member.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-people"></i></div>
+      <h3>No Team Members Added</h3>
+      <p>Showcase trustees, executive leadership, and chapter coordinators on the About Us page.</p>
+      <a href="{% url 'cms:team_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Member
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

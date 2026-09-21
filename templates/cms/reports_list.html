@@ -1,0 +1,92 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Annual Reports — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Audited Reports & Disclosures{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='reports' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Annual Reports & Audits</h2>
+      <p class="cms-page-desc">Manage audited financial statements and annual impact documents displayed on the Impact page</p>
+    </div>
+    <a href="{% url 'cms:report_create' %}" class="cms-btn cms-btn-primary" id="btn-add-report">
+      <i class="bi bi-plus-lg"></i> Add New Report
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if reports %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Fiscal Year</th>
+          <th>Report Title</th>
+          <th>Summary</th>
+          <th>File URL</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+        <tr>
+          <td><span class="cms-order-badge">{{ r.order }}</span></td>
+          <td><span class="cms-tag">{{ r.fiscal_year }}</span></td>
+          <td><div class="cms-item-title">{{ r.title }}</div></td>
+          <td><div class="cms-item-subtitle">{{ r.summary|truncatewords:10 }}</div></td>
+          <td>
+            {% if r.file_url %}
+              <a href="{{ r.file_url }}" target="_blank" class="cms-btn cms-btn-outline cms-btn-sm">
+                <i class="bi bi-link-45deg"></i> Link
+              </a>
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if r.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:report_edit' r.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:report_delete' r.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+      <h3>No Reports Uploaded</h3>
+      <p>Publish audited balance sheets and annual review documents for public trust and CSR compliance.</p>
+      <a href="{% url 'cms:report_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Report
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

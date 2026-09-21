@@ -1,0 +1,111 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}{{ form_title }} — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}{{ form_title }}{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms=active_cms %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">{{ form_title }}</h2>
+      <p class="cms-page-desc">{{ form_subtitle|default:"Fill in the information below to publish or update content" }}</p>
+    </div>
+    {% if back_url %}
+    <a href="{{ back_url }}" class="cms-btn cms-btn-outline">
+      <i class="bi bi-arrow-left"></i> Back to List
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="cms-form-card">
+    <form method="post" enctype="multipart/form-data" class="cms-form">
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div class="cms-form-errors">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <div>
+          <strong>Please resolve the following errors:</strong>
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="cms-form-grid">
+        {% for field in form %}
+          {% if field.field.widget.input_type == "checkbox" %}
+            <div class="cms-field cms-field-checkbox">
+              <label class="cms-toggle-label">
+                {{ field }}
+                <span class="cms-toggle-text">{{ field.label }}</span>
+              </label>
+              {% if field.help_text %}<p class="cms-help">{{ field.help_text }}</p>{% endif %}
+            </div>
+          {% elif field.field.widget.input_type == "file" %}
+            <div class="cms-field">
+              <label class="cms-label" for="{{ field.id_for_label }}">
+                {{ field.label }} {% if field.field.required %}<span class="cms-required">*</span>{% endif %}
+              </label>
+              {% if object and object.image %}
+                <div class="cms-current-image mb-2">
+                  <img src="{{ object.image.url }}" alt="Current image" style="max-height: 120px; border-radius: 8px; object-fit: cover;">
+                  <span class="cms-current-label">Current file attached</span>
+                </div>
+              {% elif object and object.photo %}
+                <div class="cms-current-image mb-2">
+                  <img src="{{ object.photo.url }}" alt="Current photo" style="max-height: 120px; border-radius: 8px; object-fit: cover;">
+                  <span class="cms-current-label">Current photo attached</span>
+                </div>
+              {% elif object and object.logo %}
+                <div class="cms-current-image mb-2">
+                  <img src="{{ object.logo.url }}" alt="Current logo" style="max-height: 80px; border-radius: 8px; object-fit: contain;">
+                  <span class="cms-current-label">Current logo attached</span>
+                </div>
+              {% endif %}
+              {{ field }}
+              {% if field.help_text %}<p class="cms-help">{{ field.help_text }}</p>{% endif %}
+            </div>
+          {% else %}
+            <div class="cms-field">
+              <label class="cms-label" for="{{ field.id_for_label }}">
+                {{ field.label }} {% if field.field.required %}<span class="cms-required">*</span>{% endif %}
+              </label>
+              {{ field }}
+              {% if field.help_text %}<p class="cms-help">{{ field.help_text }}</p>{% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="cms-form-actions mt-4">
+        <button type="submit" class="cms-btn cms-btn-primary">
+          <i class="bi bi-check-lg"></i> {{ submit_text|default:"Save Item" }}
+        </button>
+        {% if back_url %}
+        <a href="{{ back_url }}" class="cms-btn cms-btn-outline">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

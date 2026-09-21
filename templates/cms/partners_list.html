@@ -1,0 +1,93 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Partners & CSR — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Partner Organizations{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='partners' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Corporate Partners & CSR Alliances</h2>
+      <p class="cms-page-desc">Manage logos, CSR testimonials, and partner organizations displayed on the Partner With Us page</p>
+    </div>
+    <a href="{% url 'cms:partner_create' %}" class="cms-btn cms-btn-primary" id="btn-add-partner">
+      <i class="bi bi-plus-lg"></i> Add Partner
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if partners %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Logo</th>
+          <th>Organization Name</th>
+          <th>Category</th>
+          <th>Testimonial Preview</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in partners %}
+        <tr>
+          <td><span class="cms-order-badge">{{ p.order }}</span></td>
+          <td>
+            {% if p.logo %}
+              <img src="{{ p.logo.url }}" alt="{{ p.name }}" class="cms-thumb" style="object-fit: contain;">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-building"></i></div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-item-title">{{ p.name }}</div>
+            {% if p.website_url %}<a href="{{ p.website_url }}" target="_blank" style="font-size: 0.82rem; color: #1E60D5;">Visit Site</a>{% endif %}
+          </td>
+          <td><span class="cms-tag">{{ p.get_category_display }}</span></td>
+          <td><div class="cms-item-subtitle">"{{ p.testimonial|truncatewords:10|default:"—" }}"</div></td>
+          <td>
+            {% if p.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:partner_edit' p.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:partner_delete' p.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-buildings"></i></div>
+      <h3>No Partners Listed Yet</h3>
+      <p>Add corporate CSR donors, foundation grantors, and institutional partners.</p>
+      <a href="{% url 'cms:partner_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Partner
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

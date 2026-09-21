@@ -7,22 +7,18 @@ Include with: {% include 'cms/_sidebar.html' %}
 
 <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
   <i class="bi bi-grid-1x2-fill"></i>
-  Dashboard
+  Admin Dashboard
 </a>
 <a href="{% url 'cms:cms_dashboard' %}" class="sidebar-nav-item {% if active_cms == 'dashboard' %}active{% endif %}" id="nav-home-cms">
-  <i class="bi bi-house-gear-fill"></i>
-  Home Page CMS
-</a>
-<a href="#" class="sidebar-nav-item" id="nav-members">
-  <i class="bi bi-people-fill"></i>
-  Members
+  <i class="bi bi-speedometer2"></i>
+  CMS Overview
 </a>
 
-<div class="sidebar-nav-label">CMS Sections</div>
+<div class="sidebar-nav-label">Home Page</div>
 
 <a href="{% url 'cms:banner_list' %}" class="sidebar-nav-item {% if active_cms == 'banners' %}active{% endif %}" id="nav-banners">
   <i class="bi bi-images"></i>
-  Banners
+  Banners & Slider
 </a>
 <a href="{% url 'cms:vision_mission_list' %}" class="sidebar-nav-item {% if active_cms == 'vision_mission' %}active{% endif %}" id="nav-vision-mission">
   <i class="bi bi-eye-fill"></i>
@@ -30,16 +26,68 @@ Include with: {% include 'cms/_sidebar.html' %}
 </a>
 <a href="{% url 'cms:statistic_list' %}" class="sidebar-nav-item {% if active_cms == 'statistics' %}active{% endif %}" id="nav-statistics">
   <i class="bi bi-bar-chart-fill"></i>
-  Statistics
+  Impact Stats
 </a>
+
+<div class="sidebar-nav-label">About Page</div>
+
+<a href="{% url 'cms:event_list' %}" class="sidebar-nav-item {% if active_cms == 'events' %}active{% endif %}" id="nav-events">
+  <i class="bi bi-calendar-event-fill"></i>
+  Events & Activities
+</a>
+<a href="{% url 'cms:team_list' %}" class="sidebar-nav-item {% if active_cms == 'team' %}active{% endif %}" id="nav-team">
+  <i class="bi bi-people-fill"></i>
+  Team & Leadership
+</a>
+<a href="{% url 'cms:milestone_list' %}" class="sidebar-nav-item {% if active_cms == 'milestones' %}active{% endif %}" id="nav-milestones">
+  <i class="bi bi-clock-history"></i>
+  Milestones Timeline
+</a>
+
+<div class="sidebar-nav-label">Programs & Impact</div>
+
 <a href="{% url 'cms:initiative_list' %}" class="sidebar-nav-item {% if active_cms == 'initiatives' %}active{% endif %}" id="nav-initiatives">
-  <i class="bi bi-rocket-takeoff-fill"></i>
-  Initiatives
+  <i class="bi bi-mortarboard-fill"></i>
+  Programs & Curricula
+</a>
+<a href="{% url 'cms:story_list' %}" class="sidebar-nav-item {% if active_cms == 'stories' %}active{% endif %}" id="nav-stories">
+  <i class="bi bi-chat-heart-fill"></i>
+  Impact Stories
+</a>
+<a href="{% url 'cms:report_list' %}" class="sidebar-nav-item {% if active_cms == 'reports' %}active{% endif %}" id="nav-reports">
+  <i class="bi bi-file-earmark-pdf-fill"></i>
+  Annual Reports
 </a>
 
-<div class="sidebar-nav-label">Tools</div>
+<div class="sidebar-nav-label">Community & Partners</div>
 
-<a href="#" class="sidebar-nav-item" id="nav-settings">
-  <i class="bi bi-gear-fill"></i>
-  Settings
+<a href="{% url 'cms:opportunity_list' %}" class="sidebar-nav-item {% if active_cms == 'opportunities' %}active{% endif %}" id="nav-opportunities">
+  <i class="bi bi-person-workspace"></i>
+  Volunteer Roles
+</a>
+<a href="{% url 'cms:partner_list' %}" class="sidebar-nav-item {% if active_cms == 'partners' %}active{% endif %}" id="nav-partners">
+  <i class="bi bi-building-fill-check"></i>
+  CSR Partners
+</a>
+
+<div class="sidebar-nav-label">Contact & Support</div>
+
+<a href="{% url 'cms:office_list' %}" class="sidebar-nav-item {% if active_cms == 'offices' %}active{% endif %}" id="nav-offices">
+  <i class="bi bi-geo-alt-fill"></i>
+  Chapter Offices
+</a>
+<a href="{% url 'cms:faq_list' %}" class="sidebar-nav-item {% if active_cms == 'faqs' %}active{% endif %}" id="nav-faqs">
+  <i class="bi bi-question-circle-fill"></i>
+  Page FAQs
+</a>
+<a href="{% url 'cms:inquiry_list' %}" class="sidebar-nav-item {% if active_cms == 'inquiries' %}active{% endif %}" id="nav-inquiries">
+  <i class="bi bi-inbox-fill"></i>
+  Contact Inquiries
+</a>
+
+<div class="sidebar-nav-label">Live Site</div>
+
+<a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-view-site">
+  <i class="bi bi-box-arrow-up-right"></i>
+  View Public Site
 </a>

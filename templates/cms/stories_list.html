@@ -1,0 +1,93 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Impact Stories — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Impact & Case Stories{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='stories' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Impact & Student Case Stories</h2>
+      <p class="cms-page-desc">Testimonials, quotes, and case studies featured on the Impact page</p>
+    </div>
+    <a href="{% url 'cms:story_create' %}" class="cms-btn cms-btn-primary" id="btn-add-story">
+      <i class="bi bi-plus-lg"></i> Add New Story
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if stories %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Photo</th>
+          <th>Beneficiary / Name</th>
+          <th>Role / School</th>
+          <th>Quote Preview</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stories %}
+        <tr>
+          <td><span class="cms-order-badge">{{ s.order }}</span></td>
+          <td>
+            {% if s.photo %}
+              <img src="{{ s.photo.url }}" alt="{{ s.name }}" class="cms-thumb">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-chat-heart"></i></div>
+            {% endif %}
+          </td>
+          <td><div class="cms-item-title">{{ s.name }}</div></td>
+          <td>
+            <div style="font-size: 0.9rem; font-weight: 500;">{{ s.role_or_school }}</div>
+            {% if s.location %}<small class="text-muted">{{ s.location }}</small>{% endif %}
+          </td>
+          <td><div class="cms-item-subtitle">"{{ s.quote|truncatewords:10 }}"</div></td>
+          <td>
+            {% if s.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:story_edit' s.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:story_delete' s.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-chat-heart"></i></div>
+      <h3>No Stories Added Yet</h3>
+      <p>Share compelling stories of transformation from students, teachers, and volunteers.</p>
+      <a href="{% url 'cms:story_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Story
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

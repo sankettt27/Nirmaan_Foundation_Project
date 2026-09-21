@@ -1,0 +1,250 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Volunteer With Us — Nirmaan Foundation | Join the Movement{% endblock %}
+
+{% block content %}
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section class="nf-page-hero">
+  <div class="nf-page-hero-inner">
+    <span class="nf-badge nf-badge-forest"><i class="bi bi-heart-fill me-1"></i> Be The Catalyst</span>
+    <h1 class="nf-page-hero-title">Give 2 Hours a Week. Change a Child’s Entire Life.</h1>
+    <p class="nf-page-hero-subtitle">
+      Join over 12,000 passionate students, software engineers, teachers, and young professionals teaching and mentoring across government schools in India.
+    </p>
+    <div class="nf-page-hero-cta">
+      <a href="{% url 'accounts:register' %}" class="btn-primary-warm">Register as a Volunteer <i class="bi bi-arrow-right ms-1"></i></a>
+      <a href="#opportunities" class="btn-secondary-warm">Explore Open Roles</a>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     VOLUNTEER STATS
+     ===================================================== -->
+<section class="nf-section" style="padding: 36px 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">12,000+</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Registered Volunteers</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">180,000+</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Classroom Hours Completed</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">15+</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Active City Chapters</div>
+      </div>
+      <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+        <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">96%</div>
+        <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Volunteer Satisfaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     4-STEP VOLUNTEER JOURNEY
+     ===================================================== -->
+<section class="nf-section">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Simple & Structured</span>
+      <h2 class="nf-section-title">Your 4-Step Journey from Sign-Up to Classroom Impact</h2>
+      <p class="nf-section-subtitle">
+        We make volunteering seamless, safe, and deeply rewarding with clear orientation, lesson plans, and dedicated chapter coordinators.
+      </p>
+    </div>
+
+    <div class="nf-journey-steps">
+      <div class="nf-journey-card reveal">
+        <div class="nf-journey-num">01</div>
+        <div class="nf-journey-icon"><i class="bi bi-person-plus-fill"></i></div>
+        <h3 class="nf-journey-title">Quick Sign-Up</h3>
+        <p class="nf-journey-desc">Create your volunteer profile in under 2 minutes. Choose your preferred subject, weekend schedule, and location.</p>
+      </div>
+
+      <div class="nf-journey-card reveal">
+        <div class="nf-journey-num">02</div>
+        <div class="nf-journey-icon"><i class="bi bi-mortarboard-fill"></i></div>
+        <h3 class="nf-journey-title">Orientation & Training</h3>
+        <p class="nf-journey-desc">Attend a virtual or weekend induction on child pedagogy, curriculum kits, safety policies, and classroom icebreakers.</p>
+      </div>
+
+      <div class="nf-journey-card reveal">
+        <div class="nf-journey-num">03</div>
+        <div class="nf-journey-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <h3 class="nf-journey-title">School Matching</h3>
+        <p class="nf-journey-desc">Get assigned to a partner school near you along with a co-volunteer team and an experienced chapter lead.</p>
+      </div>
+
+      <div class="nf-journey-card reveal">
+        <div class="nf-journey-num">04</div>
+        <div class="nf-journey-icon"><i class="bi bi-award-fill"></i></div>
+        <h3 class="nf-journey-title">Teach & Earn Certification</h3>
+        <p class="nf-journey-desc">Spend 2 hours every weekend teaching. Receive formal volunteer certification, leadership opportunities, and lifelong memories.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     OPEN VOLUNTEER OPPORTUNITIES
+     ===================================================== -->
+<section class="nf-section" id="opportunities" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-gold">Choose Your Role</span>
+      <h2 class="nf-section-title">Exciting Volunteering Opportunities</h2>
+      <p class="nf-section-subtitle">
+        Whether you want to teach English, build science projects, guide teenagers, or support our media campaigns, there is a role for your talent.
+      </p>
+    </div>
+
+    <div class="nf-roles-grid">
+      {% if has_opportunities %}
+        {% for opp in opportunities %}
+        <div class="nf-card nf-role-card reveal">
+          <div class="nf-role-meta">
+            <span class="nf-role-pill"><i class="bi bi-clock-fill me-1"></i> {{ opp.commitment }}</span>
+            <span class="nf-role-pill"><i class="bi bi-pin-map-fill me-1"></i> {{ opp.get_mode_display|default:opp.mode }}</span>
+          </div>
+          <h3 class="nf-role-title">{{ opp.title }}</h3>
+          {% if opp.location %}
+          <div class="nf-role-loc"><i class="bi bi-geo-alt me-1"></i> {{ opp.location }}</div>
+          {% endif %}
+          <p class="nf-role-desc">{{ opp.description }}</p>
+          {% if opp.requirements %}
+          <div class="nf-role-reqs">
+            <strong>Key Requirements:</strong>
+            <p>{{ opp.requirements }}</p>
+          </div>
+          {% endif %}
+          <div class="nf-role-actions mt-auto pt-3">
+            <a href="{% url 'accounts:register' %}" class="btn-primary-warm w-100">Apply for this Role</a>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Opportunities -->
+        <div class="nf-card nf-role-card reveal">
+          <div class="nf-role-meta">
+            <span class="nf-role-pill"><i class="bi bi-clock-fill me-1"></i> 2 hrs/week (Saturdays/Sundays)</span>
+            <span class="nf-role-pill"><i class="bi bi-pin-map-fill me-1"></i> In-Person</span>
+          </div>
+          <h3 class="nf-role-title">Weekend English & Literacy Educator</h3>
+          <div class="nf-role-loc"><i class="bi bi-geo-alt me-1"></i> Bengaluru, Pune, Hyderabad, Delhi NCR</div>
+          <p class="nf-role-desc">Teach conversational English, reading, and phonics to primary school children using our structured bilingual activity kits.</p>
+          <div class="nf-role-reqs">
+            <strong>Key Requirements:</strong>
+            <p>Good conversational English, patience, empathy, and commitment to at least one 3-month academic semester.</p>
+          </div>
+          <div class="nf-role-actions mt-auto pt-3">
+            <a href="{% url 'accounts:register' %}" class="btn-primary-warm w-100">Apply for this Role</a>
+          </div>
+        </div>
+
+        <div class="nf-card nf-role-card reveal">
+          <div class="nf-role-meta">
+            <span class="nf-role-pill"><i class="bi bi-clock-fill me-1"></i> 3 hrs/week (Weekend Mornings)</span>
+            <span class="nf-role-pill"><i class="bi bi-pin-map-fill me-1"></i> In-Person / Hybrid</span>
+          </div>
+          <h3 class="nf-role-title">STEM & Robotics Lab Instructor</h3>
+          <div class="nf-role-loc"><i class="bi bi-geo-alt me-1"></i> Bengaluru, Mumbai, Chennai</div>
+          <p class="nf-role-desc">Guide middle school students through experiential science experiments, basic robotics kits, and introductory coding concepts.</p>
+          <div class="nf-role-reqs">
+            <strong>Key Requirements:</strong>
+            <p>Background in Science, Engineering, or BCA/MCA. Passion for making science fun and relatable.</p>
+          </div>
+          <div class="nf-role-actions mt-auto pt-3">
+            <a href="{% url 'accounts:register' %}" class="btn-primary-warm w-100">Apply for this Role</a>
+          </div>
+        </div>
+
+        <div class="nf-card nf-role-card reveal">
+          <div class="nf-role-meta">
+            <span class="nf-role-pill"><i class="bi bi-clock-fill me-1"></i> 1 hr/week (Flexible)</span>
+            <span class="nf-role-pill"><i class="bi bi-pin-map-fill me-1"></i> Remote / Online</span>
+          </div>
+          <h3 class="nf-role-title">Youth Career Mentor (Disha)</h3>
+          <div class="nf-role-loc"><i class="bi bi-geo-alt me-1"></i> Pan-India (Virtual 1-on-1 Calls)</div>
+          <p class="nf-role-desc">Mentor Grade 11 & 12 students on higher education streams, vocational careers, scholarship applications, and workplace confidence.</p>
+          <div class="nf-role-reqs">
+            <strong>Key Requirements:</strong>
+            <p>Working professionals with 2+ years experience. Active listening and structured guidance.</p>
+          </div>
+          <div class="nf-role-actions mt-auto pt-3">
+            <a href="{% url 'accounts:register' %}" class="btn-primary-warm w-100">Apply for this Role</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     VOLUNTEER FAQS
+     ===================================================== -->
+{% if faqs %}
+<section class="nf-section">
+  <div class="nf-container nf-container-narrow">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Volunteer Queries</span>
+      <h2 class="nf-section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="nf-faq-accordion">
+      {% for faq in faqs %}
+      <div class="nf-faq-item reveal">
+        <button class="nf-faq-question" aria-expanded="false">
+          <span>{{ faq.question }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="nf-faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- =====================================================
+     CALL TO ACTION
+     ===================================================== -->
+<section class="nf-cta-banner">
+  <div class="nf-cta-inner">
+    <h2 class="nf-cta-title">Ready to Make Your Weekends Count?</h2>
+    <p class="nf-cta-desc">
+      Join India's most vibrant network of young changemakers. Registration takes less than 2 minutes.
+    </p>
+    <div class="nf-cta-btns">
+      <a href="{% url 'accounts:register' %}" class="btn-primary-warm">Register Now</a>
+      <a href="{% url 'home:contact' %}" class="btn-outline-warm" style="border-color: rgba(255,255,255,0.4); color: #fff;">Have Questions? Contact Us</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll('.nf-faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+      const answer = button.nextElementSibling;
+      if (!isExpanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = '0';
+      }
+    });
+  });
+</script>
+{% endblock %}

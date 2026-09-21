@@ -1,0 +1,93 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Chapter Offices — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Chapter Offices & Locations{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='offices' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Chapter Offices & Physical Locations</h2>
+      <p class="cms-page-desc">Office addresses, contact numbers, and HQ designations displayed on the Contact page</p>
+    </div>
+    <a href="{% url 'cms:office_create' %}" class="cms-btn cms-btn-primary" id="btn-add-office">
+      <i class="bi bi-plus-lg"></i> Add Office
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if offices %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>City</th>
+          <th>Address</th>
+          <th>Email & Phone</th>
+          <th>HQ?</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in offices %}
+        <tr>
+          <td><span class="cms-order-badge">{{ o.order }}</span></td>
+          <td><div class="cms-item-title">{{ o.city }}</div></td>
+          <td><div class="cms-item-subtitle">{{ o.address }}</div></td>
+          <td>
+            {% if o.email %}<div style="font-size: 0.85rem;"><i class="bi bi-envelope"></i> {{ o.email }}</div>{% endif %}
+            {% if o.phone %}<div style="font-size: 0.85rem;"><i class="bi bi-telephone"></i> {{ o.phone }}</div>{% endif %}
+          </td>
+          <td>
+            {% if o.is_hq %}
+              <span class="cms-tag" style="background: #FFF4E5; color: #D96010;">National HQ</span>
+            {% else %}
+              <span class="text-muted">Branch</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if o.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:office_edit' o.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:office_delete' o.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-geo-alt"></i></div>
+      <h3>No Chapter Offices Added</h3>
+      <p>Add your national headquarters and city chapters.</p>
+      <a href="{% url 'cms:office_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Office
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

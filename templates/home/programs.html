@@ -1,0 +1,308 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Our Programs — Nirmaan Foundation | Educational & Holistic Youth Development{% endblock %}
+
+{% block content %}
+<!-- =====================================================
+     HERO SECTION
+     ===================================================== -->
+<section class="nf-page-hero">
+  <div class="nf-page-hero-inner">
+    <span class="nf-badge nf-badge-gold">Transforming Education</span>
+    <h1 class="nf-page-hero-title">Programs Designed to Empower Every Child to Learn & Thrive</h1>
+    <p class="nf-page-hero-subtitle">
+      From foundational numeracy and STEM robotics labs to holistic life-skills mentoring, our programs bridge the educational equity gap across India’s government and low-income schools.
+    </p>
+    <div class="nf-page-hero-cta">
+      <a href="{% url 'home:volunteer' %}" class="btn-primary-warm">Volunteer as an Educator <i class="bi bi-arrow-right ms-1"></i></a>
+      <a href="{% url 'home:partner' %}" class="btn-secondary-warm">Sponsor a School</a>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PROGRAM HIGHLIGHT METRICS
+     ===================================================== -->
+<section class="nf-section" style="padding: 40px 0; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+      {% if statistics %}
+        {% for stat in statistics|slice:":4" %}
+        <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+          <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">{{ stat.number }}</div>
+          <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">{{ stat.label }}</div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+          <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">30,000+</div>
+          <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Students Supported</div>
+        </div>
+        <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+          <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">150+</div>
+          <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Partner Schools</div>
+        </div>
+        <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+          <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">94%</div>
+          <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">Grade Progression</div>
+        </div>
+        <div class="nf-stat-block" style="text-align: center; padding: 16px;">
+          <div class="nf-stat-num" style="font-size: 2.4rem; font-weight: 800; color: var(--color-primary);">12+</div>
+          <div class="nf-stat-lbl" style="font-size: 0.95rem; font-weight: 600; color: var(--color-text-muted);">States & UTs</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FLAGSHIP PROGRAMS GRID
+     ===================================================== -->
+<section class="nf-section" id="programs-list">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Our Core Interventions</span>
+      <h2 class="nf-section-title">End-to-End Educational & Youth Transformation</h2>
+      <p class="nf-section-subtitle">
+        Every initiative addresses a critical stage of child development—ensuring literacy, modern skill acquisition, and long-term socioeconomic mobility.
+      </p>
+    </div>
+
+    <div class="nf-program-cards-vertical">
+      {% if has_programs %}
+        {% for prog in programs %}
+        <div class="nf-card nf-program-detail-card reveal">
+          <div class="nf-program-detail-grid">
+            <div class="nf-program-detail-media">
+              {% if prog.image %}
+                <img src="{{ prog.image.url }}" alt="{{ prog.title }}" class="nf-program-detail-img">
+              {% else %}
+                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80" alt="{{ prog.title }}" class="nf-program-detail-img">
+              {% endif %}
+              <div class="nf-program-detail-badge">
+                <i class="bi bi-mortarboard-fill me-1"></i> Flagship Program
+              </div>
+            </div>
+
+            <div class="nf-program-detail-body">
+              <h3 class="nf-program-detail-title">{{ prog.title }}</h3>
+              <p class="nf-program-detail-desc">{{ prog.description }}</p>
+
+              {% if prog.detailed_content %}
+              <div class="nf-program-detail-text">
+                {{ prog.detailed_content|linebreaks }}
+              </div>
+              {% endif %}
+
+              {% if prog.key_features %}
+              <div class="nf-program-highlights-box">
+                <h4 class="nf-box-subtitle"><i class="bi bi-stars text-warning me-2"></i>Key Highlights & Outcomes</h4>
+                <div class="nf-box-content">{{ prog.key_features|linebreaks }}</div>
+              </div>
+              {% endif %}
+
+              <div class="nf-program-detail-footer">
+                {% if prog.beneficiaries_reached %}
+                <div class="nf-program-reach">
+                  <i class="bi bi-people-fill me-1 text-primary"></i>
+                  <strong>Impact Reach:</strong> {{ prog.beneficiaries_reached }}
+                </div>
+                {% endif %}
+                <div class="nf-program-actions">
+                  <a href="{% url 'home:volunteer' %}" class="btn-primary-warm btn-sm">Volunteer Here</a>
+                  <a href="{% url 'home:partner' %}" class="btn-outline-warm btn-sm">Sponsor Cohort</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Programs -->
+        <div class="nf-card nf-program-detail-card reveal">
+          <div class="nf-program-detail-grid">
+            <div class="nf-program-detail-media">
+              <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&auto=format&fit=crop&q=80" alt="Ignite Foundational Learning" class="nf-program-detail-img">
+              <div class="nf-program-detail-badge"><i class="bi bi-book-half me-1"></i> Primary Education</div>
+            </div>
+            <div class="nf-program-detail-body">
+              <h3 class="nf-program-detail-title">Ignite — Foundational Literacy & Numeracy</h3>
+              <p class="nf-program-detail-desc">
+                Weekend and after-school supplementary teaching delivered by trained youth volunteers in government schools to ensure all children attain grade-level competence in reading, basic math, and conversational English by Grade 5.
+              </p>
+              <div class="nf-program-highlights-box">
+                <h4 class="nf-box-subtitle"><i class="bi bi-stars text-warning me-2"></i>Curriculum & Methodology</h4>
+                <p>Activity-based learning (ABL), phonics modules, fun bilingual storybooks, and diagnostic quarterly skill assessments aligned with NIPUN Bharat standards.</p>
+              </div>
+              <div class="nf-program-detail-footer">
+                <div class="nf-program-reach">
+                  <i class="bi bi-people-fill me-1 text-primary"></i> <strong>Reach:</strong> 18,500+ Children across 90+ Schools
+                </div>
+                <div class="nf-program-actions">
+                  <a href="{% url 'home:volunteer' %}" class="btn-primary-warm btn-sm">Volunteer Here</a>
+                  <a href="{% url 'home:partner' %}" class="btn-outline-warm btn-sm">Sponsor Cohort</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nf-card nf-program-detail-card reveal">
+          <div class="nf-program-detail-grid">
+            <div class="nf-program-detail-media">
+              <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80" alt="STEM & Digital Discovery" class="nf-program-detail-img">
+              <div class="nf-program-detail-badge"><i class="bi bi-cpu-fill me-1"></i> Digital Readiness</div>
+            </div>
+            <div class="nf-program-detail-body">
+              <h3 class="nf-program-detail-title">Vigyan & TechLab — Hands-on STEM & Robotics</h3>
+              <p class="nf-program-detail-desc">
+                Demystifying science and technology through experiential experiments, robotics kits, block programming, and refurbished computer labs for middle school students from disadvantaged backgrounds.
+              </p>
+              <div class="nf-program-highlights-box">
+                <h4 class="nf-box-subtitle"><i class="bi bi-stars text-warning me-2"></i>Curriculum & Methodology</h4>
+                <p>Hands-on tinker kits, weekly coding modules, annual science melas, and regional innovation fairs encouraging analytical problem-solving.</p>
+              </div>
+              <div class="nf-program-detail-footer">
+                <div class="nf-program-reach">
+                  <i class="bi bi-people-fill me-1 text-primary"></i> <strong>Reach:</strong> 6,200+ Students across 35 Labs
+                </div>
+                <div class="nf-program-actions">
+                  <a href="{% url 'home:volunteer' %}" class="btn-primary-warm btn-sm">Volunteer Here</a>
+                  <a href="{% url 'home:partner' %}" class="btn-outline-warm btn-sm">Sponsor Cohort</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nf-card nf-program-detail-card reveal">
+          <div class="nf-program-detail-grid">
+            <div class="nf-program-detail-media">
+              <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80" alt="Disha Mentorship" class="nf-program-detail-img">
+              <div class="nf-program-detail-badge"><i class="bi bi-compass-fill me-1"></i> Mentorship & Careers</div>
+            </div>
+            <div class="nf-program-detail-body">
+              <h3 class="nf-program-detail-title">Disha — Youth Mentorship & Higher Education Scholarships</h3>
+              <p class="nf-program-detail-desc">
+                1-on-1 career guidance, soft-skills workshops, entrance exam preparation, and need-based financial scholarships for adolescent girls and youth transitioning from secondary school to university.
+              </p>
+              <div class="nf-program-highlights-box">
+                <h4 class="nf-box-subtitle"><i class="bi bi-stars text-warning me-2"></i>Curriculum & Methodology</h4>
+                <p>Corporate mentor pairings, financial literacy clinics, communication training, and 100% college enrolment guarantee tracking.</p>
+              </div>
+              <div class="nf-program-detail-footer">
+                <div class="nf-program-reach">
+                  <i class="bi bi-people-fill me-1 text-primary"></i> <strong>Reach:</strong> 2,400+ Youth Mentored · 450+ Scholars
+                </div>
+                <div class="nf-program-actions">
+                  <a href="{% url 'home:volunteer' %}" class="btn-primary-warm btn-sm">Volunteer Here</a>
+                  <a href="{% url 'home:partner' %}" class="btn-outline-warm btn-sm">Sponsor Cohort</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PEDAGOGY & IMPACT MODEL
+     ===================================================== -->
+<section class="nf-section" style="background: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+  <div class="nf-container">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-forest">The Nirmaan Approach</span>
+      <h2 class="nf-section-title">How Our Educational Model Delivers Long-Term Results</h2>
+      <p class="nf-section-subtitle">
+        We collaborate deeply with state education boards, local community elders, and dedicated corporate partners to ensure sustainable, systemic change.
+      </p>
+    </div>
+
+    <div class="nf-features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="nf-feature-box reveal">
+        <div class="nf-feature-icon" style="background: #FFF4E5; color: var(--color-primary);"><i class="bi bi-clipboard2-pulse-fill"></i></div>
+        <h3 class="nf-feature-title">Continuous Diagnostic Testing</h3>
+        <p class="nf-feature-text">We test every student at baseline, midline, and endline using standardized ASER-calibrated assessments to tailor tutoring.</p>
+      </div>
+
+      <div class="nf-feature-box reveal">
+        <div class="nf-feature-icon" style="background: #E8F5E9; color: var(--color-forest);"><i class="bi bi-person-video3"></i></div>
+        <h3 class="nf-feature-title">Certified Volunteer Training</h3>
+        <p class="nf-feature-text">Volunteers undergo a 14-day rigorous pedagogical induction covering classroom dynamics, child protection, and empathetic pedagogy.</p>
+      </div>
+
+      <div class="nf-feature-box reveal">
+        <div class="nf-feature-icon" style="background: #EBF3FF; color: #1E60D5;"><i class="bi bi-building-check"></i></div>
+        <h3 class="nf-feature-title">Government School Integration</h3>
+        <p class="nf-feature-text">Rather than running parallel systems, we work directly inside government schools, enhancing existing classrooms and teacher capacity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PROGRAM FAQS
+     ===================================================== -->
+{% if faqs %}
+<section class="nf-section">
+  <div class="nf-container nf-container-narrow">
+    <div class="nf-section-header">
+      <span class="nf-badge nf-badge-warm">Frequently Asked Questions</span>
+      <h2 class="nf-section-title">Everything You Need to Know About Our Programs</h2>
+    </div>
+
+    <div class="nf-faq-accordion">
+      {% for faq in faqs %}
+      <div class="nf-faq-item reveal">
+        <button class="nf-faq-question" aria-expanded="false">
+          <span>{{ faq.question }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="nf-faq-answer">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- =====================================================
+     CALL TO ACTION
+     ===================================================== -->
+<section class="nf-cta-banner">
+  <div class="nf-cta-inner">
+    <h2 class="nf-cta-title">Want to Bring a Program to Your Community or School?</h2>
+    <p class="nf-cta-desc">
+      Partner with us to transform learning outcomes in your city. Whether through CSR funding or school nominations, let's build the future together.
+    </p>
+    <div class="nf-cta-btns">
+      <a href="{% url 'home:partner' %}" class="btn-primary-warm">Partner With Us</a>
+      <a href="{% url 'home:contact' %}" class="btn-outline-warm" style="border-color: rgba(255,255,255,0.4); color: #fff;">Contact Our Team</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // FAQ accordion interaction
+  document.querySelectorAll('.nf-faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', !isExpanded);
+      const answer = button.nextElementSibling;
+      if (!isExpanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.style.maxHeight = '0';
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -30,12 +30,12 @@
 
       <!-- Nav Links -->
       <ul class="nf-nav-links" id="nav-links">
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#programs">Programs</a></li>
-        <li><a href="#impact">Impact</a></li>
-        <li><a href="#volunteer">Volunteer</a></li>
-        <li><a href="#partner">Partner With Us</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="{% url 'home:about' %}">About Us</a></li>
+        <li><a href="{% url 'home:programs' %}">Programs</a></li>
+        <li><a href="{% url 'home:impact' %}">Impact</a></li>
+        <li><a href="{% url 'home:volunteer' %}">Volunteer</a></li>
+        <li><a href="{% url 'home:partner' %}">Partner With Us</a></li>
+        <li><a href="{% url 'home:contact' %}">Contact</a></li>
       </ul>
 
       <!-- Actions -->
@@ -587,28 +587,28 @@
           <div class="nf-footer-col">
             <div class="nf-footer-col-title">About</div>
             <ul>
-              <li><a href="#about">Our Story</a></li>
-              <li><a href="#about">Mission & Vision</a></li>
-              <li><a href="#about">Leadership</a></li>
-              <li><a href="#about">Annual Reports</a></li>
+              <li><a href="{% url 'home:about' %}">Our Story & Mission</a></li>
+              <li><a href="{% url 'home:about' %}#timeline">Milestone Timeline</a></li>
+              <li><a href="{% url 'home:about' %}#team">Leadership & Team</a></li>
+              <li><a href="{% url 'home:about' %}#events">Events & Activities</a></li>
             </ul>
           </div>
           <div class="nf-footer-col">
             <div class="nf-footer-col-title">Programs</div>
             <ul>
-              <li><a href="#programs">Strong Foundations</a></li>
-              <li><a href="#programs">Holistic Growth</a></li>
-              <li><a href="#programs">Future Changemakers</a></li>
-              <li><a href="#programs">Digital Literacy</a></li>
+              <li><a href="{% url 'home:programs' %}">All Programs</a></li>
+              <li><a href="{% url 'home:programs' %}#in-schools">In-School Teaching</a></li>
+              <li><a href="{% url 'home:programs' %}#holistic">Holistic Development</a></li>
+              <li><a href="{% url 'home:programs' %}#digital">Digital Literacy</a></li>
             </ul>
           </div>
           <div class="nf-footer-col">
             <div class="nf-footer-col-title">Get Involved</div>
             <ul>
-              <li><a href="{% url 'accounts:register' %}">Volunteer</a></li>
-              <li><a href="#donate">Donate</a></li>
-              <li><a href="#partner">Partner / CSR</a></li>
-              <li><a href="#contact">Internships</a></li>
+              <li><a href="{% url 'home:volunteer' %}">Volunteer Network</a></li>
+              <li><a href="{% url 'home:partner' %}">CSR Partnerships</a></li>
+              <li><a href="{% url 'home:impact' %}">Impact & Reports</a></li>
+              <li><a href="{% url 'accounts:register' %}">Create Account</a></li>
             </ul>
           </div>
           <div class="nf-footer-col">
@@ -616,7 +616,7 @@
             <ul>
               <li><a href="mailto:hello@nirmaanfoundation.org"><i class="bi bi-envelope me-1"></i> hello@nirmaanfoundation.org</a></li>
               <li><a href="tel:+918000000000"><i class="bi bi-telephone me-1"></i> +91 80 0000 0000</a></li>
-              <li><a href="#contact"><i class="bi bi-geo-alt me-1"></i> Bengaluru, Karnataka</a></li>
+              <li><a href="{% url 'home:contact' %}"><i class="bi bi-geo-alt me-1"></i> Chapter Offices</a></li>
             </ul>
           </div>
         </div>

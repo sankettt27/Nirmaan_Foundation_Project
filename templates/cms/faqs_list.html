@@ -1,0 +1,82 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}FAQs — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Frequently Asked Questions{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='faqs' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">FAQs (Categorized)</h2>
+      <p class="cms-page-desc">Manage questions and answers displayed on Programs, Volunteer, Partner, and Contact pages</p>
+    </div>
+    <a href="{% url 'cms:faq_create' %}" class="cms-btn cms-btn-primary" id="btn-add-faq">
+      <i class="bi bi-plus-lg"></i> Add Question
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if faqs %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Category</th>
+          <th>Question</th>
+          <th>Answer Preview</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in faqs %}
+        <tr>
+          <td><span class="cms-order-badge">{{ f.order }}</span></td>
+          <td><span class="cms-tag">{{ f.get_category_display }}</span></td>
+          <td><div class="cms-item-title">{{ f.question }}</div></td>
+          <td><div class="cms-item-subtitle">{{ f.answer|truncatewords:12 }}</div></td>
+          <td>
+            {% if f.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:faq_edit' f.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:faq_delete' f.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-question-circle"></i></div>
+      <h3>No FAQs Added Yet</h3>
+      <p>Add answers to common queries for volunteers, corporate donors, and program beneficiaries.</p>
+      <a href="{% url 'cms:faq_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First FAQ
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

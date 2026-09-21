@@ -1,0 +1,96 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Events & Activities — CMS Admin{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Events & Photo Gallery{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='events' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Events & Field Activities</h2>
+      <p class="cms-page-desc">Manage events, melas, workshops, and photo galleries displayed on the About page</p>
+    </div>
+    <a href="{% url 'cms:event_create' %}" class="cms-btn cms-btn-primary" id="btn-add-event">
+      <i class="bi bi-plus-lg"></i> Add New Event
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if events %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Cover Photo</th>
+          <th>Event Title</th>
+          <th>Date & Tag</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in events %}
+        <tr>
+          <td><span class="cms-order-badge">{{ event.order }}</span></td>
+          <td>
+            {% if event.image %}
+              <img src="{{ event.image.url }}" alt="{{ event.title }}" class="cms-thumb">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-calendar-event"></i></div>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-item-title">{{ event.title }}</div>
+            <div class="cms-item-subtitle">{{ event.description|truncatewords:10 }}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600; font-size: 0.9rem;">{{ event.event_date|default:"Ongoing" }}</div>
+            {% if event.tag %}<span class="cms-tag">{{ event.tag }}</span>{% endif %}
+          </td>
+          <td>{{ event.location|default:"Pan-India" }}</td>
+          <td>
+            {% if event.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:event_edit' event.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:event_delete' event.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-calendar-event"></i></div>
+      <h3>No Events Added Yet</h3>
+      <p>Upload photos and describe past or upcoming volunteer events, science melas, and classroom drives.</p>
+      <a href="{% url 'cms:event_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Event
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}
