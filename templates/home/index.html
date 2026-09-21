@@ -32,6 +32,7 @@
       <ul class="nf-nav-links" id="nav-links">
         <li><a href="#about">About Us</a></li>
         <li><a href="#programs">Programs</a></li>
+        <li><a href="#impact">Impact</a></li>
         <li><a href="#volunteer">Volunteer</a></li>
         <li><a href="#partner">Partner With Us</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -70,29 +71,39 @@
       <div class="nf-hero-bg" {% if banner.image %}style="background-image: url('{{ banner.image.url }}');"{% endif %}></div>
       <div class="nf-hero-overlay"></div>
       <div class="nf-hero-content">
-        <div class="nf-hero-tag">
-          <span></span>
-          India's Volunteer Movement
-        </div>
-        <h1 class="nf-hero-title">{{ banner.title|linebreaksbr }}</h1>
-        {% if banner.subtitle %}
-        <p class="nf-hero-subtitle">{{ banner.subtitle }}</p>
-        {% endif %}
-        <div class="nf-hero-actions">
-          {% if banner.button_text %}
-          <a href="{{ banner.button_link|default:'#volunteer' }}" class="btn-hero-primary" id="hero-banner-btn-{{ forloop.counter }}">
-            <i class="bi bi-heart-fill"></i> {{ banner.button_text }}
-          </a>
+        <div class="nf-hero-content-inner">
+          <div class="nf-hero-tag">
+            <span></span>
+            India's Volunteer Movement
+          </div>
+          <h1 class="nf-hero-title">{{ banner.title|linebreaksbr }}</h1>
+          {% if banner.subtitle %}
+          <p class="nf-hero-subtitle">{{ banner.subtitle }}</p>
           {% endif %}
-          <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn-{{ forloop.counter }}">
-            <i class="bi bi-play-circle"></i> Our Programs
-          </a>
+          <div class="nf-hero-actions">
+            {% if banner.button_text %}
+            <a href="{{ banner.button_link|default:'#volunteer' }}" class="btn-hero-primary" id="hero-banner-btn-{{ forloop.counter }}">
+              <i class="bi bi-heart-fill"></i> {{ banner.button_text }}
+            </a>
+            {% endif %}
+            <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn-{{ forloop.counter }}">
+              <i class="bi bi-play-circle"></i> Our Programs
+            </a>
+          </div>
         </div>
       </div>
     </div>
     {% endfor %}
 
     {% if banners|length > 1 %}
+    <!-- Slider Navigation Arrows -->
+    <button class="nf-slider-arrow nf-slider-prev" id="slider-prev" aria-label="Previous slide">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button class="nf-slider-arrow nf-slider-next" id="slider-next" aria-label="Next slide">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+
     <div class="nf-slider-dots" id="slider-dots">
       {% for banner in banners %}
       <button class="nf-slider-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}" aria-label="Banner {{ forloop.counter }}"></button>
@@ -106,25 +117,27 @@
     <div class="nf-hero-bg"></div>
     <div class="nf-hero-overlay"></div>
     <div class="nf-hero-content">
-      <div class="nf-hero-tag">
-        <span></span>
-        India's Volunteer Movement
-      </div>
-      <h1 class="nf-hero-title">
-        One Mission.<br>
-        <em>Many Ways to</em><br>
-        Create Change.
-      </h1>
-      <p class="nf-hero-subtitle">
-        Whether you're a passionate volunteer, a generous donor, or a committed corporate partner — Nirmaan Foundation is your platform to transform education and communities across India.
-      </p>
-      <div class="nf-hero-actions">
-        <a href="#volunteer" class="btn-hero-primary" id="hero-volunteer-btn">
-          <i class="bi bi-heart-fill"></i> Become a Volunteer
-        </a>
-        <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn">
-          <i class="bi bi-play-circle"></i> Our Programs
-        </a>
+      <div class="nf-hero-content-inner">
+        <div class="nf-hero-tag">
+          <span></span>
+          India's Volunteer Movement
+        </div>
+        <h1 class="nf-hero-title">
+          One Mission.<br>
+          <em>Many Ways to</em><br>
+          Create Change.
+        </h1>
+        <p class="nf-hero-subtitle">
+          Whether you're a passionate volunteer, a generous donor, or a committed corporate partner — Nirmaan Foundation is your platform to transform education and communities across India.
+        </p>
+        <div class="nf-hero-actions">
+          <a href="#volunteer" class="btn-hero-primary" id="hero-volunteer-btn">
+            <i class="bi bi-heart-fill"></i> Become a Volunteer
+          </a>
+          <a href="#programs" class="btn-hero-secondary" id="hero-programs-btn">
+            <i class="bi bi-play-circle"></i> Our Programs
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -137,7 +150,9 @@
 
     <!-- Card 1: Young Volunteers -->
     <div class="nf-aud-card reveal" id="card-volunteers">
-      <img src="{% static 'images/volunteer_card.jpg' %}" alt="Young volunteer teaching children" class="nf-aud-card-img">
+      <div class="nf-aud-card-img-wrap">
+        <img src="{% static 'images/volunteer_card.jpg' %}" alt="Young volunteer teaching children" class="nf-aud-card-img">
+      </div>
       <div class="nf-aud-card-body">
         <span class="nf-aud-badge badge-orange">
           <i class="bi bi-people-fill"></i> Volunteers
@@ -157,7 +172,9 @@
 
     <!-- Card 2: Individual Donors -->
     <div class="nf-aud-card reveal reveal-delay-1" id="card-donors">
-      <img src="{% static 'images/donor_card.jpg' %}" alt="Donors supporting children's education" class="nf-aud-card-img">
+      <div class="nf-aud-card-img-wrap">
+        <img src="{% static 'images/donor_card.jpg' %}" alt="Donors supporting children's education" class="nf-aud-card-img">
+      </div>
       <div class="nf-aud-card-body">
         <span class="nf-aud-badge badge-green">
           <i class="bi bi-gift-fill"></i> Donors
@@ -177,7 +194,9 @@
 
     <!-- Card 3: Corporate Partners -->
     <div class="nf-aud-card reveal reveal-delay-2" id="card-corporate">
-      <img src="{% static 'images/corporate_card.jpg' %}" alt="Corporate CSR partnership" class="nf-aud-card-img">
+      <div class="nf-aud-card-img-wrap">
+        <img src="{% static 'images/corporate_card.jpg' %}" alt="Corporate CSR partnership" class="nf-aud-card-img">
+      </div>
       <div class="nf-aud-card-body">
         <span class="nf-aud-badge badge-sage">
           <i class="bi bi-building"></i> Partners
@@ -198,9 +217,79 @@
   </div>
 
   <!-- =====================================================
+       VISION & MISSION SECTION (Dynamic via CMS)
+       ===================================================== -->
+  <section class="nf-vision-mission nf-section" id="about">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-compass-fill"></i>
+          Our Foundation
+        </div>
+        <h2 class="nf-section-title">
+          Guided by Purpose, Driven by <em>Lasting Impact</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          At Nirmaan Foundation, we believe every child deserves an equal opportunity to learn, grow, and thrive. Our vision and mission guide our volunteers, programs, and community partnerships across India.
+        </p>
+      </div>
+
+      <div class="nf-vm-grid">
+        <!-- Vision Card -->
+        <div class="nf-vm-card nf-vm-vision reveal">
+          <div class="nf-vm-icon-wrap">
+            <i class="bi bi-eye-fill"></i>
+          </div>
+          <div class="nf-vm-badge">Our Vision</div>
+          {% if has_vision_mission and vision_items %}
+            {% for item in vision_items %}
+              <h3 class="nf-vm-title">{{ item.title }}</h3>
+              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
+            {% endfor %}
+          {% else %}
+            <h3 class="nf-vm-title">Education for Every Child</h3>
+            <p class="nf-vm-text">
+              A future where every child in India has access to quality education, holistic development, and the opportunity to realise their full potential — regardless of socioeconomic background.
+            </p>
+          {% endif %}
+          <div class="nf-vm-pillars">
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Equal Opportunity</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Holistic Learning</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Dignity & Inclusion</span>
+          </div>
+        </div>
+
+        <!-- Mission Card -->
+        <div class="nf-vm-card nf-vm-mission reveal reveal-delay-1">
+          <div class="nf-vm-icon-wrap">
+            <i class="bi bi-bullseye"></i>
+          </div>
+          <div class="nf-vm-badge">Our Mission</div>
+          {% if has_vision_mission and mission_items %}
+            {% for item in mission_items %}
+              <h3 class="nf-vm-title">{{ item.title }}</h3>
+              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
+            {% endfor %}
+          {% else %}
+            <h3 class="nf-vm-title">Mobilising Communities for Change</h3>
+            <p class="nf-vm-text">
+              To mobilise young volunteers, engage committed donors, and partner with institutions to deliver high-quality educational support, life skills, and mentorship to children in underserved communities across India.
+            </p>
+          {% endif %}
+          <div class="nf-vm-pillars">
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Youth Leadership</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Transparent Giving</span>
+            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Scalable Impact</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
        THE CHALLENGE SECTION
        ===================================================== -->
-  <section class="nf-challenge nf-section" id="about">
+  <section class="nf-challenge nf-section" id="challenge">
     <div class="nf-container">
       <div class="nf-challenge-grid">
 
@@ -621,30 +710,55 @@
     (function() {
       const slides = document.querySelectorAll('.nf-hero-slide');
       const dots = document.querySelectorAll('.nf-slider-dot');
+      const prevBtn = document.getElementById('slider-prev');
+      const nextBtn = document.getElementById('slider-next');
+      const hero = document.getElementById('hero');
+
       if (slides.length <= 1) return;
 
       let current = 0;
-      let interval;
+      let interval = null;
 
       function goTo(index) {
         slides[current].classList.remove('nf-slide-active');
-        dots[current] && dots[current].classList.remove('active');
-        current = index % slides.length;
+        if (dots[current]) dots[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
         slides[current].classList.add('nf-slide-active');
-        dots[current] && dots[current].classList.add('active');
+        if (dots[current]) dots[current].classList.add('active');
       }
 
       function startAuto() {
-        interval = setInterval(() => goTo(current + 1), 5000);
+        clearInterval(interval);
+        interval = setInterval(() => goTo(current + 1), 6000);
       }
 
       dots.forEach(dot => {
         dot.addEventListener('click', () => {
-          clearInterval(interval);
           goTo(parseInt(dot.dataset.slide));
           startAuto();
         });
       });
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          goTo(current - 1);
+          startAuto();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          goTo(current + 1);
+          startAuto();
+        });
+      }
+
+      if (hero) {
+        hero.addEventListener('mouseenter', () => clearInterval(interval));
+        hero.addEventListener('mouseleave', () => startAuto());
+      }
 
       startAuto();
     })();

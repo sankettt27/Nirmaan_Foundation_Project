@@ -35,6 +35,7 @@ def index(request):
         'initiatives': initiatives,
         # Flags for template to decide: use CMS data or static fallback
         'has_banners': banners.exists(),
+        'has_vision_mission': vision_items.exists() or mission_items.exists(),
         'has_statistics': statistics.exists(),
         'has_initiatives': initiatives.exists(),
     }
