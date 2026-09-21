@@ -48,3 +48,7 @@ build/
 .coverage
 htmlcov/
 .pytest_cache/
+
+# ── Assignment 2 README (Local Only) ──────────────────────────
+README_ASSIGNMENT_2.md
+docs/ass2/README.md
