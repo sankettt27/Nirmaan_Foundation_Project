@@ -1,0 +1,280 @@
+{% extends 'home/base_page.html' %}
+{% load static %}
+
+{% block title %}Media Room — Nirmaan Foundation{% endblock %}
+
+{% block extra_css %}
+<style>
+  .media-hero {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #fff;
+    padding: 100px 20px 60px;
+    text-align: center;
+  }
+  .media-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+  .media-hero p {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .media-section {
+    padding: 80px 20px;
+  }
+  .media-section-bg {
+    background: #f8fafc;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 50px;
+  }
+
+  /* Press Releases */
+  .press-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .press-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+  }
+  .press-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  .press-date {
+    font-size: 0.85rem;
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .press-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+  }
+  .press-desc {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Media Coverage */
+  .coverage-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .coverage-item {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+  .coverage-item:hover {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+  }
+  .coverage-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    text-decoration: none;
+  }
+  .coverage-icon {
+    color: #3b82f6;
+    font-size: 1.5rem;
+  }
+
+  /* Image Gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+  .gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #fff;
+    padding: 20px 15px 15px;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+  }
+
+  /* Videos */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .video-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .video-desc {
+    padding: 15px;
+    font-weight: 500;
+    color: #334155;
+    text-align: center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+  <!-- Hero Section -->
+  <section class="media-hero">
+    <h1>Media Room</h1>
+    <p>Discover our latest press releases, news coverage, and multimedia resources highlighting our impact journey.</p>
+  </section>
+
+  <!-- Press Releases -->
+  <section class="media-section">
+    <h2 class="section-title">Press Releases</h2>
+    {% if press_releases %}
+      <div class="press-grid">
+        {% for pr in press_releases %}
+        <div class="press-card">
+          <span class="press-date">{{ pr.release_date|date:"F d, Y" }}</span>
+          <h3 class="press-title">{{ pr.title }}</h3>
+          <p class="press-desc">{{ pr.description|linebreaksbr }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center;color:#64748b;">No press releases available at the moment.</p>
+    {% endif %}
+  </section>
+
+  <!-- Media Coverage -->
+  <section class="media-section media-section-bg">
+    <h2 class="section-title">In the News</h2>
+    {% if media_coverage %}
+      <div class="coverage-list">
+        {% for coverage in media_coverage %}
+        <a href="{{ coverage.url }}" target="_blank" class="coverage-item text-decoration-none">
+          <span class="coverage-title">{{ coverage.title }}</span>
+          <i class="bi bi-box-arrow-up-right coverage-icon"></i>
+        </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center;color:#64748b;">No media coverage available at the moment.</p>
+    {% endif %}
+  </section>
+
+  <!-- Image Gallery -->
+  <section class="media-section">
+    <h2 class="section-title">Image Gallery</h2>
+    {% if gallery_images %}
+      <div class="gallery-grid">
+        {% for image in gallery_images %}
+        <div class="gallery-item">
+          <img src="{{ image.image_path.url }}" alt="{{ image.description|default:'Gallery Image' }}">
+          {% if image.description %}
+            <div class="gallery-overlay">
+              <p class="mb-0 fw-bold">{{ image.description }}</p>
+            </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center;color:#64748b;">No gallery images available at the moment.</p>
+    {% endif %}
+  </section>
+
+  <!-- Videos -->
+  <section class="media-section media-section-bg">
+    <h2 class="section-title">Featured Videos</h2>
+    {% if videos %}
+      <div class="video-grid">
+        {% for video in videos %}
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- Using simple iframe embed. Note: Assumes url is an embeddable format. If it's a standard watch URL, ideally it should be converted, but we'll trust the user to provide an embed link. -->
+            <iframe src="{{ video.video_url }}" frameborder="0" allowfullscreen></iframe>
+          </div>
+          {% if video.description %}
+            <div class="video-desc">{{ video.description }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center;color:#64748b;">No videos available at the moment.</p>
+    {% endif %}
+  </section>
+
+  <!-- Contact For Media -->
+  <section class="media-section">
+    <div style="max-width:800px; margin:0 auto; text-align:center; padding: 40px; background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 10px 25px -5px rgba(0,0,0,0.05);">
+      <h2 style="font-size:2rem; font-weight:700; color:#1e293b; margin-bottom:16px;">Media Inquiries</h2>
+      <p style="color:#64748b; font-size:1.1rem; margin-bottom:30px;">For press inquiries, interviews, or additional media resources, please contact our PR team.</p>
+      <a href="{% url 'home:contact' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm" style="background:#3b82f6; border-color:#3b82f6;">Contact Us</a>
+    </div>
+  </section>
+
+{% endblock %}

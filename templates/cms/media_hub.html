@@ -1,0 +1,177 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Media Hub — Admin Panel{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Media Hub{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='media' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+<style>
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .hub-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  }
+  .hub-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .hub-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .icon-press { background: #e0f2fe; color: #0284c7; }
+  .icon-coverage { background: #fef3c7; color: #b45309; }
+  .icon-gallery { background: #dcfce7; color: #15803d; }
+  .icon-video { background: #fee2e2; color: #dc2626; }
+  .hub-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  .hub-card-desc {
+    color: #64748b;
+    font-size: 0.925rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  .hub-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 16px;
+  }
+  .hub-stat {
+    font-size: 0.85rem;
+    color: #475569;
+    font-weight: 500;
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Media Content Management (Assignment 5)</h2>
+      <p class="cms-page-desc">Complete administrative control over all 4 core sections of the Media page</p>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <a href="{% url 'media' %}" class="cms-btn cms-btn-outline" target="_blank">
+        <i class="bi bi-box-arrow-up-right"></i> View Live Media Page
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-grid">
+    
+    <!-- 1. Press Releases -->
+    <div class="hub-card">
+      <div class="hub-card-header">
+        <div class="hub-card-icon icon-press">
+          <i class="bi bi-newspaper"></i>
+        </div>
+        <div>
+          <h3 class="hub-card-title">Press Releases</h3>
+        </div>
+      </div>
+      <p class="hub-card-desc">
+        Manage official press statements, announcements, and key organizational updates.
+      </p>
+      <div class="hub-card-footer">
+        <span class="hub-stat"><i class="bi bi-hash"></i> {{ press_count }} Releases</span>
+        <a href="{% url 'cms:press_list' %}" class="cms-btn cms-btn-primary">Manage <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- 2. Media Coverage -->
+    <div class="hub-card">
+      <div class="hub-card-header">
+        <div class="hub-card-icon icon-coverage">
+          <i class="bi bi-link-45deg"></i>
+        </div>
+        <div>
+          <h3 class="hub-card-title">Media Coverage</h3>
+        </div>
+      </div>
+      <p class="hub-card-desc">
+        Curate external news articles, interviews, and media mentions linking out to publishers.
+      </p>
+      <div class="hub-card-footer">
+        <span class="hub-stat"><i class="bi bi-hash"></i> {{ coverage_count }} Links</span>
+        <a href="{% url 'cms:coverage_list' %}" class="cms-btn cms-btn-primary">Manage <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- 3. Image Gallery -->
+    <div class="hub-card">
+      <div class="hub-card-header">
+        <div class="hub-card-icon icon-gallery">
+          <i class="bi bi-images"></i>
+        </div>
+        <div>
+          <h3 class="hub-card-title">Image Gallery</h3>
+        </div>
+      </div>
+      <p class="hub-card-desc">
+        Upload high-quality images showcasing events, impacts, and on-ground activities.
+      </p>
+      <div class="hub-card-footer">
+        <span class="hub-stat"><i class="bi bi-hash"></i> {{ gallery_count }} Images</span>
+        <a href="{% url 'cms:gallery_list' %}" class="cms-btn cms-btn-primary">Manage <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- 4. Videos -->
+    <div class="hub-card">
+      <div class="hub-card-header">
+        <div class="hub-card-icon icon-video">
+          <i class="bi bi-play-btn"></i>
+        </div>
+        <div>
+          <h3 class="hub-card-title">Videos</h3>
+        </div>
+      </div>
+      <p class="hub-card-desc">
+        Embed promotional videos, impact documentaries, and event highlights via YouTube links.
+      </p>
+      <div class="hub-card-footer">
+        <span class="hub-stat"><i class="bi bi-hash"></i> {{ video_count }} Videos</span>
+        <a href="{% url 'cms:video_list' %}" class="cms-btn cms-btn-primary">Manage <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

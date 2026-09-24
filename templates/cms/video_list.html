@@ -1,0 +1,77 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Videos — CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Media Management{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='media' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Videos</h2>
+      <p class="cms-page-desc">Embed promotional videos, documentaries, and event highlights</p>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <a href="{% url 'cms:media_hub' %}" class="cms-btn" style="background:#fff;border:1px solid #cbd5e1;color:#334155;">
+        <i class="bi bi-arrow-left"></i> Media Hub
+      </a>
+      <a href="{% url 'cms:video_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add Video
+      </a>
+    </div>
+  </div>
+
+  <div class="cms-table-card">
+    {% if items %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Description</th>
+          <th>Added On</th>
+          <th style="width:120px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td><a href="{{ item.video_url }}" target="_blank" style="color:#dc2626; text-decoration:none;"><i class="bi bi-play-btn me-1"></i> Watch Video</a></td>
+          <td><span style="color:#64748b;">{{ item.description|default:"No description" }}</span></td>
+          <td>{{ item.uploaded_at|date:"M d, Y" }}</td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:video_edit' item.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:video_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-play-btn"></i></div>
+      <h3 class="cms-empty-title">No Videos Found</h3>
+      <p class="cms-empty-desc">Get started by embedding your first YouTube video link.</p>
+      <a href="{% url 'cms:video_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add Video
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

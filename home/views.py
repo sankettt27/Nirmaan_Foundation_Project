@@ -244,3 +244,20 @@ def projects_view(request):
         'current_status': status_filter or 'All',
     }
     return render(request, 'home/projects.html', context)
+
+
+def media_view(request):
+    """
+    Media page — Press releases, coverage, gallery, and videos.
+    """
+    from cms.models import PressRelease, MediaCoverage, ImageGallery, Video
+
+    context = {
+        'page_title': 'Media Room — News and Updates',
+        'active_nav': 'media',
+        'press_releases': PressRelease.objects.all()[:5],
+        'media_coverage': MediaCoverage.objects.all()[:10],
+        'gallery_images': ImageGallery.objects.all()[:12],
+        'videos': Video.objects.all()[:6],
+    }
+    return render(request, 'home/media.html', context)

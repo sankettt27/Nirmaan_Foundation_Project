@@ -726,3 +726,81 @@ class ProjectImage(models.Model):
     def __str__(self):
         return f"Image for {self.project.title}"
 
+
+# ============================================================
+# MEDIA PAGE MODELS (ASSIGNMENT 5)
+# ============================================================
+
+class PressRelease(models.Model):
+    """
+    Press releases for the media page.
+    """
+    title = models.CharField(max_length=255, verbose_name='Title')
+    description = models.TextField(verbose_name='Description')
+    release_date = models.DateField(verbose_name='Release Date')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'press_releases'
+        ordering = ['-release_date', '-created_at']
+        verbose_name = 'Press Release'
+        verbose_name_plural = 'Press Releases'
+
+    def __str__(self):
+        return self.title
+
+
+class MediaCoverage(models.Model):
+    """
+    External media coverage articles/links.
+    """
+    title = models.CharField(max_length=255, verbose_name='Title')
+    url = models.URLField(max_length=2083, verbose_name='URL')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'media_coverage'
+        ordering = ['-created_at']
+        verbose_name = 'Media Coverage'
+        verbose_name_plural = 'Media Coverage'
+
+    def __str__(self):
+        return self.title
+
+
+class ImageGallery(models.Model):
+    """
+    Image gallery for the media page.
+    """
+    image_path = models.ImageField(upload_to='cms/media_gallery/', max_length=2083, verbose_name='Image Path')
+    description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Description')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'image_gallery'
+        ordering = ['-uploaded_at']
+        verbose_name = 'Gallery Image'
+        verbose_name_plural = 'Gallery Images'
+
+    def __str__(self):
+        return self.description or f"Gallery Image {self.id}"
+
+
+class Video(models.Model):
+    """
+    Videos for the media page.
+    """
+    video_url = models.URLField(max_length=2083, verbose_name='Video URL')
+    description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Description')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'videos'
+        ordering = ['-uploaded_at']
+        verbose_name = 'Video'
+        verbose_name_plural = 'Videos'
+
+    def __str__(self):
+        return self.description or self.video_url

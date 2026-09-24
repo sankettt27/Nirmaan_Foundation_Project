@@ -12,7 +12,8 @@ from .models import (
     AboutMilestone, TeamMember, AboutEvent,
     ImpactStory, AnnualReport, VolunteerOpportunity,
     PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
-    Project, ProjectImage
+    Project, ProjectImage,
+    PressRelease, MediaCoverage, ImageGallery, Video
 )
 
 
@@ -459,3 +460,52 @@ class ProjectImageForm(forms.ModelForm):
         widgets = {
             'image_url': forms.ClearableFileInput(attrs=_file_attrs),
         }
+
+
+# ============================================================
+# MEDIA PAGE FORMS (ASSIGNMENT 5)
+# ============================================================
+
+class PressReleaseForm(forms.ModelForm):
+    class Meta:
+        model = PressRelease
+        fields = ['title', 'description', 'release_date']
+        widgets = {
+            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Nirmaan Foundation Wins Impact Award'}),
+            'description': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Press release content...'}),
+            'release_date': forms.DateInput(attrs={**_text_attrs, 'type': 'date'}),
+        }
+
+
+class MediaCoverageForm(forms.ModelForm):
+    class Meta:
+        model = MediaCoverage
+        fields = ['title', 'url']
+        widgets = {
+            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Feature in The Hindu'}),
+            'url': forms.URLInput(attrs={**_text_attrs, 'placeholder': 'https://...'}),
+        }
+
+
+class ImageGalleryForm(forms.ModelForm):
+    class Meta:
+        model = ImageGallery
+        fields = ['image_path', 'description']
+        labels = {
+            'image_path': 'Gallery Image',
+        }
+        widgets = {
+            'image_path': forms.ClearableFileInput(attrs=_file_attrs),
+            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description...'}),
+        }
+
+
+class VideoForm(forms.ModelForm):
+    class Meta:
+        model = Video
+        fields = ['video_url', 'description']
+        widgets = {
+            'video_url': forms.URLInput(attrs={**_text_attrs, 'placeholder': 'https://youtube.com/...'}),
+            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description...'}),
+        }
+

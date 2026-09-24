@@ -105,6 +105,13 @@ Include with: {% include 'cms/_sidebar.html' %}
   Contact Inquiries
 </a>
 
+<div class="sidebar-nav-label">Media & News</div>
+
+<a href="{% url 'cms:media_hub' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-media-hub">
+  <i class="bi bi-camera-video-fill"></i>
+  Media CMS Hub
+</a>
+
 <div class="sidebar-nav-label">Live Site</div>
 
 <a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-view-site">

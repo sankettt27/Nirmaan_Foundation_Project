@@ -28,7 +28,8 @@ from .forms import (
     ImpactStoryForm, AnnualReportForm, VolunteerOpportunityForm,
     PartnerOrganizationForm, OfficeLocationForm, FAQForm,
     OurStoryForm, CoreValueForm, ProgramForm,
-    ProjectForm, ProjectImageForm
+    ProjectForm, ProjectImageForm,
+    PressReleaseForm, MediaCoverageForm, ImageGalleryForm, VideoForm
 )
 from .models import (
     Banner, Initiative, Statistic, VisionMission,
@@ -36,8 +37,10 @@ from .models import (
     ImpactStory, AnnualReport, VolunteerOpportunity,
     PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
     OurStory, CoreValue, Program,
-    Project, ProjectImage
+    Project, ProjectImage,
+    PressRelease, MediaCoverage, ImageGallery, Video
 )
+
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1284,3 +1287,195 @@ def project_image_delete_view(request, project_pk, image_pk):
         messages.success(request, 'Image deleted successfully.')
     
     return redirect('cms:project_images', pk=project.pk)
+
+
+# ============================================================
+# MEDIA PAGE CMS (ASSIGNMENT 5)
+# ============================================================
+
+@role_required('admin')
+def media_hub_view(request):
+    """Media CMS Hub."""
+    context = {
+        'press_count': PressRelease.objects.count(),
+        'coverage_count': MediaCoverage.objects.count(),
+        'gallery_count': ImageGallery.objects.count(),
+        'video_count': Video.objects.count(),
+    }
+    return render(request, 'cms/media_hub.html', context)
+
+# --- Press Release CRUD ---
+@role_required('admin')
+def press_list_view(request):
+    items = PressRelease.objects.all()
+    return render(request, 'cms/press_list.html', {'items': items, 'active_cms': 'media'})
+
+@role_required('admin')
+def press_create_view(request):
+    if request.method == 'POST':
+        form = PressReleaseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Press Release created successfully.')
+            return redirect('cms:press_list')
+    else:
+        form = PressReleaseForm()
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Add Press Release', 'active_cms': 'media', 'back_url': reverse('cms:press_list')
+    })
+
+@role_required('admin')
+def press_edit_view(request, pk):
+    item = get_object_or_404(PressRelease, pk=pk)
+    if request.method == 'POST':
+        form = PressReleaseForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Press Release updated successfully.')
+            return redirect('cms:press_list')
+    else:
+        form = PressReleaseForm(instance=item)
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Edit Press Release', 'active_cms': 'media', 'back_url': reverse('cms:press_list')
+    })
+
+@role_required('admin')
+def press_delete_view(request, pk):
+    item = get_object_or_404(PressRelease, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, 'Press Release deleted successfully.')
+        return redirect('cms:press_list')
+    return render(request, 'cms/confirm_delete.html', {'object': item.title, 'object_type': 'Press Release', 'cancel_url': 'cms:press_list'})
+
+# --- Media Coverage CRUD ---
+@role_required('admin')
+def coverage_list_view(request):
+    items = MediaCoverage.objects.all()
+    return render(request, 'cms/coverage_list.html', {'items': items, 'active_cms': 'media'})
+
+@role_required('admin')
+def coverage_create_view(request):
+    if request.method == 'POST':
+        form = MediaCoverageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Media Coverage created successfully.')
+            return redirect('cms:coverage_list')
+    else:
+        form = MediaCoverageForm()
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Add Media Coverage', 'active_cms': 'media', 'back_url': reverse('cms:coverage_list')
+    })
+
+@role_required('admin')
+def coverage_edit_view(request, pk):
+    item = get_object_or_404(MediaCoverage, pk=pk)
+    if request.method == 'POST':
+        form = MediaCoverageForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Media Coverage updated successfully.')
+            return redirect('cms:coverage_list')
+    else:
+        form = MediaCoverageForm(instance=item)
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Edit Media Coverage', 'active_cms': 'media', 'back_url': reverse('cms:coverage_list')
+    })
+
+@role_required('admin')
+def coverage_delete_view(request, pk):
+    item = get_object_or_404(MediaCoverage, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, 'Media Coverage deleted successfully.')
+        return redirect('cms:coverage_list')
+    return render(request, 'cms/confirm_delete.html', {'object': item.title, 'object_type': 'Media Coverage', 'cancel_url': 'cms:coverage_list'})
+
+# --- Image Gallery CRUD ---
+@role_required('admin')
+def gallery_list_view(request):
+    items = ImageGallery.objects.all()
+    return render(request, 'cms/gallery_list.html', {'items': items, 'active_cms': 'media'})
+
+@role_required('admin')
+def gallery_create_view(request):
+    if request.method == 'POST':
+        form = ImageGalleryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Gallery Image uploaded successfully.')
+            return redirect('cms:gallery_list')
+    else:
+        form = ImageGalleryForm()
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Add Gallery Image', 'active_cms': 'media', 'back_url': reverse('cms:gallery_list')
+    })
+
+@role_required('admin')
+def gallery_edit_view(request, pk):
+    item = get_object_or_404(ImageGallery, pk=pk)
+    if request.method == 'POST':
+        form = ImageGalleryForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Gallery Image updated successfully.')
+            return redirect('cms:gallery_list')
+    else:
+        form = ImageGalleryForm(instance=item)
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Edit Gallery Image', 'active_cms': 'media', 'back_url': reverse('cms:gallery_list')
+    })
+
+@role_required('admin')
+def gallery_delete_view(request, pk):
+    item = get_object_or_404(ImageGallery, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, 'Gallery Image deleted successfully.')
+        return redirect('cms:gallery_list')
+    return render(request, 'cms/confirm_delete.html', {'object': str(item), 'object_type': 'Gallery Image', 'cancel_url': 'cms:gallery_list'})
+
+# --- Video CRUD ---
+@role_required('admin')
+def video_list_view(request):
+    items = Video.objects.all()
+    return render(request, 'cms/video_list.html', {'items': items, 'active_cms': 'media'})
+
+@role_required('admin')
+def video_create_view(request):
+    if request.method == 'POST':
+        form = VideoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Video created successfully.')
+            return redirect('cms:video_list')
+    else:
+        form = VideoForm()
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Add Video', 'active_cms': 'media', 'back_url': reverse('cms:video_list')
+    })
+
+@role_required('admin')
+def video_edit_view(request, pk):
+    item = get_object_or_404(Video, pk=pk)
+    if request.method == 'POST':
+        form = VideoForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Video updated successfully.')
+            return redirect('cms:video_list')
+    else:
+        form = VideoForm(instance=item)
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 'title': 'Edit Video', 'active_cms': 'media', 'back_url': reverse('cms:video_list')
+    })
+
+@role_required('admin')
+def video_delete_view(request, pk):
+    item = get_object_or_404(Video, pk=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, 'Video deleted successfully.')
+        return redirect('cms:video_list')
+    return render(request, 'cms/confirm_delete.html', {'object': str(item), 'object_type': 'Video', 'cancel_url': 'cms:video_list'})
