@@ -26,13 +26,17 @@ from .forms import (
     BannerForm, InitiativeForm, StatisticForm, VisionMissionForm,
     AboutMilestoneForm, TeamMemberForm, AboutEventForm,
     ImpactStoryForm, AnnualReportForm, VolunteerOpportunityForm,
-    PartnerOrganizationForm, OfficeLocationForm, FAQForm
+    PartnerOrganizationForm, OfficeLocationForm, FAQForm,
+    OurStoryForm, CoreValueForm, ProgramForm,
+    ProjectForm, ProjectImageForm
 )
 from .models import (
     Banner, Initiative, Statistic, VisionMission,
     AboutMilestone, TeamMember, AboutEvent,
     ImpactStory, AnnualReport, VolunteerOpportunity,
-    PartnerOrganization, OfficeLocation, FAQ, ContactInquiry
+    PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
+    OurStory, CoreValue, Program,
+    Project, ProjectImage
 )
 
 
@@ -76,9 +80,10 @@ def cms_dashboard_view(request):
         'faq_active': FAQ.objects.filter(is_active=True).count(),
         'inquiry_count': ContactInquiry.objects.count(),
         'inquiry_pending': ContactInquiry.objects.filter(is_resolved=False).count(),
+        # Projects (Assignment 4)
+        'project_count': Project.objects.count(),
     }
     return render(request, 'cms/cms_dashboard.html', context)
-
 
 # ─────────────────────────────────────────────────────────────
 # BANNER CRUD
@@ -954,3 +959,328 @@ def inquiry_delete_view(request, pk):
         'cancel_url': 'cms:inquiry_list',
     })
 
+
+# ============================================================
+# ASSIGNMENT 3: ABOUT US CMS BACKEND
+# ============================================================
+
+@role_required('admin')
+def about_cms_hub_view(request):
+    """
+    Unified About Us CMS Hub — provides single-point admin control
+    over all 4 content sections required by Assignment 3:
+      1. Our Story
+      2. Core Values
+      3. Programs
+      4. Team Members
+    """
+    story = OurStory.objects.order_by('-updated_at').first()
+    values = CoreValue.objects.all().order_by('order', 'id')
+    programs = Program.objects.all().order_by('order', 'id')
+    team_members = TeamMember.objects.all().order_by('category', 'order')
+
+    context = {
+        'story': story,
+        'story_word_count': len(story.content.split()) if story and story.content else 0,
+        'values': values,
+        'values_count': values.count(),
+        'values_active': values.filter(is_active=True).count(),
+        'programs': programs,
+        'programs_count': programs.count(),
+        'programs_active': programs.filter(is_active=True).count(),
+        'team_members': team_members,
+        'team_count': team_members.count(),
+        'team_active': team_members.filter(is_active=True).count(),
+        'active_cms': 'about_hub',
+    }
+    return render(request, 'cms/about_hub.html', context)
+
+
+# ── Our Story Management ─────────────────────────────────────
+
+@role_required('admin')
+def our_story_edit_view(request):
+    """
+    Admin control over the 'Our Story' section content.
+    Creates or updates the single narrative record in table `our_story`.
+    """
+    story = OurStory.objects.order_by('-updated_at').first()
+    if request.method == 'POST':
+        form = OurStoryForm(request.POST, instance=story)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Our Story content updated successfully!')
+            return redirect('cms:about_cms_hub')
+    else:
+        form = OurStoryForm(instance=story)
+
+    return render(request, 'cms/generic_form.html', {
+        'form': form,
+        'form_title': 'Manage Our Story',
+        'form_subtitle': 'Update the narrative story, founding year, background, and journey displayed on the About Us page.',
+        'submit_text': 'Save Story Content',
+        'back_url': reverse('cms:about_cms_hub'),
+        'active_cms': 'our_story',
+    })
+
+
+# ── Core Values Management (CRUD) ───────────────────────────
+
+@role_required('admin')
+def core_value_list_view(request):
+    """List all Core Values in table `core_values`."""
+    core_values = CoreValue.objects.all().order_by('order', 'id')
+    return render(request, 'cms/core_values_list.html', {
+        'core_values': core_values,
+        'active_cms': 'core_values',
+    })
+
+
+@role_required('admin')
+def core_value_create_view(request):
+    """Add a new Core Value to table `core_values`."""
+    if request.method == 'POST':
+        form = CoreValueForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Core Value added successfully!')
+            return redirect('cms:core_value_list')
+    else:
+        form = CoreValueForm()
+
+    return render(request, 'cms/generic_form.html', {
+        'form': form,
+        'form_title': 'Add Core Value',
+        'form_subtitle': 'Define a guiding ethical principle (e.g., Integrity, Inclusivity, Empathy, Transparency).',
+        'submit_text': 'Add Value',
+        'back_url': reverse('cms:core_value_list'),
+        'active_cms': 'core_values',
+    })
+
+
+@role_required('admin')
+def core_value_edit_view(request, pk):
+    """Edit an existing Core Value in table `core_values`."""
+    value = get_object_or_404(CoreValue, pk=pk)
+    if request.method == 'POST':
+        form = CoreValueForm(request.POST, instance=value)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Core Value updated successfully!')
+            return redirect('cms:core_value_list')
+    else:
+        form = CoreValueForm(instance=value)
+
+    return render(request, 'cms/generic_form.html', {
+        'form': form,
+        'form_title': 'Edit Core Value',
+        'form_subtitle': f'Update "{value.value}" details and display order.',
+        'submit_text': 'Save Changes',
+        'back_url': reverse('cms:core_value_list'),
+        'active_cms': 'core_values',
+    })
+
+
+@role_required('admin')
+def core_value_delete_view(request, pk):
+    """Delete a Core Value from table `core_values`."""
+    value = get_object_or_404(CoreValue, pk=pk)
+    if request.method == 'POST':
+        value.delete()
+        messages.success(request, 'Core Value deleted successfully.')
+        return redirect('cms:core_value_list')
+
+    return render(request, 'cms/confirm_delete.html', {
+        'object': value.value,
+        'object_type': 'Core Value',
+        'cancel_url': 'cms:core_value_list',
+    })
+
+
+# ── Programs Management (CRUD) ──────────────────────────────
+
+@role_required('admin')
+def program_list_view(request):
+    """List all Programs in table `programs`."""
+    programs = Program.objects.all().order_by('order', 'id')
+    return render(request, 'cms/programs_list.html', {
+        'programs': programs,
+        'active_cms': 'programs',
+    })
+
+
+@role_required('admin')
+def program_create_view(request):
+    """Add a new Program to table `programs`."""
+    if request.method == 'POST':
+        form = ProgramForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Program added successfully!')
+            return redirect('cms:program_list')
+    else:
+        form = ProgramForm()
+
+    return render(request, 'cms/generic_form.html', {
+        'form': form,
+        'form_title': 'Add Program / Focus Area',
+        'form_subtitle': 'Highlight a key program (e.g., Free Educational Resources, Health Camps, Vocational Training).',
+        'submit_text': 'Add Program',
+        'back_url': reverse('cms:program_list'),
+        'active_cms': 'programs',
+    })
+
+
+@role_required('admin')
+def program_edit_view(request, pk):
+    """Edit an existing Program in table `programs`."""
+    program = get_object_or_404(Program, pk=pk)
+    if request.method == 'POST':
+        form = ProgramForm(request.POST, instance=program)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Program updated successfully!')
+            return redirect('cms:program_list')
+    else:
+        form = ProgramForm(instance=program)
+
+    return render(request, 'cms/generic_form.html', {
+        'form': form,
+        'form_title': 'Edit Program',
+        'form_subtitle': f'Update "{program.name}" details and description.',
+        'submit_text': 'Save Changes',
+        'back_url': reverse('cms:program_list'),
+        'active_cms': 'programs',
+    })
+
+
+@role_required('admin')
+def program_delete_view(request, pk):
+    """Delete a Program from table `programs`."""
+    program = get_object_or_404(Program, pk=pk)
+    if request.method == 'POST':
+        program.delete()
+        messages.success(request, 'Program deleted successfully.')
+        return redirect('cms:program_list')
+
+    return render(request, 'cms/confirm_delete.html', {
+        'object': program.name,
+        'object_type': 'Program',
+        'cancel_url': 'cms:program_list',
+    })
+
+
+# ─────────────────────────────────────────────────────────────
+# PROJECTS CRUD (ASSIGNMENT 4)
+# ─────────────────────────────────────────────────────────────
+
+@role_required('admin')
+def project_list_view(request):
+    """List all projects."""
+    projects = Project.objects.all()
+    
+    # Optional filtering by status
+    status_filter = request.GET.get('status')
+    if status_filter and status_filter in ['Ongoing', 'Completed', 'Upcoming']:
+        projects = projects.filter(status=status_filter)
+        
+    return render(request, 'cms/project_list.html', {
+        'projects': projects,
+        'active_cms': 'projects',
+        'current_status': status_filter
+    })
+
+
+@role_required('admin')
+def project_create_view(request):
+    """Create a new project."""
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save()
+            messages.success(request, 'Project created successfully. You can now add images.')
+            return redirect('cms:project_images', pk=project.pk)
+    else:
+        form = ProjectForm()
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 
+        'title': 'Add New Project',
+        'active_cms': 'projects',
+        'submit_text': 'Create Project & Add Images',
+        'back_url': reverse('cms:project_list')
+    })
+
+
+@role_required('admin')
+def project_edit_view(request, pk):
+    """Edit an existing project."""
+    project = get_object_or_404(Project, pk=pk)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Project updated successfully.')
+            return redirect('cms:project_list')
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'cms/generic_form.html', {
+        'form': form, 
+        'title': 'Edit Project', 
+        'active_cms': 'projects',
+        'submit_text': 'Save Changes',
+        'back_url': reverse('cms:project_list')
+    })
+
+
+@role_required('admin')
+def project_delete_view(request, pk):
+    """Delete a project."""
+    project = get_object_or_404(Project, pk=pk)
+    if request.method == 'POST':
+        project.delete()
+        messages.success(request, 'Project deleted successfully.')
+        return redirect('cms:project_list')
+    return render(request, 'cms/confirm_delete.html', {
+        'object': project.title,
+        'object_type': 'Project',
+        'cancel_url': 'cms:project_list',
+    })
+
+
+@role_required('admin')
+def project_images_view(request, pk):
+    """Manage images for a project."""
+    project = get_object_or_404(Project, pk=pk)
+    images = project.images.all()
+
+    if request.method == 'POST':
+        form = ProjectImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.project = project
+            image.save()
+            messages.success(request, 'Image uploaded successfully.')
+            return redirect('cms:project_images', pk=project.pk)
+    else:
+        form = ProjectImageForm()
+
+    context = {
+        'project': project,
+        'images': images,
+        'form': form,
+        'active_cms': 'projects',
+    }
+    return render(request, 'cms/project_images.html', context)
+
+
+@role_required('admin')
+def project_image_delete_view(request, project_pk, image_pk):
+    """Delete an image from a project."""
+    project = get_object_or_404(Project, pk=project_pk)
+    image = get_object_or_404(ProjectImage, pk=image_pk, project=project)
+    
+    if request.method == 'POST':
+        image.delete()
+        messages.success(request, 'Image deleted successfully.')
+    
+    return redirect('cms:project_images', pk=project.pk)

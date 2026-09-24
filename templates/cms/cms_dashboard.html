@@ -198,6 +198,21 @@
       <a href="{% url 'cms:report_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
     </div>
 
+    <!-- Projects Card (Assignment 4) -->
+    <div class="cms-section-card" id="cms-card-projects">
+      <div class="cms-card-icon cms-icon-purple">
+        <i class="bi bi-building"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Our Projects</h3>
+        <p class="cms-card-desc">Ongoing, Completed, and Upcoming construction or community projects</p>
+        <div class="cms-card-stats">
+          <span class="cms-stat-badge">{{ project_count }} total</span>
+        </div>
+      </div>
+      <a href="{% url 'cms:project_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
+    </div>
+
   </div>
 
   <!-- SECTION 4: VOLUNTEERS, PARTNERS & CONTACT -->

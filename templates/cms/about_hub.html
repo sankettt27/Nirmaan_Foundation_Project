@@ -1,0 +1,239 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}About Us CMS Hub — Admin Panel{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}About Us CMS Hub{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='about_hub' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+<style>
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .hub-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  }
+  .hub-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .hub-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .icon-story { background: #fef3c7; color: #b45309; }
+  .icon-values { background: #e0e7ff; color: #4338ca; }
+  .icon-programs { background: #dcfce7; color: #15803d; }
+  .icon-team { background: #fce7f3; color: #be185d; }
+  .hub-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  .hub-card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .badge-configured { background: #dcfce7; color: #15803d; }
+  .badge-pending { background: #fef3c7; color: #b45309; }
+  .hub-card-desc {
+    color: #64748b;
+    font-size: 0.925rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  .hub-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 16px;
+  }
+  .hub-stat {
+    font-size: 0.85rem;
+    color: #475569;
+    font-weight: 500;
+  }
+</style>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">About Us Content Management (Assignment 3)</h2>
+      <p class="cms-page-desc">Complete administrative control over all 4 core sections of the About Us page</p>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <a href="{% url 'home:about' %}" target="_blank" class="cms-btn" style="background:#fff;border:1px solid #cbd5e1;color:#334155;">
+        <i class="bi bi-eye"></i> View Public About Page
+      </a>
+    </div>
+  </div>
+
+  <div class="hub-grid">
+    <!-- 1. Our Story -->
+    <div class="hub-card">
+      <div>
+        <div class="hub-card-header">
+          <div class="hub-card-icon icon-story">
+            <i class="bi bi-book-half"></i>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Our Story</h3>
+            {% if story %}
+              <span class="hub-card-badge badge-configured"><i class="bi bi-check-circle-fill"></i> Narrative Configured</span>
+            {% else %}
+              <span class="hub-card-badge badge-pending"><i class="bi bi-exclamation-circle-fill"></i> Needs Content</span>
+            {% endif %}
+          </div>
+        </div>
+        <p class="hub-card-desc">
+          {% if story and story.content %}
+            {{ story.content|truncatewords:25 }}
+          {% else %}
+            Share the narrative behind the NGO's formation, founding year (2014), community inspiration, and journey.
+          {% endif %}
+        </p>
+      </div>
+      <div class="hub-card-footer">
+        <span class="hub-stat">
+          <i class="bi bi-card-text"></i> {{ story_word_count }} words
+        </span>
+        <a href="{% url 'cms:our_story_edit' %}" class="cms-btn cms-btn-primary" style="padding:6px 14px;font-size:0.875rem;">
+          <i class="bi bi-pencil-square"></i> Edit Story
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. Core Values -->
+    <div class="hub-card">
+      <div>
+        <div class="hub-card-header">
+          <div class="hub-card-icon icon-values">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Core Values</h3>
+            <span class="hub-card-badge badge-configured">{{ values_active }} Active Values</span>
+          </div>
+        </div>
+        <p class="hub-card-desc">
+          Define guiding ethical principles such as Integrity, Inclusivity, Empathy, Transparency, and Accountability that anchor the foundation.
+        </p>
+      </div>
+      <div class="hub-card-footer">
+        <span class="hub-stat">
+          <i class="bi bi-list-check"></i> {{ values_count }} total entries
+        </span>
+        <a href="{% url 'cms:core_value_list' %}" class="cms-btn cms-btn-primary" style="padding:6px 14px;font-size:0.875rem;">
+          <i class="bi bi-gear-fill"></i> Manage Values
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. Programs -->
+    <div class="hub-card">
+      <div>
+        <div class="hub-card-header">
+          <div class="hub-card-icon icon-programs">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Programs & Focus</h3>
+            <span class="hub-card-badge badge-configured">{{ programs_active }} Active Programs</span>
+          </div>
+        </div>
+        <p class="hub-card-desc">
+          Highlight key focus areas such as free educational resources, digital classrooms, rural health camps, and youth vocational skills.
+        </p>
+      </div>
+      <div class="hub-card-footer">
+        <span class="hub-stat">
+          <i class="bi bi-collection-fill"></i> {{ programs_count }} total programs
+        </span>
+        <a href="{% url 'cms:program_list' %}" class="cms-btn cms-btn-primary" style="padding:6px 14px;font-size:0.875rem;">
+          <i class="bi bi-gear-fill"></i> Manage Programs
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. Team Members -->
+    <div class="hub-card">
+      <div>
+        <div class="hub-card-header">
+          <div class="hub-card-icon icon-team">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <h3 class="hub-card-title">Team Members</h3>
+            <span class="hub-card-badge badge-configured">{{ team_active }} Active Members</span>
+          </div>
+        </div>
+        <p class="hub-card-desc">
+          Introduce founders, executive directors, advisory board members, and trustees with their photos, roles, and biographies.
+        </p>
+      </div>
+      <div class="hub-card-footer">
+        <span class="hub-stat">
+          <i class="bi bi-person-badge-fill"></i> {{ team_count }} team profiles
+        </span>
+        <a href="{% url 'cms:team_list' %}" class="cms-btn cms-btn-primary" style="padding:6px 14px;font-size:0.875rem;">
+          <i class="bi bi-gear-fill"></i> Manage Team
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supporting Sections Notice -->
+  <div class="cms-table-card" style="padding: 24px; background: #f8fafc;">
+    <h3 style="font-size: 1.1rem; color: #1e293b; margin-bottom: 8px;">
+      <i class="bi bi-info-circle-fill" style="color: #2563eb;"></i> Additional About Us Page Controls
+    </h3>
+    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 16px;">
+      You can also manage timeline milestones and recent classroom activity events displayed across the About Us page:
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="{% url 'cms:milestone_list' %}" class="cms-btn" style="background:#fff;border:1px solid #cbd5e1;color:#334155;font-size:0.875rem;">
+        <i class="bi bi-clock-history"></i> Manage Timeline Milestones
+      </a>
+      <a href="{% url 'cms:event_list' %}" class="cms-btn" style="background:#fff;border:1px solid #cbd5e1;color:#334155;font-size:0.875rem;">
+        <i class="bi bi-calendar-event"></i> Manage Events & Gallery
+      </a>
+    </div>
+  </div>
+
+{% endblock %}

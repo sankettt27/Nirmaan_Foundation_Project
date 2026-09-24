@@ -34,6 +34,7 @@
         <li><a href="{% url 'home:about' %}" class="{% if active_nav == 'about' %}active{% endif %}">About Us</a></li>
         <li><a href="{% url 'home:programs' %}" class="{% if active_nav == 'programs' %}active{% endif %}">Programs</a></li>
         <li><a href="{% url 'home:impact' %}" class="{% if active_nav == 'impact' %}active{% endif %}">Impact</a></li>
+        <li><a href="{% url 'home:projects' %}" class="{% if active_nav == 'projects' %}active{% endif %}">Projects</a></li>
         <li><a href="{% url 'home:volunteer' %}" class="{% if active_nav == 'volunteer' %}active{% endif %}">Volunteer</a></li>
         <li><a href="{% url 'home:partner' %}" class="{% if active_nav == 'partner' %}active{% endif %}">Partner With Us</a></li>
         <li><a href="{% url 'home:contact' %}" class="{% if active_nav == 'contact' %}active{% endif %}">Contact</a></li>
@@ -116,12 +117,12 @@
             </ul>
           </div>
           <div class="nf-footer-col">
-            <div class="nf-footer-col-title">Programs</div>
+            <div class="nf-footer-col-title">Programs & Projects</div>
             <ul>
               <li><a href="{% url 'home:programs' %}">All Programs</a></li>
+              <li><a href="{% url 'home:projects' %}">Our Projects</a></li>
               <li><a href="{% url 'home:programs' %}#in-schools">In-School Teaching</a></li>
               <li><a href="{% url 'home:programs' %}#holistic">Holistic Development</a></li>
-              <li><a href="{% url 'home:programs' %}#digital">Digital Literacy</a></li>
             </ul>
           </div>
           <div class="nf-footer-col">

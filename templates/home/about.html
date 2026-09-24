@@ -5,8 +5,10 @@
 
 {% block content %}
 
-  <!-- Page Header Hero -->
-  <section class="nf-page-hero">
+  <!-- ============================================================
+       1. INTRODUCTION SECTION
+       ============================================================ -->
+  <section class="nf-page-hero" id="introduction">
     <div class="nf-container">
       <div class="nf-page-hero-tag">
         <span></span>
@@ -16,93 +18,53 @@
         Empowering India's Future Through <em>Education & Community</em>
       </h1>
       <p class="nf-page-hero-desc">
-        Since 2014, Nirmaan Foundation has mobilized youth volunteers, partnered with schools, and engaged committed donors to ensure no child is denied a quality education.
+        Welcome to Nirmaan Foundation! We are a passionate team dedicated to making a difference in the lives of underprivileged communities through quality education, life skills, and sustainable community empowerment.
       </p>
     </div>
   </section>
 
-  <!-- Mission & Vision Section -->
-  <section class="nf-section" id="vision-mission" style="background:#fff;">
+  <!-- ============================================================
+       2. HISTORY AND BACKGROUND (OUR STORY)
+       ============================================================ -->
+  <section class="nf-section" id="our-story" style="background:#fff;">
     <div class="nf-container">
       <div class="nf-section-header text-center">
         <div class="nf-section-badge">
-          <i class="bi bi-compass-fill"></i>
-          Our Purpose
+          <i class="bi bi-book-half"></i>
+          Our Story & Background
         </div>
         <h2 class="nf-section-title">
-          Driven by Purpose, Guided by <em>Clear Values</em>
+          How Nirmaan Foundation <em>Was Born</em>
         </h2>
         <p class="nf-section-desc mx-auto">
-          We believe education is the fundamental cornerstone of an equitable society.
+          Founded in 2014, Nirmaan Foundation started as a small community initiative driven by university students. Today, we have empowered over 30,000 individuals across 18+ cities.
         </p>
       </div>
 
-      <div class="nf-vm-grid">
-        <!-- Vision Card -->
-        <div class="nf-vm-card nf-vm-vision reveal">
-          <div class="nf-vm-icon-wrap">
-            <i class="bi bi-eye-fill"></i>
-          </div>
-          <div class="nf-vm-badge">Our Vision</div>
-          {% if has_vision_mission and vision_items %}
-            {% for item in vision_items %}
-              <h3 class="nf-vm-title">{{ item.title }}</h3>
-              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
-            {% endfor %}
-          {% else %}
-            <h3 class="nf-vm-title">Education for Every Child</h3>
-            <p class="nf-vm-text">
-              A future where every child in India has access to quality education, holistic development, and the opportunity to realise their full potential — regardless of socioeconomic background.
-            </p>
-          {% endif %}
-          <div class="nf-vm-pillars">
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Equal Opportunity</span>
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Holistic Learning</span>
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Dignity & Inclusion</span>
-          </div>
-        </div>
-
-        <!-- Mission Card -->
-        <div class="nf-vm-card nf-vm-mission reveal reveal-delay-1">
-          <div class="nf-vm-icon-wrap">
-            <i class="bi bi-bullseye"></i>
-          </div>
-          <div class="nf-vm-badge">Our Mission</div>
-          {% if has_vision_mission and mission_items %}
-            {% for item in mission_items %}
-              <h3 class="nf-vm-title">{{ item.title }}</h3>
-              <p class="nf-vm-text">{{ item.content|linebreaksbr }}</p>
-            {% endfor %}
-          {% else %}
-            <h3 class="nf-vm-title">Mobilising Communities for Change</h3>
-            <p class="nf-vm-text">
-              To mobilise young volunteers, engage committed donors, and partner with institutions to deliver high-quality educational support, life skills, and mentorship to children in underserved communities across India.
-            </p>
-          {% endif %}
-          <div class="nf-vm-pillars">
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Youth Leadership</span>
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Transparent Giving</span>
-            <span class="nf-vm-pillar"><i class="bi bi-check-circle-fill"></i> Scalable Impact</span>
+      <!-- Narrative Story Box -->
+      <div class="reveal" style="max-width:960px;margin:0 auto 48px auto;background:var(--nf-bg);border-radius:16px;padding:36px;border-left:5px solid var(--nf-primary);box-shadow:0 4px 20px rgba(0,0,0,0.04);">
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="font-size:2.5rem;color:var(--nf-primary);line-height:1;"><i class="bi bi-quote"></i></div>
+          <div style="flex:1;">
+            {% if has_story %}
+              <div style="font-size:1.1rem;line-height:1.8;color:var(--nf-dark);">
+                {{ our_story.content|linebreaks }}
+              </div>
+            {% else %}
+              <p style="font-size:1.1rem;line-height:1.8;color:var(--nf-dark);margin-bottom:12px;">
+                Founded in 2014 in Bengaluru, Nirmaan Foundation was created when a group of 15 college volunteers witnessed the severe educational disparities in nearby municipal schools. Moved by the students' enthusiasm and hunger for learning, they began conducting weekend literacy classes and mentoring sessions.
+              </p>
+              <p style="font-size:1.05rem;line-height:1.7;color:#475569;">
+                Over the past decade, that small weekend circle evolved into a nationwide movement. By mobilizing youth volunteers, partnering with CSR stakeholders, and building low-cost digital classrooms, Nirmaan Foundation now provides holistic education, nutrition, and mentorship to children from underrepresented backgrounds across India.
+              </p>
+            {% endif %}
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Timeline Journey / Milestones -->
-  <section class="nf-section" id="timeline" style="background:var(--nf-bg);">
-    <div class="nf-container">
-      <div class="nf-section-header text-center">
-        <div class="nf-section-badge">
-          <i class="bi bi-clock-history"></i>
-          Our Journey
-        </div>
-        <h2 class="nf-section-title">
-          A Decade of <em>Milestones & Growth</em>
-        </h2>
-        <p class="nf-section-desc mx-auto">
-          From a handful of university volunteers in 2014 to a nationwide community impacting over 30,000 children annually.
-        </p>
+      <!-- Timeline Journey Header -->
+      <div class="text-center" style="margin-bottom:32px;">
+        <h3 style="font-size:1.4rem;font-weight:700;color:var(--nf-dark);">Key Milestones in Our Journey</h3>
       </div>
 
       <div class="nf-timeline-wrap">
@@ -156,8 +118,154 @@
     </div>
   </section>
 
-  <!-- Leadership & Team Section -->
-  <section class="nf-section" id="team" style="background:#fff;">
+  <!-- ============================================================
+       3. CORE VALUES SECTION
+       ============================================================ -->
+  <section class="nf-section" id="core-values" style="background:var(--nf-bg);">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-shield-check"></i>
+          Guiding Principles
+        </div>
+        <h2 class="nf-section-title">
+          Our <em>Core Values</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          The ethical foundation and unwavering principles that shape our programs, culture, and community engagement.
+        </p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:24px;">
+        {% if has_core_values %}
+          {% for val in core_values %}
+          <div class="reveal" style="background:#fff;border-radius:14px;padding:28px 24px;border:1px solid #e2e8f0;box-shadow:0 4px 15px rgba(0,0,0,0.03);text-align:center;">
+            <div style="width:54px;height:54px;border-radius:12px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px auto;">
+              <i class="bi {{ val.icon|default:'bi-shield-check' }}"></i>
+            </div>
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">{{ val.value }}</h3>
+            {% if val.description %}
+              <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">{{ val.description }}</p>
+            {% else %}
+              <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">Guiding our commitment to ethical, empathetic, and community-first grassroots work.</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Static Fallback Core Values -->
+          <div class="reveal" style="background:#fff;border-radius:14px;padding:28px 24px;border:1px solid #e2e8f0;text-align:center;">
+            <div style="width:54px;height:54px;border-radius:12px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px auto;">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Integrity</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">Honesty, accountability, and the highest ethical standards in every project and rupee entrusted to us.</p>
+          </div>
+          <div class="reveal reveal-delay-1" style="background:#fff;border-radius:14px;padding:28px 24px;border:1px solid #e2e8f0;text-align:center;">
+            <div style="width:54px;height:54px;border-radius:12px;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px auto;">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Inclusivity</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">Ensuring equal learning and growth opportunities for children irrespective of gender, religion, or background.</p>
+          </div>
+          <div class="reveal reveal-delay-2" style="background:#fff;border-radius:14px;padding:28px 24px;border:1px solid #e2e8f0;text-align:center;">
+            <div style="width:54px;height:54px;border-radius:12px;background:#fce7f3;color:#be185d;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px auto;">
+              <i class="bi bi-heart-fill"></i>
+            </div>
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Empathy</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">Deep listening, compassion, and understanding the grassroots challenges faced by underprivileged communities.</p>
+          </div>
+          <div class="reveal reveal-delay-3" style="background:#fff;border-radius:14px;padding:28px 24px;border:1px solid #e2e8f0;text-align:center;">
+            <div style="width:54px;height:54px;border-radius:12px;background:#fef3c7;color:#b45309;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 18px auto;">
+              <i class="bi bi-eye-fill"></i>
+            </div>
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Transparency</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin:0;">Open governance, audited disclosures, and complete visibility into our finances and impact metrics.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. AREAS OF FOCUS / PROGRAMS SECTION
+       ============================================================ -->
+  <section class="nf-section" id="programs" style="background:#fff;">
+    <div class="nf-container">
+      <div class="nf-section-header text-center">
+        <div class="nf-section-badge">
+          <i class="bi bi-mortarboard-fill"></i>
+          Key Focus Areas
+        </div>
+        <h2 class="nf-section-title">
+          Programs & <em>Initiatives</em>
+        </h2>
+        <p class="nf-section-desc mx-auto">
+          We focus on providing free educational resources for children, running health camps for rural communities, and offering vocational training for youth and women.
+        </p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:24px;">
+        {% if has_programs %}
+          {% for prog in programs %}
+          <div class="reveal" style="background:var(--nf-bg);border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;transition:transform 0.2s ease;">
+            {% if prog.image %}
+              <div style="width:100%;height:160px;overflow:hidden;">
+                <img src="{{ prog.image.url }}" alt="{{ prog.name }}" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+            {% endif %}
+            <div style="padding: 24px;">
+              <div style="width:48px;height:48px;border-radius:10px;background:#fff;color:var(--nf-primary);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:18px;">
+                <i class="bi {{ prog.icon|default:'bi-mortarboard-fill' }}"></i>
+              </div>
+              <h3 style="font-size:1.25rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">{{ prog.name }}</h3>
+              {% if prog.description %}
+                <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin-bottom:16px;">{{ prog.description }}</p>
+              {% else %}
+                <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin-bottom:16px;">Comprehensive community support delivering tangible results for underprivileged beneficiaries.</p>
+              {% endif %}
+              <a href="{% url 'home:programs' %}" style="color:var(--nf-primary);font-weight:600;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+                Explore Program Details <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <!-- Static Fallback Focus Programs -->
+          <div class="reveal" style="background:var(--nf-bg);border-radius:14px;padding:32px 24px;border:1px solid #e2e8f0;">
+            <div style="width:48px;height:48px;border-radius:10px;background:#fff;color:var(--nf-primary);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:18px;">
+              <i class="bi bi-book-half"></i>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Free Educational Resources</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin-bottom:16px;">Providing free textbooks, digital tablets, experiential learning kits, and weekend literacy modules for children in government and low-income schools.</p>
+            <a href="{% url 'home:programs' %}" style="color:var(--nf-primary);font-weight:600;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Explore Details <i class="bi bi-arrow-right"></i></a>
+          </div>
+
+          <div class="reveal reveal-delay-1" style="background:var(--nf-bg);border-radius:14px;padding:32px 24px;border:1px solid #e2e8f0;">
+            <div style="width:48px;height:48px;border-radius:10px;background:#fff;color:var(--nf-primary);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:18px;">
+              <i class="bi bi-hospital"></i>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Health Camps for Rural Areas</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin-bottom:16px;">Running pediatric check-ups, eye screenings, nutritional supplements, and hygiene workshops in underserved rural and peri-urban villages.</p>
+            <a href="{% url 'home:programs' %}" style="color:var(--nf-primary);font-weight:600;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Explore Details <i class="bi bi-arrow-right"></i></a>
+          </div>
+
+          <div class="reveal reveal-delay-2" style="background:var(--nf-bg);border-radius:14px;padding:32px 24px;border:1px solid #e2e8f0;">
+            <div style="width:48px;height:48px;border-radius:10px;background:#fff;color:var(--nf-primary);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:18px;">
+              <i class="bi bi-tools"></i>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:700;color:var(--nf-dark);margin-bottom:10px;">Vocational Training for Youth</h3>
+            <p style="color:#64748b;font-size:0.925rem;line-height:1.6;margin-bottom:16px;">Offering computer literacy, spoken English, and job-readiness skill workshops for youth and women to build sustainable livelihoods.</p>
+            <a href="{% url 'home:programs' %}" style="color:var(--nf-primary);font-weight:600;font-size:0.9rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Explore Details <i class="bi bi-arrow-right"></i></a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. LEADERSHIP AND TEAM SECTION
+       ============================================================ -->
+  <section class="nf-section" id="team" style="background:var(--nf-bg);">
     <div class="nf-container">
       <div class="nf-section-header text-center">
         <div class="nf-section-badge">
@@ -179,6 +287,8 @@
             <div class="nf-team-photo-wrap">
               {% if member.photo %}
                 <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="nf-team-photo">
+              {% elif member.image_url %}
+                <img src="{{ member.image_url }}" alt="{{ member.name }}" class="nf-team-photo">
               {% else %}
                 <div class="nf-team-photo-placeholder"><i class="bi bi-person-fill"></i></div>
               {% endif %}
@@ -238,20 +348,40 @@
     </div>
   </section>
 
-  <!-- Events & Activities Gallery Section -->
-  <section class="nf-section" id="events" style="background:var(--nf-bg);">
+  <!-- ============================================================
+       6. IMPACT AND ACHIEVEMENTS SECTION
+       ============================================================ -->
+  <section class="nf-section" id="impact" style="background:#fff;">
     <div class="nf-container">
       <div class="nf-section-header text-center">
         <div class="nf-section-badge">
-          <i class="bi bi-calendar-event-fill"></i>
-          Community in Action
+          <i class="bi bi-graph-up-arrow"></i>
+          Measurable Change
         </div>
         <h2 class="nf-section-title">
-          Recent Events & <em>Classroom Activities</em>
+          Impact & <em>Achievements</em>
         </h2>
         <p class="nf-section-desc mx-auto">
-          Take a look at how our volunteers, partner schools, and students come together across India.
+          Facts and statistics showcasing how our volunteers and donor partners transform classroom learning across India.
         </p>
+      </div>
+
+      <!-- Impact Stats Grid -->
+      {% if has_statistics %}
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:24px;margin-bottom:48px;">
+        {% for stat in statistics %}
+        <div class="reveal" style="background:var(--nf-bg);border-radius:12px;padding:24px;text-align:center;border:1px solid #e2e8f0;">
+          <div style="font-size:2rem;color:var(--nf-primary);margin-bottom:8px;"><i class="bi {{ stat.icon|default:'bi-graph-up-arrow' }}"></i></div>
+          <div style="font-size:2.2rem;font-weight:800;color:var(--nf-dark);line-height:1.2;">{{ stat.value }}</div>
+          <div style="font-size:0.9rem;color:#64748b;margin-top:4px;">{{ stat.label }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Events & Activities Gallery -->
+      <div class="text-center" style="margin-bottom:32px;">
+        <h3 style="font-size:1.35rem;font-weight:700;color:var(--nf-dark);">Community in Action</h3>
       </div>
 
       <div class="nf-events-grid">
@@ -325,14 +455,25 @@
     </div>
   </section>
 
-  <!-- CTA Banner -->
-  <section class="nf-section-cta">
+  <!-- ============================================================
+       7. CALL TO ACTION (CTA)
+       ============================================================ -->
+  <section class="nf-section-cta" id="cta">
     <div class="nf-container text-center">
-      <h2 class="nf-cta-heading">Be Part of the Next Chapter</h2>
-      <p class="nf-cta-sub">Whether by volunteering your weekends or donating to educate a child, your presence matters.</p>
+      <h2 class="nf-cta-heading">Join Us in Making a Difference</h2>
+      <p class="nf-cta-sub">
+        Whether by volunteering your weekends, partnering via CSR, or donating to help transform lives, your contribution creates generational impact.
+      </p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
-        <a href="{% url 'home:volunteer' %}" class="btn-hero-primary"><i class="bi bi-heart-fill"></i> Become a Volunteer</a>
-        <a href="{% url 'home:contact' %}" class="btn-hero-secondary" style="background:#fff;color:var(--nf-dark);border-color:#fff;">Contact Us</a>
+        <a href="{% url 'home:volunteer' %}" class="btn-hero-primary" id="btn-about-volunteer">
+          <i class="bi bi-heart-fill"></i> Volunteer Today
+        </a>
+        <a href="{% url 'home:partner' %}" class="btn-hero-secondary" style="background:#fff;color:var(--nf-dark);border-color:#fff;" id="btn-about-donate">
+          <i class="bi bi-gift-fill"></i> Support / Donate
+        </a>
+        <a href="{% url 'home:contact' %}" class="btn-hero-secondary" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.4);" id="btn-about-contact">
+          Contact Us
+        </a>
       </div>
     </div>
   </section>

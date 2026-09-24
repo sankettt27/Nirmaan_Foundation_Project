@@ -8,6 +8,7 @@ via Django's built-in admin panel at /admin/.
 from django.contrib import admin
 from .models import (
     Banner, VisionMission, Statistic, Initiative,
+    OurStory, CoreValue, Program,
     AboutMilestone, TeamMember, AboutEvent,
     ImpactStory, AnnualReport, VolunteerOpportunity,
     PartnerOrganization, OfficeLocation, FAQ, ContactInquiry
@@ -48,6 +49,29 @@ class InitiativeAdmin(admin.ModelAdmin):
     list_editable = ('order', 'is_active')
     search_fields = ('title', 'description', 'detailed_content')
     ordering = ('order',)
+
+
+@admin.register(OurStory)
+class OurStoryAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'updated_at', 'created_at')
+    search_fields = ('content',)
+    ordering = ('-updated_at',)
+
+
+@admin.register(CoreValue)
+class CoreValueAdmin(admin.ModelAdmin):
+    list_display = ('value', 'icon', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('value', 'description')
+    ordering = ('order', 'id')
+
+
+@admin.register(Program)
+class ProgramAdmin(admin.ModelAdmin):
+    list_display = ('name', 'icon', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    search_fields = ('name', 'description')
+    ordering = ('order', 'id')
 
 
 @admin.register(AboutMilestone)

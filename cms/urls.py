@@ -45,6 +45,22 @@ urlpatterns = [
     path('dashboard/admin/home/initiatives/<int:pk>/edit/', views.initiative_edit_view, name='initiative_edit'),
     path('dashboard/admin/home/initiatives/<int:pk>/delete/', views.initiative_delete_view, name='initiative_delete'),
 
+    # ── Assignment 3: About Us CMS Backend ────────────────────
+    path('dashboard/admin/about/', views.about_cms_hub_view, name='about_cms_hub'),
+    path('dashboard/admin/about/story/', views.our_story_edit_view, name='our_story_edit'),
+
+    # Core Values CRUD
+    path('dashboard/admin/about/values/', views.core_value_list_view, name='core_value_list'),
+    path('dashboard/admin/about/values/add/', views.core_value_create_view, name='core_value_create'),
+    path('dashboard/admin/about/values/<int:pk>/edit/', views.core_value_edit_view, name='core_value_edit'),
+    path('dashboard/admin/about/values/<int:pk>/delete/', views.core_value_delete_view, name='core_value_delete'),
+
+    # Programs CRUD
+    path('dashboard/admin/about/programs/', views.program_list_view, name='program_list'),
+    path('dashboard/admin/about/programs/add/', views.program_create_view, name='program_create'),
+    path('dashboard/admin/about/programs/<int:pk>/edit/', views.program_edit_view, name='program_edit'),
+    path('dashboard/admin/about/programs/<int:pk>/delete/', views.program_delete_view, name='program_delete'),
+
     # ── Events & Activities (About Page) ──────────────────────
     path('dashboard/admin/events/', views.event_list_view, name='event_list'),
     path('dashboard/admin/events/add/', views.event_create_view, name='event_create'),
@@ -103,5 +119,12 @@ urlpatterns = [
     path('dashboard/admin/inquiries/', views.inquiry_list_view, name='inquiry_list'),
     path('dashboard/admin/inquiries/<int:pk>/toggle-resolved/', views.inquiry_toggle_resolved_view, name='inquiry_toggle_resolved'),
     path('dashboard/admin/inquiries/<int:pk>/delete/', views.inquiry_delete_view, name='inquiry_delete'),
-]
 
+    # ── Projects (Assignment 4) ───────────────────────────────
+    path('dashboard/admin/projects/', views.project_list_view, name='project_list'),
+    path('dashboard/admin/projects/add/', views.project_create_view, name='project_create'),
+    path('dashboard/admin/projects/<int:pk>/edit/', views.project_edit_view, name='project_edit'),
+    path('dashboard/admin/projects/<int:pk>/delete/', views.project_delete_view, name='project_delete'),
+    path('dashboard/admin/projects/<int:pk>/images/', views.project_images_view, name='project_images'),
+    path('dashboard/admin/projects/<int:project_pk>/images/<int:image_pk>/delete/', views.project_image_delete_view, name='project_image_delete'),
+]

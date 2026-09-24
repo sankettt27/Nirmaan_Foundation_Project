@@ -44,10 +44,18 @@ def index(request):
 
 def about_view(request):
     """
-    About Us page — Story, Mission & Vision, Milestones Timeline,
-    Leadership & Advisory Team, and Events & Activities Gallery.
+    About Us page — Story, Mission & Vision, Core Values, Programs,
+    Milestones Timeline, Leadership & Advisory Team, Impact and Events (Assignment 3).
     """
-    from cms.models import AboutEvent, AboutMilestone, TeamMember, VisionMission
+    from cms.models import (
+        AboutEvent, AboutMilestone, TeamMember, VisionMission,
+        OurStory, CoreValue, Program, Statistic
+    )
+
+    our_story = OurStory.objects.order_by('-updated_at').first()
+    core_values = CoreValue.objects.filter(is_active=True).order_by('order', 'id')
+    programs = Program.objects.filter(is_active=True).order_by('order', 'id')
+    statistics = Statistic.objects.filter(is_active=True).order_by('order')
 
     milestones = AboutMilestone.objects.filter(is_active=True).order_by('order')
     team_members = TeamMember.objects.filter(is_active=True).order_by('order')
@@ -59,8 +67,16 @@ def about_view(request):
     mission_items = VisionMission.objects.filter(section_type='mission', is_active=True).order_by('order')
 
     context = {
-        'page_title': 'About Us — Our Journey, Mission & Team',
+        'page_title': 'About Us — Our Story, Values & Leadership',
         'active_nav': 'about',
+        'our_story': our_story,
+        'has_story': bool(our_story and our_story.content),
+        'core_values': core_values,
+        'has_core_values': core_values.exists(),
+        'programs': programs,
+        'has_programs': programs.exists(),
+        'statistics': statistics,
+        'has_statistics': statistics.exists(),
         'milestones': milestones,
         'has_milestones': milestones.exists(),
         'team_members': team_members,
@@ -206,3 +222,25 @@ def contact_view(request):
     }
     return render(request, 'home/contact.html', context)
 
+
+def projects_view(request):
+    """
+    Projects page — dynamic project showcase with filtering by status.
+    """
+    from cms.models import Project
+
+    status_filter = request.GET.get('status')
+    
+    if status_filter and status_filter in ['Ongoing', 'Completed', 'Upcoming']:
+        projects = Project.objects.filter(status=status_filter).order_by('-start_date')
+    else:
+        projects = Project.objects.all().order_by('-start_date')
+
+    context = {
+        'page_title': 'Our Projects — Building a Better Future',
+        'active_nav': 'projects',
+        'projects': projects,
+        'has_projects': projects.exists(),
+        'current_status': status_filter or 'All',
+    }
+    return render(request, 'home/projects.html', context)

@@ -29,19 +29,35 @@ Include with: {% include 'cms/_sidebar.html' %}
   Impact Stats
 </a>
 
-<div class="sidebar-nav-label">About Page</div>
+<div class="sidebar-nav-label">About Us CMS (Ass3)</div>
 
-<a href="{% url 'cms:event_list' %}" class="sidebar-nav-item {% if active_cms == 'events' %}active{% endif %}" id="nav-events">
-  <i class="bi bi-calendar-event-fill"></i>
-  Events & Activities
+<a href="{% url 'cms:about_cms_hub' %}" class="sidebar-nav-item {% if active_cms == 'about_hub' %}active{% endif %}" id="nav-about-hub">
+  <i class="bi bi-file-earmark-person-fill"></i>
+  About CMS Hub
+</a>
+<a href="{% url 'cms:our_story_edit' %}" class="sidebar-nav-item {% if active_cms == 'our_story' %}active{% endif %}" id="nav-our-story">
+  <i class="bi bi-book-half"></i>
+  Our Story
+</a>
+<a href="{% url 'cms:core_value_list' %}" class="sidebar-nav-item {% if active_cms == 'core_values' %}active{% endif %}" id="nav-core-values">
+  <i class="bi bi-shield-check"></i>
+  Core Values
+</a>
+<a href="{% url 'cms:program_list' %}" class="sidebar-nav-item {% if active_cms == 'programs' %}active{% endif %}" id="nav-programs-cms">
+  <i class="bi bi-mortarboard-fill"></i>
+  Programs
 </a>
 <a href="{% url 'cms:team_list' %}" class="sidebar-nav-item {% if active_cms == 'team' %}active{% endif %}" id="nav-team">
   <i class="bi bi-people-fill"></i>
-  Team & Leadership
+  Team Members
 </a>
 <a href="{% url 'cms:milestone_list' %}" class="sidebar-nav-item {% if active_cms == 'milestones' %}active{% endif %}" id="nav-milestones">
   <i class="bi bi-clock-history"></i>
   Milestones Timeline
+</a>
+<a href="{% url 'cms:event_list' %}" class="sidebar-nav-item {% if active_cms == 'events' %}active{% endif %}" id="nav-events">
+  <i class="bi bi-calendar-event-fill"></i>
+  Events & Activities
 </a>
 
 <div class="sidebar-nav-label">Programs & Impact</div>
@@ -49,6 +65,10 @@ Include with: {% include 'cms/_sidebar.html' %}
 <a href="{% url 'cms:initiative_list' %}" class="sidebar-nav-item {% if active_cms == 'initiatives' %}active{% endif %}" id="nav-initiatives">
   <i class="bi bi-mortarboard-fill"></i>
   Programs & Curricula
+</a>
+<a href="{% url 'cms:project_list' %}" class="sidebar-nav-item {% if active_cms == 'projects' %}active{% endif %}" id="nav-projects">
+  <i class="bi bi-building"></i>
+  Our Projects
 </a>
 <a href="{% url 'cms:story_list' %}" class="sidebar-nav-item {% if active_cms == 'stories' %}active{% endif %}" id="nav-stories">
   <i class="bi bi-chat-heart-fill"></i>

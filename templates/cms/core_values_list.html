@@ -1,0 +1,97 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Core Values — About CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Core Values Management{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='core_values' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Core Values (Assignment 3)</h2>
+      <p class="cms-page-desc">Guiding ethical principles displayed on the About Us page</p>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <a href="{% url 'cms:about_cms_hub' %}" class="cms-btn" style="background:#fff;border:1px solid #cbd5e1;color:#334155;">
+        <i class="bi bi-arrow-left"></i> About Hub
+      </a>
+      <a href="{% url 'cms:core_value_create' %}" class="cms-btn cms-btn-primary" id="btn-add-value">
+        <i class="bi bi-plus-lg"></i> Add Core Value
+      </a>
+    </div>
+  </div>
+
+  <div class="cms-table-card">
+    {% if core_values %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Icon</th>
+          <th>Core Value</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in core_values %}
+        <tr>
+          <td><span class="cms-order-badge">{{ v.order }}</span></td>
+          <td>
+            <div style="width:36px;height:36px;border-radius:8px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">
+              <i class="bi {{ v.icon|default:'bi-shield-check' }}"></i>
+            </div>
+          </td>
+          <td>
+            <strong style="color:#1e293b;font-size:1rem;">{{ v.value }}</strong>
+          </td>
+          <td>
+            <span style="color:#64748b;font-size:0.875rem;">
+              {{ v.description|default:"—"|truncatewords:15 }}
+            </span>
+          </td>
+          <td>
+            {% if v.is_active %}
+              <span class="cms-status cms-status-active">Active</span>
+            {% else %}
+              <span class="cms-status cms-status-inactive">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:core_value_edit' v.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:core_value_delete' v.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-shield-check"></i></div>
+      <h3>No Core Values Added Yet</h3>
+      <p>Add guiding values like Integrity, Inclusivity, Empathy, Transparency, and Accountability.</p>
+      <a href="{% url 'cms:core_value_create' %}" class="cms-btn cms-btn-primary">
+        <i class="bi bi-plus-lg"></i> Add First Core Value
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

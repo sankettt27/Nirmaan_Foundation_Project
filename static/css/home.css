@@ -2041,3 +2041,39 @@ a { text-decoration: none; color: inherit; }
   }
 }
 
+/* ============================================================
+   CALL TO ACTION BANNER (Used across sub-pages)
+   ============================================================ */
+.nf-cta-banner {
+  background: linear-gradient(135deg, var(--nf-dark) 0%, #1a1a1a 100%);
+  padding: 80px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.nf-cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.nf-cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+  line-height: 1.25;
+}
+.nf-cta-desc {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.nf-cta-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}

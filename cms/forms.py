@@ -8,9 +8,11 @@ via the Admin CMS dashboard.
 from django import forms
 from .models import (
     Banner, VisionMission, Statistic, Initiative,
+    OurStory, CoreValue, Program,
     AboutMilestone, TeamMember, AboutEvent,
     ImpactStory, AnnualReport, VolunteerOpportunity,
-    PartnerOrganization, OfficeLocation, FAQ, ContactInquiry
+    PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
+    Project, ProjectImage
 )
 
 
@@ -167,18 +169,91 @@ class AboutMilestoneForm(forms.ModelForm):
 
 
 # ─────────────────────────────────────────────────────────────
+# OUR STORY FORM (ASSIGNMENT 3)
+# ─────────────────────────────────────────────────────────────
+
+class OurStoryForm(forms.ModelForm):
+    """Form for editing the NGO Our Story narrative."""
+
+    class Meta:
+        model = OurStory
+        fields = ['content']
+        labels = {
+            'content': 'Story Narrative Content',
+        }
+        widgets = {
+            'content': forms.Textarea(attrs={
+                **_textarea_attrs,
+                'rows': 8,
+                'placeholder': 'Write the founding story, inspiration, journey, and community impact of Nirmaan Foundation...',
+            }),
+        }
+
+
+# ─────────────────────────────────────────────────────────────
+# CORE VALUE FORM (ASSIGNMENT 3)
+# ─────────────────────────────────────────────────────────────
+
+class CoreValueForm(forms.ModelForm):
+    """Form for creating/editing Core Values."""
+
+    class Meta:
+        model = CoreValue
+        fields = ['value', 'description', 'icon', 'order', 'is_active']
+        labels = {
+            'value': 'Core Value (e.g. Integrity, Inclusivity, Empathy)',
+            'icon': 'Bootstrap Icon Class (e.g. bi-shield-check)',
+        }
+        widgets = {
+            'value': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Integrity'}),
+            'description': forms.Textarea(attrs={**_textarea_attrs, 'rows': 3, 'placeholder': 'How this value guides our actions and ethics...'}),
+            'icon': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., bi-shield-check, bi-heart-fill, bi-gem'}),
+            'order': forms.NumberInput(attrs=_number_attrs),
+            'is_active': forms.CheckboxInput(attrs=_checkbox_attrs),
+        }
+
+
+# ─────────────────────────────────────────────────────────────
+# PROGRAM FORM (ASSIGNMENT 3)
+# ─────────────────────────────────────────────────────────────
+
+class ProgramForm(forms.ModelForm):
+    """Form for creating/editing Programs & Key Focus Areas."""
+
+    class Meta:
+        model = Program
+        fields = ['name', 'description', 'icon', 'image', 'order', 'is_active']
+        labels = {
+            'name': 'Program Name',
+            'description': 'Program Overview & Focus Details',
+            'icon': 'Bootstrap Icon Class',
+            'image': 'Program Image (Optional)',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Free Educational Resources'}),
+            'description': forms.Textarea(attrs={**_textarea_attrs, 'rows': 4, 'placeholder': 'Describe the program goals, curriculum, and target communities...'}),
+            'icon': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., bi-mortarboard-fill, bi-hospital, bi-tools'}),
+            'image': forms.ClearableFileInput(attrs=_file_attrs),
+            'order': forms.NumberInput(attrs=_number_attrs),
+            'is_active': forms.CheckboxInput(attrs=_checkbox_attrs),
+        }
+
+
+# ─────────────────────────────────────────────────────────────
 # TEAM MEMBER FORM
 # ─────────────────────────────────────────────────────────────
 
 class TeamMemberForm(forms.ModelForm):
     class Meta:
         model = TeamMember
-        fields = ['name', 'role', 'category', 'bio', 'photo', 'linkedin_url', 'order', 'is_active']
+        fields = ['name', 'role', 'category', 'bio', 'photo', 'image_url', 'linkedin_url', 'order', 'is_active']
         labels = {
-            'photo': 'Profile Photo (Recommended: 600 × 600 px · 1:1 Square)',
+            'photo': 'Profile Photo (Upload file · 600 × 600 px · 1:1 Square)',
+            'image_url': 'Image URL (Optional direct photo URL or path)',
         }
         help_texts = {
             'photo': 'Recommended resolution: 600 × 600 px (1:1 square ratio) centered portrait photo.',
+            'image_url': 'Optional: Enter an image URL or leave blank to use the uploaded photo.',
         }
         widgets = {
             'name': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Dr. Ananya Sen'}),
@@ -186,6 +261,7 @@ class TeamMemberForm(forms.ModelForm):
             'category': forms.Select(attrs=_select_attrs),
             'bio': forms.Textarea(attrs={**_textarea_attrs, 'rows': 3, 'placeholder': 'Brief biographical background...'}),
             'photo': forms.ClearableFileInput(attrs=_file_attrs),
+            'image_url': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., /static/images/team_1.jpg or https://...'}),
             'linkedin_url': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'https://linkedin.com/in/...'}),
             'order': forms.NumberInput(attrs=_number_attrs),
             'is_active': forms.CheckboxInput(attrs=_checkbox_attrs),
@@ -350,3 +426,36 @@ class FAQForm(forms.ModelForm):
             'is_active': forms.CheckboxInput(attrs=_checkbox_attrs),
         }
 
+
+# ─────────────────────────────────────────────────────────────
+# PROJECT FORM (ASSIGNMENT 4)
+# ─────────────────────────────────────────────────────────────
+
+class ProjectForm(forms.ModelForm):
+    """Form for creating/editing Projects."""
+
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'status', 'start_date', 'end_date', 'location']
+        widgets = {
+            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., School Building Project'}),
+            'description': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Detailed project description...'}),
+            'status': forms.Select(attrs=_select_attrs),
+            'start_date': forms.DateInput(attrs={**_text_attrs, 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={**_text_attrs, 'type': 'date'}),
+            'location': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Rural Karnataka'}),
+        }
+
+
+class ProjectImageForm(forms.ModelForm):
+    """Form for adding images to a Project."""
+
+    class Meta:
+        model = ProjectImage
+        fields = ['image_url']
+        labels = {
+            'image_url': 'Project Image',
+        }
+        widgets = {
+            'image_url': forms.ClearableFileInput(attrs=_file_attrs),
+        }

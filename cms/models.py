@@ -259,8 +259,122 @@ class Initiative(models.Model):
 
 
 # ============================================================
-# ABOUT US PAGE MODELS
+# ABOUT US PAGE MODELS (ASSIGNMENT 3)
 # ============================================================
+
+class OurStory(models.Model):
+    """
+    Stores the narrative content for the 'Our Story' section.
+    Database table: our_story (as specified in Assignment 3).
+    """
+    content = models.TextField(
+        verbose_name='Story Content',
+        help_text="Detailed narrative describing the NGO's founding, journey, and community impact."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'our_story'
+        verbose_name = 'Our Story'
+        verbose_name_plural = 'Our Story'
+
+    def __str__(self):
+        return f"Our Story (Updated {self.updated_at.strftime('%Y-%m-%d') if self.updated_at else 'New'})"
+
+
+class CoreValue(models.Model):
+    """
+    Stores guiding principles for the 'Core Values' section.
+    Database table: core_values (as specified in Assignment 3).
+    """
+    value = models.CharField(
+        max_length=255,
+        verbose_name='Core Value',
+        help_text='A single core value (e.g., Integrity, Inclusivity, Empathy, Transparency)'
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name='Description',
+        help_text='Brief explanation of how this value guides our work'
+    )
+    icon = models.CharField(
+        max_length=50,
+        blank=True,
+        default='bi-shield-check',
+        verbose_name='Bootstrap Icon Class',
+        help_text='Bootstrap icon class (e.g., bi-shield-check, bi-heart-fill, bi-gem)'
+    )
+    order = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Display Order'
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Active'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'core_values'
+        ordering = ['order', 'id']
+        verbose_name = 'Core Value'
+        verbose_name_plural = 'Core Values'
+
+    def __str__(self):
+        return self.value
+
+
+class Program(models.Model):
+    """
+    Stores key focus areas and initiatives for the 'Programs' section.
+    Database table: programs (as specified in Assignment 3).
+    """
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Program Name',
+        help_text='Name of the program (e.g., Free Educational Resources)'
+    )
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Program Description',
+        help_text='Detailed description of the program and key activities'
+    )
+    icon = models.CharField(
+        max_length=50,
+        blank=True,
+        default='bi-mortarboard-fill',
+        verbose_name='Bootstrap Icon Class'
+    )
+    image = models.ImageField(
+        upload_to='cms/programs/',
+        blank=True,
+        null=True,
+        verbose_name='Program Image',
+        help_text='Upload an image to represent this program focus area'
+    )
+    order = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Display Order'
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Active'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'programs'
+        ordering = ['order', 'id']
+        verbose_name = 'Program'
+        verbose_name_plural = 'Programs'
+
+    def __str__(self):
+        return self.name
+
 
 class AboutMilestone(models.Model):
     """Timeline journey milestone on the About Us page."""
@@ -284,18 +398,22 @@ class AboutMilestone(models.Model):
 
 
 class TeamMember(models.Model):
-    """Leadership and Advisory team member on the About Us page."""
+    """
+    Leadership and Advisory team member on the About Us page.
+    Database table: team_members (as specified in Assignment 3).
+    """
     CATEGORY_CHOICES = [
         ('leadership', 'Leadership Team'),
         ('advisory', 'Advisory Board'),
         ('chapter_lead', 'Chapter Lead'),
     ]
 
-    name = models.CharField(max_length=150, verbose_name='Full Name')
-    role = models.CharField(max_length=150, verbose_name='Designation / Role')
+    name = models.CharField(max_length=255, verbose_name='Full Name')
+    role = models.CharField(max_length=255, verbose_name='Designation / Role')
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='leadership', verbose_name='Category')
     bio = models.TextField(blank=True, verbose_name='Short Bio')
     photo = models.ImageField(upload_to='cms/team/', blank=True, null=True, verbose_name='Photo', help_text='Recommended: square 400x400px')
+    image_url = models.CharField(max_length=255, blank=True, default='', verbose_name='Image URL', help_text="URL or path to the team member's photo")
     linkedin_url = models.CharField(max_length=300, blank=True, verbose_name='LinkedIn Profile URL')
     order = models.PositiveIntegerField(default=0, verbose_name='Display Order')
     is_active = models.BooleanField(default=True, verbose_name='Active')
@@ -303,13 +421,31 @@ class TeamMember(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'cms_team_member'
+        db_table = 'team_members'
         ordering = ['category', 'order', 'name']
         verbose_name = 'Team Member'
         verbose_name_plural = 'Team Members'
 
     def __str__(self):
         return f'{self.name} ({self.role})'
+
+    def get_image_display_url(self):
+        if self.photo:
+            try:
+                return self.photo.url
+            except Exception:
+                pass
+        if self.image_url:
+            return self.image_url
+        return ''
+
+    def save(self, *args, **kwargs):
+        if self.photo and not self.image_url:
+            try:
+                self.image_url = self.photo.url
+            except Exception:
+                pass
+        super().save(*args, **kwargs)
 
 
 class AboutEvent(models.Model):
@@ -532,4 +668,61 @@ class ContactInquiry(models.Model):
     def __str__(self):
         status = '✓' if self.is_resolved else '●'
         return f'[{status}] {self.name} — {self.subject}'
+
+
+# ============================================================
+# PROJECTS PAGE MODELS (ASSIGNMENT 4)
+# ============================================================
+
+class Project(models.Model):
+    """
+    Nirmaan Foundation Projects.
+    Database table: projects (as specified in Assignment 4).
+    """
+    STATUS_CHOICES = [
+        ('Ongoing', 'Ongoing'),
+        ('Completed', 'Completed'),
+        ('Upcoming', 'Upcoming'),
+    ]
+
+    title = models.CharField(max_length=255, verbose_name='Project Title')
+    description = models.TextField(verbose_name='Description')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, verbose_name='Status')
+    start_date = models.DateField(blank=True, null=True, verbose_name='Start Date')
+    end_date = models.DateField(blank=True, null=True, verbose_name='End Date')
+    location = models.CharField(max_length=255, blank=True, null=True, verbose_name='Location')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'projects'
+        ordering = ['-start_date', 'title']
+        verbose_name = 'Project'
+        verbose_name_plural = 'Projects'
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def primary_image(self):
+        return self.images.first()
+
+
+class ProjectImage(models.Model):
+    """
+    Multiple images associated with a Project.
+    Database table: project_images (as specified in Assignment 4).
+    """
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images', verbose_name='Project')
+    image_url = models.ImageField(upload_to='cms/projects/', verbose_name='Image URL')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'project_images'
+        ordering = ['-uploaded_at']
+        verbose_name = 'Project Image'
+        verbose_name_plural = 'Project Images'
+
+    def __str__(self):
+        return f"Image for {self.project.title}"
 

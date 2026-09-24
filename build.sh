@@ -343,9 +343,38 @@ if not FAQ.objects.exists():
         category='programs',
         question='How do you select the schools you work with?',
         answer='We partner directly with government, civic, and low-income affordable private schools that demonstrate high need and strong leadership enthusiasm for extracurricular support.',
-        order=4
-    )
     print('Default FAQs created.')
+
+# 10. Assignment 3: Our Story, Core Values, Programs
+from cms.models import OurStory, CoreValue, Program
+
+if not OurStory.objects.exists():
+    OurStory.objects.create(
+        content=(
+            "Founded in 2014 in Bengaluru, Nirmaan Foundation started as a grassroots initiative "
+            "when 15 university students came together to address the urgent need for quality foundational "
+            "education in underserved municipal schools. What began as weekend tutoring in two classrooms "
+            "has grown into a nationwide community of educators, volunteers, and donors.\n\n"
+            "Today, Nirmaan Foundation operates across 18+ cities with 7,500+ active youth volunteers, "
+            "empowering over 30,000 children annually through structured literacy curricula, digital "
+            "robotics labs, nutrition support, and youth mentorship. Our work is guided by the conviction "
+            "that every child deserves the opportunity to realise their full potential."
+        )
+    )
+    print('Default Our Story created.')
+
+if not CoreValue.objects.exists():
+    CoreValue.objects.create(value='Integrity', icon='bi-shield-check', order=1, description='Honesty, accountability, and the highest ethical standards in every project and resource entrusted to us.')
+    CoreValue.objects.create(value='Inclusivity', icon='bi-people-fill', order=2, description='Ensuring equal learning and holistic growth opportunities for children irrespective of gender, religion, or background.')
+    CoreValue.objects.create(value='Empathy', icon='bi-heart-fill', order=3, description='Deep listening, compassion, and understanding the grassroots challenges faced by underprivileged communities.')
+    CoreValue.objects.create(value='Transparency', icon='bi-eye-fill', order=4, description='Open governance, audited disclosures, and complete visibility into our finances, operations, and impact metrics.')
+    print('Default Core Values created.')
+
+if not Program.objects.exists():
+    Program.objects.create(name='Free Educational Resources', icon='bi-book-half', order=1, description='Providing free textbooks, digital tablets, experiential learning kits, and weekend literacy modules for children in government and low-income schools.')
+    Program.objects.create(name='Health Camps for Rural Areas', icon='bi-hospital', order=2, description='Running pediatric check-ups, eye screenings, nutritional supplements, and hygiene workshops in underserved rural and peri-urban villages.')
+    Program.objects.create(name='Vocational Training for Youth & Women', icon='bi-tools', order=3, description='Offering computer literacy, spoken English, and job-readiness skill workshops for youth and women to build sustainable livelihoods.')
+    print('Default Programs created.')
 " || true
 
 echo "==> Build complete!"
