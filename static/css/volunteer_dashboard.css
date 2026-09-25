@@ -1,0 +1,598 @@
+/*
+ * Nirmaan Foundation — Volunteer Dashboard Theme
+ * Inspired by SecureVolunteer reference (color & theme only).
+ * Overrides the base dashboard.css tokens for volunteer pages.
+ *
+ * Key changes from base:
+ *   - White sidebar instead of dark
+ *   - Navy blue + coral/orange accent palette
+ *   - Cooler, lighter background
+ *   - Refined card shadows
+ */
+
+/* ── Theme Token Overrides ───────────────────────────────── */
+.dash-volunteer {
+  --dash-bg:            #f0f2f6;
+  --dash-surface:       #ffffff;
+  --dash-sidebar-bg:    #ffffff;
+  --dash-sidebar-hover: rgba(30, 58, 95, 0.05);
+  --dash-sidebar-active: rgba(30, 58, 95, 0.08);
+  --dash-border:        #e4e7ec;
+  --dash-border-light:  #f1f3f7;
+
+  /* Text — light sidebar needs dark text */
+  --dash-text-sidebar:        #64748b;
+  --dash-text-sidebar-active: #1e3a5f;
+
+  /* Volunteer accents — navy + coral */
+  --accent-volunteer:       #1e3a5f;
+  --accent-volunteer-light: #eef3f9;
+  --accent-volunteer-mid:   #2a4f7a;
+
+  --accent-cta:        #e8612d;
+  --accent-cta-hover:  #d45520;
+  --accent-cta-light:  #fff4ef;
+
+  /* Enhanced shadows */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ── Sidebar Overrides ───────────────────────────────────── */
+.dash-volunteer .dash-sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--dash-border);
+  box-shadow: 1px 0 4px rgba(0,0,0,0.03);
+}
+
+.dash-volunteer .sidebar-brand {
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dash-volunteer .sidebar-brand-name {
+  color: #1e293b;
+  font-weight: 800;
+}
+
+.dash-volunteer .sidebar-brand-sub {
+  color: #94a3b8;
+}
+
+/* Nav items — dark text on white */
+.dash-volunteer .sidebar-nav-label {
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 0.63rem;
+  letter-spacing: 0.1em;
+}
+
+.dash-volunteer .sidebar-nav-item {
+  color: #64748b;
+  font-weight: 500;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  transition: all 0.2s ease;
+}
+
+.dash-volunteer .sidebar-nav-item i {
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.dash-volunteer .sidebar-nav-item:hover {
+  background: rgba(30, 58, 95, 0.05);
+  color: #1e3a5f;
+}
+
+.dash-volunteer .sidebar-nav-item:hover i {
+  color: #1e3a5f;
+}
+
+.dash-volunteer .sidebar-nav-item.active {
+  background: var(--accent-volunteer-light);
+  color: var(--accent-volunteer);
+  font-weight: 600;
+}
+
+.dash-volunteer .sidebar-nav-item.active i {
+  color: var(--accent-volunteer);
+}
+
+.dash-volunteer .sidebar-nav-item.active::before {
+  background: var(--accent-volunteer);
+  width: 3px;
+  height: 24px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Sidebar badge */
+.dash-volunteer .sidebar-badge {
+  background: var(--accent-cta);
+  color: #fff;
+  font-size: 0.67rem;
+  padding: 2px 8px;
+  font-weight: 700;
+}
+
+/* Sidebar footer user */
+.dash-volunteer .sidebar-footer {
+  border-top: 1px solid var(--dash-border);
+}
+
+.dash-volunteer .sidebar-avatar {
+  background: var(--accent-volunteer);
+  color: #fff;
+}
+
+.dash-volunteer .sidebar-user-name {
+  color: #1e293b;
+}
+
+.dash-volunteer .sidebar-user-role {
+  color: #94a3b8;
+}
+
+.dash-volunteer .sidebar-user:hover {
+  background: rgba(30, 58, 95, 0.04);
+}
+
+/* ── Header Overrides ────────────────────────────────────── */
+.dash-volunteer .dash-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dash-volunteer .dash-header-title {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* ── Welcome Banner ──────────────────────────────────────── */
+.dash-volunteer .dash-welcome {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a5298 100%);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  border: none;
+}
+
+.dash-volunteer .dash-welcome-greeting {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.dash-volunteer .dash-welcome-name {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.dash-volunteer .dash-welcome-subtitle {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.84rem;
+  margin-top: 6px;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.dash-volunteer .dash-welcome-date {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.78rem;
+  margin-top: 10px;
+}
+
+/* ── Stat Cards ──────────────────────────────────────────── */
+.dash-volunteer .stat-card {
+  background: #ffffff;
+  border: 1px solid var(--dash-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.dash-volunteer .stat-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+.dash-volunteer .stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.dash-volunteer .stat-icon-green {
+  background: #eef3f9;
+  color: #1e3a5f;
+}
+
+.dash-volunteer .stat-icon-blue {
+  background: #fff4ef;
+  color: #e8612d;
+}
+
+.dash-volunteer .stat-icon-amber {
+  background: #eef3f9;
+  color: #2a5298;
+}
+
+.dash-volunteer .stat-value {
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.dash-volunteer .stat-label {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Widget Cards ────────────────────────────────────────── */
+.dash-volunteer .widget-card {
+  background: #ffffff;
+  border: 1px solid var(--dash-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.dash-volunteer .widget-header {
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dash-volunteer .widget-title {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.dash-volunteer .widget-title i {
+  color: #1e3a5f;
+}
+
+.dash-volunteer .widget-action {
+  color: var(--accent-cta);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.dash-volunteer .widget-action:hover {
+  color: var(--accent-cta-hover);
+}
+
+/* ── Opportunity Items ───────────────────────────────────── */
+.vol-opp-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--dash-border-light);
+  transition: background 0.15s;
+}
+.vol-opp-item:last-child { border-bottom: none; }
+.vol-opp-item:hover { background: #fafbfd; margin: 0 -16px; padding: 14px 16px; border-radius: 8px; }
+
+.vol-opp-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.vol-opp-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.77rem;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+.vol-opp-meta span { display: flex; align-items: center; gap: 4px; }
+.vol-opp-meta i { color: #1e3a5f; font-size: 0.75rem; }
+
+/* Register Button — coral CTA */
+.vol-register-btn {
+  padding: 7px 16px;
+  border-radius: 8px;
+  background: var(--accent-cta, #e8612d);
+  color: #fff;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, transform 0.15s;
+  font-family: var(--font-dash);
+  letter-spacing: 0.02em;
+}
+.vol-register-btn:hover {
+  background: var(--accent-cta-hover, #d45520);
+  transform: translateY(-1px);
+}
+
+/* Status Badges */
+.vol-status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.vol-status-badge.vol-status-pending  { background: #fff8f0; color: #c2410c; border: 1px solid #fed7aa; }
+.vol-status-badge.vol-status-approved { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.vol-status-badge.vol-status-rejected { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* Activity Items — Events */
+.dash-volunteer .activity-dot {
+  background: var(--accent-cta, #e8612d) !important;
+}
+
+.dash-volunteer .activity-text strong {
+  color: #1e293b;
+}
+
+.dash-volunteer .activity-time {
+  color: #94a3b8;
+}
+
+.dash-volunteer .activity-time i {
+  color: #1e3a5f;
+}
+
+/* ── Registration Table ──────────────────────────────────── */
+.vol-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.vol-table thead th {
+  padding: 10px 14px;
+  text-align: left;
+  color: #94a3b8;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--dash-border);
+  white-space: nowrap;
+}
+.vol-table tbody td {
+  padding: 13px 14px;
+  color: #475569;
+  border-bottom: 1px solid var(--dash-border-light);
+  vertical-align: middle;
+}
+.vol-table tbody tr:last-child td { border-bottom: none; }
+.vol-table tbody tr:hover td { background: #f8fafc; }
+
+.vol-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+.vol-badge-pending  { background: #fff8f0; color: #c2410c; border: 1px solid #fed7aa; }
+.vol-badge-approved { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.vol-badge-rejected { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── Quick Action Buttons ────────────────────────────────── */
+a.quick-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--dash-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #1e293b;
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+}
+a.quick-action-btn:hover {
+  background: var(--accent-cta-light, #fff4ef);
+  border-color: var(--accent-cta, #e8612d);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+a.quick-action-btn i {
+  font-size: 1.5rem;
+  color: var(--accent-cta, #e8612d);
+  flex-shrink: 0;
+}
+.quick-action-label {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.88rem;
+}
+.quick-action-desc {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+/* ── Empty States ────────────────────────────────────────── */
+.dash-volunteer .empty-state-icon i {
+  color: #cbd5e1;
+}
+
+.dash-volunteer .empty-state-title {
+  color: #475569;
+  font-weight: 600;
+}
+
+.dash-volunteer .empty-state-desc {
+  color: #94a3b8;
+}
+
+/* ── Mobile Sidebar Overlay (keep it working) ────────────── */
+@media (max-width: 768px) {
+  .dash-volunteer .dash-sidebar {
+    background: #ffffff;
+  }
+}
+
+
+/* ── Opportunity Cards (Browse Page) ─────────────────────── */
+.opp-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+.opp-card {
+  background: #ffffff;
+  border: 1px solid var(--dash-border, #e4e7ec);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.opp-card:hover {
+  box-shadow: var(--shadow-card-hover, 0 4px 12px rgba(0,0,0,0.08));
+  transform: translateY(-2px);
+}
+.opp-card-header {
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--dash-border-light, #f1f3f7);
+}
+.opp-card-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--accent-cta-light, #fff4ef);
+  color: var(--accent-cta, #e8612d);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.opp-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+}
+.opp-card-body { padding: 16px 20px; flex: 1; }
+.opp-card-desc {
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.opp-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.opp-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #475569;
+}
+.opp-detail-item i { color: var(--accent-volunteer, #1e3a5f); font-size: 0.85rem; }
+.opp-requirements { margin-top: 12px; }
+.opp-req-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+.opp-req-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.opp-req-list li {
+  font-size: 0.78rem;
+  color: #475569;
+  padding-left: 14px;
+  position: relative;
+}
+.opp-req-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-cta, #e8612d);
+}
+.opp-card-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--dash-border-light, #f1f3f7);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.opp-register-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: var(--accent-cta, #e8612d);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-dash);
+  transition: background 0.18s, transform 0.15s;
+}
+.opp-register-btn:hover {
+  background: var(--accent-cta-hover, #d45520);
+  transform: translateY(-1px);
+}
+.opp-registered-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.opp-badge-pending  { background: #fff8f0; color: #c2410c; border: 1px solid #fed7aa; }
+.opp-badge-approved { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.opp-badge-rejected { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── Registration Table (Full Page) ──────────────────────── */
+.reg-table { width: 100%; border-collapse: collapse; }
+.reg-table thead th {
+  padding: 12px 20px;
+  text-align: left;
+  color: #94a3b8;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--dash-border, #e4e7ec);
+  background: #f8fafc;
+  white-space: nowrap;
+}
+.reg-table tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--dash-border-light, #f1f3f7);
+  vertical-align: middle;
+}
+.reg-table tbody tr:last-child td { border-bottom: none; }
+.reg-table tbody tr:hover td { background: #f8fafc; }
+
+@media (max-width: 768px) {
+  .opp-card-grid { grid-template-columns: 1fr; }
+  .reg-table { font-size: 0.8rem; }
+  .reg-table th:nth-child(3),
+  .reg-table td:nth-child(3),
+  .reg-table th:nth-child(4),
+  .reg-table td:nth-child(4) { display: none; }
+}
+
