@@ -105,11 +105,23 @@ Include with: {% include 'cms/_sidebar.html' %}
   Contact Inquiries
 </a>
 
-<div class="sidebar-nav-label">Media & News</div>
+<div class="sidebar-nav-label">Media CMS (Ass5)</div>
 
-<a href="{% url 'cms:media_hub' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-media-hub">
-  <i class="bi bi-camera-video-fill"></i>
-  Media CMS Hub
+<a href="{% url 'cms:press_release_list' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-press-releases">
+  <i class="bi bi-newspaper"></i>
+  Press Releases
+</a>
+<a href="{% url 'cms:media_coverage_list' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-media-coverage">
+  <i class="bi bi-link-45deg"></i>
+  Media Coverage
+</a>
+<a href="{% url 'cms:image_gallery_list' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-image-gallery">
+  <i class="bi bi-images"></i>
+  Image Gallery
+</a>
+<a href="{% url 'cms:video_list' %}" class="sidebar-nav-item {% if active_cms == 'media' %}active{% endif %}" id="nav-videos">
+  <i class="bi bi-play-btn"></i>
+  Videos
 </a>
 
 <div class="sidebar-nav-label">Live Site</div>

@@ -1,0 +1,73 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Image Gallery — Media Page CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Image Gallery{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='media' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/cms.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block dashboard_content %}
+  <div class="cms-page-header">
+    <div>
+      <h2 class="cms-page-title">Image Gallery</h2>
+      <p class="cms-page-desc">Manage photos for the media page gallery</p>
+    </div>
+    <a href="{% url 'cms:image_gallery_create' %}" class="cms-btn cms-btn-primary">
+      <i class="bi bi-plus-lg"></i> Upload Image
+    </a>
+  </div>
+
+  <div class="cms-table-card">
+    {% if items %}
+    <table class="cms-table">
+      <thead>
+        <tr>
+          <th>Preview</th>
+          <th>Description</th>
+          <th>Uploaded At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>
+            {% if item.image_path %}
+              <img src="{{ item.image_path.url }}" alt="Gallery Image" class="cms-thumb">
+            {% else %}
+              <div class="cms-thumb-placeholder"><i class="bi bi-image"></i></div>
+            {% endif %}
+          </td>
+          <td>{{ item.description|default:"—" }}</td>
+          <td>{{ item.uploaded_at|date:"M d, Y" }}</td>
+          <td>
+            <div class="cms-actions">
+              <a href="{% url 'cms:image_gallery_edit' item.pk %}" class="cms-btn-icon" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a href="{% url 'cms:image_gallery_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="cms-empty-state">
+      <div class="cms-empty-icon"><i class="bi bi-images"></i></div>
+      <h3>No Gallery Images Found</h3>
+      <p>Upload your first photo to the gallery.</p>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}

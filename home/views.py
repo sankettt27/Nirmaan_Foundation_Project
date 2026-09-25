@@ -248,16 +248,25 @@ def projects_view(request):
 
 def media_view(request):
     """
-    Media page — Press releases, coverage, gallery, and videos.
+    Media page — displays Press Releases, Media Coverage, Image Gallery, and Videos.
     """
     from cms.models import PressRelease, MediaCoverage, ImageGallery, Video
 
+    press_releases = PressRelease.objects.all()
+    media_coverages = MediaCoverage.objects.all()
+    images = ImageGallery.objects.all()
+    videos = Video.objects.all()
+
     context = {
-        'page_title': 'Media Room — News and Updates',
+        'page_title': 'Media & Press — Nirmaan Foundation in the News',
         'active_nav': 'media',
-        'press_releases': PressRelease.objects.all()[:5],
-        'media_coverage': MediaCoverage.objects.all()[:10],
-        'gallery_images': ImageGallery.objects.all()[:12],
-        'videos': Video.objects.all()[:6],
+        'press_releases': press_releases,
+        'has_press_releases': press_releases.exists(),
+        'media_coverages': media_coverages,
+        'has_media_coverages': media_coverages.exists(),
+        'images': images,
+        'has_images': images.exists(),
+        'videos': videos,
+        'has_videos': videos.exists(),
     }
     return render(request, 'home/media.html', context)

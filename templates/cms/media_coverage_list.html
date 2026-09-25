@@ -1,10 +1,10 @@
 {% extends 'base_dashboard.html' %}
 {% load static %}
 
-{% block title %}Videos — Media Page CMS{% endblock %}
+{% block title %}Media Coverage — Media Page CMS{% endblock %}
 {% block dash_role_class %}dash-admin{% endblock %}
 {% block sidebar_role_label %}Admin Panel{% endblock %}
-{% block header_title %}Videos{% endblock %}
+{% block header_title %}Media Coverage{% endblock %}
 
 {% block sidebar_nav %}
   {% include 'cms/_sidebar.html' with active_cms='media' %}
@@ -17,11 +17,11 @@
 {% block dashboard_content %}
   <div class="cms-page-header">
     <div>
-      <h2 class="cms-page-title">Videos</h2>
-      <p class="cms-page-desc">Manage video links for the media page</p>
+      <h2 class="cms-page-title">Media Coverage</h2>
+      <p class="cms-page-desc">Manage external media coverage links</p>
     </div>
-    <a href="{% url 'cms:video_create' %}" class="cms-btn cms-btn-primary">
-      <i class="bi bi-plus-lg"></i> Add Video
+    <a href="{% url 'cms:media_coverage_create' %}" class="cms-btn cms-btn-primary">
+      <i class="bi bi-plus-lg"></i> Add Coverage
     </a>
   </div>
 
@@ -30,22 +30,22 @@
     <table class="cms-table">
       <thead>
         <tr>
-          <th>Video URL</th>
-          <th>Description</th>
+          <th>Title</th>
+          <th>URL</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for item in items %}
         <tr>
-          <td><a href="{{ item.video_url }}" target="_blank" rel="noopener noreferrer">{{ item.video_url|truncatechars:50 }}</a></td>
-          <td>{{ item.description|default:"—" }}</td>
+          <td><div class="cms-item-title">{{ item.title }}</div></td>
+          <td><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.url|truncatechars:50 }}</a></td>
           <td>
             <div class="cms-actions">
-              <a href="{% url 'cms:video_edit' item.pk %}" class="cms-btn-icon" title="Edit">
+              <a href="{% url 'cms:media_coverage_edit' item.pk %}" class="cms-btn-icon" title="Edit">
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a href="{% url 'cms:video_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
+              <a href="{% url 'cms:media_coverage_delete' item.pk %}" class="cms-btn-icon cms-btn-danger" title="Delete">
                 <i class="bi bi-trash3"></i>
               </a>
             </div>
@@ -56,9 +56,9 @@
     </table>
     {% else %}
     <div class="cms-empty-state">
-      <div class="cms-empty-icon"><i class="bi bi-play-btn"></i></div>
-      <h3>No Videos Found</h3>
-      <p>Add a video link to show it on the media page.</p>
+      <div class="cms-empty-icon"><i class="bi bi-link-45deg"></i></div>
+      <h3>No Media Coverage Found</h3>
+      <p>Add links to articles and news featuring the foundation.</p>
     </div>
     {% endif %}
   </div>

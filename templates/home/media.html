@@ -1,165 +1,206 @@
 {% extends 'home/base_page.html' %}
 {% load static %}
 
-{% block title %}Media Room — Nirmaan Foundation{% endblock %}
+{% block title %}Media & Press — Nirmaan Foundation{% endblock %}
 
 {% block extra_css %}
 <style>
+  /* Hero Section */
   .media-hero {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #fff;
-    padding: 100px 20px 60px;
+    padding: 100px 20px 80px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .media-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 50%);
+    pointer-events: none;
   }
   .media-hero h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #fff, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .media-hero p {
-    font-size: 1.2rem;
-    color: #cbd5e1;
+    font-size: 1.25rem;
+    color: #94a3b8;
     max-width: 600px;
     margin: 0 auto;
+    line-height: 1.6;
   }
 
+  /* Section Styles */
   .media-section {
     padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
-  .media-section-bg {
+  .media-section.bg-light {
     background: #f8fafc;
+    max-width: 100%;
+    padding: 80px 0;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 50px;
   }
   .section-title {
-    text-align: center;
     font-size: 2.5rem;
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
+  }
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: #64748b;
   }
 
   /* Press Releases */
   .press-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
   }
   .press-card {
     background: #fff;
-    border-radius: 12px;
-    padding: 24px;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .press-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   }
   .press-date {
-    font-size: 0.85rem;
+    display: inline-block;
+    padding: 6px 12px;
+    background: #eff6ff;
     color: #3b82f6;
+    border-radius: 20px;
+    font-size: 0.85rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
+    margin-bottom: 15px;
   }
   .press-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 12px;
+    color: #0f172a;
+    margin-bottom: 15px;
+    line-height: 1.4;
   }
   .press-desc {
     color: #64748b;
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   /* Media Coverage */
-  .coverage-list {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  .coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
   }
-  .coverage-item {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    border-radius: 12px;
+  .coverage-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    transition: all 0.2s;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
   }
-  .coverage-item:hover {
-    border-color: #3b82f6;
-    background: #f0f9ff;
+  .coverage-card:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+  .coverage-icon {
+    font-size: 2rem;
+    color: #3b82f6;
+    margin-right: 15px;
   }
   .coverage-title {
     font-size: 1.1rem;
     font-weight: 600;
     color: #1e293b;
-    text-decoration: none;
+    margin-bottom: 5px;
   }
-  .coverage-icon {
+  .coverage-link-text {
+    font-size: 0.85rem;
     color: #3b82f6;
-    font-size: 1.5rem;
+    font-weight: 500;
   }
 
   /* Image Gallery */
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
   }
   .gallery-item {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     aspect-ratio: 4/3;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
   .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
+    transition: transform 0.5s ease;
   }
   .gallery-item:hover img {
     transform: scale(1.05);
   }
-  .gallery-overlay {
+  .gallery-caption {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px;
     color: #fff;
-    padding: 20px 15px 15px;
-    transform: translateY(100%);
-    transition: transform 0.3s;
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
   }
-  .gallery-item:hover .gallery-overlay {
+  .gallery-item:hover .gallery-caption {
+    opacity: 1;
     transform: translateY(0);
   }
 
   /* Videos */
   .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
   }
   .video-card {
-    border-radius: 12px;
-    overflow: hidden;
     background: #fff;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
   }
   .video-wrapper {
     position: relative;
@@ -172,109 +213,164 @@
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
   }
-  .video-desc {
-    padding: 15px;
+  .video-info {
+    padding: 20px;
+  }
+  .video-info p {
+    margin: 0;
+    color: #475569;
     font-weight: 500;
-    color: #334155;
+  }
+
+  /* Empty States */
+  .empty-state {
     text-align: center;
+    padding: 60px 20px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 2px dashed #e2e8f0;
+  }
+  .empty-state i {
+    font-size: 3rem;
+    color: #94a3b8;
+    margin-bottom: 15px;
+  }
+  .empty-state h3 {
+    font-size: 1.5rem;
+    color: #475569;
+  }
+
+  @media (max-width: 768px) {
+    .media-hero h1 { font-size: 2.5rem; }
+    .section-title { font-size: 2rem; }
+    .video-grid { grid-template-columns: 1fr; }
   }
 </style>
 {% endblock %}
 
 {% block content %}
 
-  <!-- Hero Section -->
-  <section class="media-hero">
-    <h1>Media Room</h1>
-    <p>Discover our latest press releases, news coverage, and multimedia resources highlighting our impact journey.</p>
-  </section>
+<!-- Hero Section -->
+<div class="media-hero">
+  <h1>Media & Press</h1>
+  <p>Stay updated with our latest news, official releases, external coverage, and visual stories from the ground.</p>
+</div>
 
-  <!-- Press Releases -->
-  <section class="media-section">
+<!-- Press Releases -->
+<div class="media-section">
+  <div class="section-header">
     <h2 class="section-title">Press Releases</h2>
-    {% if press_releases %}
-      <div class="press-grid">
-        {% for pr in press_releases %}
-        <div class="press-card">
-          <span class="press-date">{{ pr.release_date|date:"F d, Y" }}</span>
-          <h3 class="press-title">{{ pr.title }}</h3>
-          <p class="press-desc">{{ pr.description|linebreaksbr }}</p>
-        </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p style="text-align:center;color:#64748b;">No press releases available at the moment.</p>
-    {% endif %}
-  </section>
-
-  <!-- Media Coverage -->
-  <section class="media-section media-section-bg">
-    <h2 class="section-title">In the News</h2>
-    {% if media_coverage %}
-      <div class="coverage-list">
-        {% for coverage in media_coverage %}
-        <a href="{{ coverage.url }}" target="_blank" class="coverage-item text-decoration-none">
-          <span class="coverage-title">{{ coverage.title }}</span>
-          <i class="bi bi-box-arrow-up-right coverage-icon"></i>
-        </a>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p style="text-align:center;color:#64748b;">No media coverage available at the moment.</p>
-    {% endif %}
-  </section>
-
-  <!-- Image Gallery -->
-  <section class="media-section">
-    <h2 class="section-title">Image Gallery</h2>
-    {% if gallery_images %}
-      <div class="gallery-grid">
-        {% for image in gallery_images %}
-        <div class="gallery-item">
-          <img src="{{ image.image_path.url }}" alt="{{ image.description|default:'Gallery Image' }}">
-          {% if image.description %}
-            <div class="gallery-overlay">
-              <p class="mb-0 fw-bold">{{ image.description }}</p>
-            </div>
-          {% endif %}
-        </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p style="text-align:center;color:#64748b;">No gallery images available at the moment.</p>
-    {% endif %}
-  </section>
-
-  <!-- Videos -->
-  <section class="media-section media-section-bg">
-    <h2 class="section-title">Featured Videos</h2>
-    {% if videos %}
-      <div class="video-grid">
-        {% for video in videos %}
-        <div class="video-card">
-          <div class="video-wrapper">
-            <!-- Using simple iframe embed. Note: Assumes url is an embeddable format. If it's a standard watch URL, ideally it should be converted, but we'll trust the user to provide an embed link. -->
-            <iframe src="{{ video.video_url }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-          {% if video.description %}
-            <div class="video-desc">{{ video.description }}</div>
-          {% endif %}
-        </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p style="text-align:center;color:#64748b;">No videos available at the moment.</p>
-    {% endif %}
-  </section>
-
-  <!-- Contact For Media -->
-  <section class="media-section">
-    <div style="max-width:800px; margin:0 auto; text-align:center; padding: 40px; background:#fff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 10px 25px -5px rgba(0,0,0,0.05);">
-      <h2 style="font-size:2rem; font-weight:700; color:#1e293b; margin-bottom:16px;">Media Inquiries</h2>
-      <p style="color:#64748b; font-size:1.1rem; margin-bottom:30px;">For press inquiries, interviews, or additional media resources, please contact our PR team.</p>
-      <a href="{% url 'home:contact' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm" style="background:#3b82f6; border-color:#3b82f6;">Contact Us</a>
+    <p class="section-subtitle">Official announcements and news from Nirmaan Foundation</p>
+  </div>
+  
+  {% if has_press_releases %}
+  <div class="press-grid">
+    {% for release in press_releases %}
+    <div class="press-card">
+      <div class="press-date">{{ release.release_date|date:"F d, Y" }}</div>
+      <h3 class="press-title">{{ release.title }}</h3>
+      <p class="press-desc">{{ release.description|linebreaksbr }}</p>
     </div>
-  </section>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-newspaper"></i>
+    <h3>No Press Releases Yet</h3>
+    <p>Check back later for official announcements.</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Media Coverage -->
+<div class="media-section bg-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 class="section-title">Media Coverage</h2>
+      <p class="section-subtitle">Nirmaan Foundation in the news and external publications</p>
+    </div>
+    
+    {% if has_media_coverages %}
+    <div class="coverage-grid">
+      {% for coverage in media_coverages %}
+      <a href="{{ coverage.url }}" target="_blank" rel="noopener noreferrer" class="coverage-card">
+        <i class="bi bi-link-45deg coverage-icon"></i>
+        <div>
+          <div class="coverage-title">{{ coverage.title }}</div>
+          <div class="coverage-link-text">Read Article &rarr;</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state bg-white">
+      <i class="bi bi-journal-text"></i>
+      <h3>No Media Coverage Yet</h3>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Image Gallery -->
+<div class="media-section">
+  <div class="section-header">
+    <h2 class="section-title">Image Gallery</h2>
+    <p class="section-subtitle">Visual highlights from our events and programs</p>
+  </div>
+  
+  {% if has_images %}
+  <div class="gallery-grid">
+    {% for image in images %}
+    <div class="gallery-item">
+      <img src="{{ image.image_path.url }}" alt="{{ image.description|default:'Gallery Image' }}">
+      {% if image.description %}
+      <div class="gallery-caption">{{ image.description }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-images"></i>
+    <h3>No Images in Gallery</h3>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Videos -->
+<div class="media-section bg-light">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 class="section-title">Videos</h2>
+      <p class="section-subtitle">Watch our impact stories and event highlights</p>
+    </div>
+    
+    {% if has_videos %}
+    <div class="video-grid">
+      {% for video in videos %}
+      <div class="video-card">
+        <div class="video-wrapper">
+          <!-- Note: The video_url should ideally be an embed URL or we need to parse it. 
+               For this implementation, we assume the user provides a valid embed URL (e.g. YouTube). -->
+          <iframe src="{{ video.video_url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        {% if video.description %}
+        <div class="video-info">
+          <p>{{ video.description }}</p>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state bg-white">
+      <i class="bi bi-play-btn"></i>
+      <h3>No Videos Found</h3>
+    </div>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock %}

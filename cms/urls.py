@@ -127,25 +127,23 @@ urlpatterns = [
     path('dashboard/admin/projects/<int:pk>/delete/', views.project_delete_view, name='project_delete'),
     path('dashboard/admin/projects/<int:pk>/images/', views.project_images_view, name='project_images'),
     path('dashboard/admin/projects/<int:project_pk>/images/<int:image_pk>/delete/', views.project_image_delete_view, name='project_image_delete'),
-    
-    # ── Media (Assignment 5) ──────────────────────────────────
-    path('dashboard/admin/media/', views.media_hub_view, name='media_hub'),
-    
-    path('dashboard/admin/media/press-releases/', views.press_list_view, name='press_list'),
-    path('dashboard/admin/media/press-releases/add/', views.press_create_view, name='press_create'),
-    path('dashboard/admin/media/press-releases/<int:pk>/edit/', views.press_edit_view, name='press_edit'),
-    path('dashboard/admin/media/press-releases/<int:pk>/delete/', views.press_delete_view, name='press_delete'),
-    
-    path('dashboard/admin/media/coverage/', views.coverage_list_view, name='coverage_list'),
-    path('dashboard/admin/media/coverage/add/', views.coverage_create_view, name='coverage_create'),
-    path('dashboard/admin/media/coverage/<int:pk>/edit/', views.coverage_edit_view, name='coverage_edit'),
-    path('dashboard/admin/media/coverage/<int:pk>/delete/', views.coverage_delete_view, name='coverage_delete'),
-    
-    path('dashboard/admin/media/gallery/', views.gallery_list_view, name='gallery_list'),
-    path('dashboard/admin/media/gallery/add/', views.gallery_create_view, name='gallery_create'),
-    path('dashboard/admin/media/gallery/<int:pk>/edit/', views.gallery_edit_view, name='gallery_edit'),
-    path('dashboard/admin/media/gallery/<int:pk>/delete/', views.gallery_delete_view, name='gallery_delete'),
-    
+
+    # ── Media Page (Assignment 5) ─────────────────────────────
+    path('dashboard/admin/media/press-releases/', views.press_release_list_view, name='press_release_list'),
+    path('dashboard/admin/media/press-releases/add/', views.press_release_create_view, name='press_release_create'),
+    path('dashboard/admin/media/press-releases/<int:pk>/edit/', views.press_release_edit_view, name='press_release_edit'),
+    path('dashboard/admin/media/press-releases/<int:pk>/delete/', views.press_release_delete_view, name='press_release_delete'),
+
+    path('dashboard/admin/media/coverage/', views.media_coverage_list_view, name='media_coverage_list'),
+    path('dashboard/admin/media/coverage/add/', views.media_coverage_create_view, name='media_coverage_create'),
+    path('dashboard/admin/media/coverage/<int:pk>/edit/', views.media_coverage_edit_view, name='media_coverage_edit'),
+    path('dashboard/admin/media/coverage/<int:pk>/delete/', views.media_coverage_delete_view, name='media_coverage_delete'),
+
+    path('dashboard/admin/media/gallery/', views.image_gallery_list_view, name='image_gallery_list'),
+    path('dashboard/admin/media/gallery/add/', views.image_gallery_create_view, name='image_gallery_create'),
+    path('dashboard/admin/media/gallery/<int:pk>/edit/', views.image_gallery_edit_view, name='image_gallery_edit'),
+    path('dashboard/admin/media/gallery/<int:pk>/delete/', views.image_gallery_delete_view, name='image_gallery_delete'),
+
     path('dashboard/admin/media/videos/', views.video_list_view, name='video_list'),
     path('dashboard/admin/media/videos/add/', views.video_create_view, name='video_create'),
     path('dashboard/admin/media/videos/<int:pk>/edit/', views.video_edit_view, name='video_edit'),

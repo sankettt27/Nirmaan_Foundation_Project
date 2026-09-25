@@ -305,4 +305,58 @@
 
   </div>
 
+  <!-- SECTION: MEDIA PAGE (ASSIGNMENT 5) -->
+  <div class="cms-group-title"><i class="bi bi-camera-reels-fill text-info"></i> Media Page Content</div>
+  <div class="cms-section-grid">
+
+    <!-- Press Releases Card -->
+    <div class="cms-section-card" id="cms-card-press-releases">
+      <div class="cms-card-icon cms-icon-blue">
+        <i class="bi bi-newspaper"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Press Releases</h3>
+        <p class="cms-card-desc">Manage official press releases for the media page</p>
+      </div>
+      <a href="{% url 'cms:press_release_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <!-- Media Coverage Card -->
+    <div class="cms-section-card" id="cms-card-media-coverage">
+      <div class="cms-card-icon cms-icon-orange">
+        <i class="bi bi-link-45deg"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Media Coverage</h3>
+        <p class="cms-card-desc">Links to external articles and news featuring us</p>
+      </div>
+      <a href="{% url 'cms:media_coverage_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <!-- Image Gallery Card -->
+    <div class="cms-section-card" id="cms-card-image-gallery">
+      <div class="cms-card-icon cms-icon-green">
+        <i class="bi bi-images"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Image Gallery</h3>
+        <p class="cms-card-desc">Manage photos for the media gallery</p>
+      </div>
+      <a href="{% url 'cms:image_gallery_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <!-- Videos Card -->
+    <div class="cms-section-card" id="cms-card-videos">
+      <div class="cms-card-icon text-danger" style="background: #FFEAEA;">
+        <i class="bi bi-play-btn"></i>
+      </div>
+      <div class="cms-card-info">
+        <h3 class="cms-card-title">Videos</h3>
+        <p class="cms-card-desc">Add video links to the media page</p>
+      </div>
+      <a href="{% url 'cms:video_list' %}" class="cms-card-action">Manage <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+  </div>
+
 {% endblock %}

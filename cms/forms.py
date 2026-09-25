@@ -12,8 +12,7 @@ from .models import (
     AboutMilestone, TeamMember, AboutEvent,
     ImpactStory, AnnualReport, VolunteerOpportunity,
     PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
-    Project, ProjectImage,
-    PressRelease, MediaCoverage, ImageGallery, Video
+    Project, ProjectImage, PressRelease, MediaCoverage, ImageGallery, Video
 )
 
 
@@ -471,8 +470,8 @@ class PressReleaseForm(forms.ModelForm):
         model = PressRelease
         fields = ['title', 'description', 'release_date']
         widgets = {
-            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Nirmaan Foundation Wins Impact Award'}),
-            'description': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Press release content...'}),
+            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Press Release Title'}),
+            'description': forms.Textarea(attrs={**_textarea_attrs, 'placeholder': 'Full press release content...'}),
             'release_date': forms.DateInput(attrs={**_text_attrs, 'type': 'date'}),
         }
 
@@ -482,7 +481,7 @@ class MediaCoverageForm(forms.ModelForm):
         model = MediaCoverage
         fields = ['title', 'url']
         widgets = {
-            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'e.g., Feature in The Hindu'}),
+            'title': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Article or Coverage Title'}),
             'url': forms.URLInput(attrs={**_text_attrs, 'placeholder': 'https://...'}),
         }
 
@@ -491,12 +490,9 @@ class ImageGalleryForm(forms.ModelForm):
     class Meta:
         model = ImageGallery
         fields = ['image_path', 'description']
-        labels = {
-            'image_path': 'Gallery Image',
-        }
         widgets = {
             'image_path': forms.ClearableFileInput(attrs=_file_attrs),
-            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description...'}),
+            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description or caption'}),
         }
 
 
@@ -506,6 +502,5 @@ class VideoForm(forms.ModelForm):
         fields = ['video_url', 'description']
         widgets = {
             'video_url': forms.URLInput(attrs={**_text_attrs, 'placeholder': 'https://youtube.com/...'}),
-            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description...'}),
+            'description': forms.TextInput(attrs={**_text_attrs, 'placeholder': 'Optional description'}),
         }
-

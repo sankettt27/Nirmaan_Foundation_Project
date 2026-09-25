@@ -375,32 +375,7 @@ if not Program.objects.exists():
     Program.objects.create(name='Health Camps for Rural Areas', icon='bi-hospital', order=2, description='Running pediatric check-ups, eye screenings, nutritional supplements, and hygiene workshops in underserved rural and peri-urban villages.')
     Program.objects.create(name='Vocational Training for Youth & Women', icon='bi-tools', order=3, description='Offering computer literacy, spoken English, and job-readiness skill workshops for youth and women to build sustainable livelihoods.')
     print('Default Programs created.')
-
-# 11. Assignment 5: Media CMS
-from cms.models import PressRelease, MediaCoverage, ImageGallery, Video
-
-if not PressRelease.objects.exists():
-    PressRelease.objects.create(
-        title='Nirmaan Foundation Launches 100th School Project',
-        description='We are thrilled to announce the successful launch of our 100th community school project in rural Karnataka, aiming to educate 500+ children this year.',
-        release_date='2024-05-15'
-    )
-    print('Default Press Release created.')
-
-if not MediaCoverage.objects.exists():
-    MediaCoverage.objects.create(
-        title='Feature: How Nirmaan is Changing Rural Education',
-        url='https://example.com/news'
-    )
-    print('Default Media Coverage created.')
-
-if not Video.objects.exists():
-    Video.objects.create(
-        video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
-        description='A look at our community programs.'
-    )
-    print('Default Video created.')
-
 " || true
 
 echo "==> Build complete!"
+

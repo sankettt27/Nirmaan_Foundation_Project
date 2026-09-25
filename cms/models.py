@@ -742,7 +742,7 @@ class PressRelease(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'press_releases'
+        db_table = 'press_release'
         ordering = ['-release_date', '-created_at']
         verbose_name = 'Press Release'
         verbose_name_plural = 'Press Releases'
@@ -753,7 +753,7 @@ class PressRelease(models.Model):
 
 class MediaCoverage(models.Model):
     """
-    External media coverage articles/links.
+    External media coverage links.
     """
     title = models.CharField(max_length=255, verbose_name='Title')
     url = models.URLField(max_length=2083, verbose_name='URL')
@@ -774,15 +774,15 @@ class ImageGallery(models.Model):
     """
     Image gallery for the media page.
     """
-    image_path = models.ImageField(upload_to='cms/media_gallery/', max_length=2083, verbose_name='Image Path')
+    image_path = models.ImageField(upload_to='cms/gallery/', max_length=2083, verbose_name='Image Path')
     description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Description')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'image_gallery'
         ordering = ['-uploaded_at']
-        verbose_name = 'Gallery Image'
-        verbose_name_plural = 'Gallery Images'
+        verbose_name = 'Image Gallery'
+        verbose_name_plural = 'Image Galleries'
 
     def __str__(self):
         return self.description or f"Gallery Image {self.id}"
@@ -790,17 +790,17 @@ class ImageGallery(models.Model):
 
 class Video(models.Model):
     """
-    Videos for the media page.
+    Video links for the media page.
     """
     video_url = models.URLField(max_length=2083, verbose_name='Video URL')
     description = models.CharField(max_length=255, blank=True, null=True, verbose_name='Description')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'videos'
+        db_table = 'video'
         ordering = ['-uploaded_at']
         verbose_name = 'Video'
         verbose_name_plural = 'Videos'
 
     def __str__(self):
-        return self.description or self.video_url
+        return self.description or f"Video {self.id}"
