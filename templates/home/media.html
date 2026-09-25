@@ -352,9 +352,14 @@
       {% for video in videos %}
       <div class="video-card">
         <div class="video-wrapper">
-          <!-- Note: The video_url should ideally be an embed URL or we need to parse it. 
-               For this implementation, we assume the user provides a valid embed URL (e.g. YouTube). -->
-          <iframe src="{{ video.embed_url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe 
+            src="{{ video.embed_url }}" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
         </div>
         {% if video.description %}
         <div class="video-info">
