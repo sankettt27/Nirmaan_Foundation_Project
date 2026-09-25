@@ -807,11 +807,11 @@ class Video(models.Model):
 
     @property
     def embed_url(self):
-        """Convert standard YouTube URLs to embed URLs for iframes."""
+        """Convert standard YouTube URLs to privacy-enhanced embed URLs for iframes."""
         if 'youtube.com/watch?v=' in self.video_url:
             video_id = self.video_url.split('v=')[1][:11]
-            return f"https://www.youtube.com/embed/{video_id}"
+            return f"https://www.youtube-nocookie.com/embed/{video_id}"
         elif 'youtu.be/' in self.video_url:
             video_id = self.video_url.split('youtu.be/')[1][:11]
-            return f"https://www.youtube.com/embed/{video_id}"
+            return f"https://www.youtube-nocookie.com/embed/{video_id}"
         return self.video_url
