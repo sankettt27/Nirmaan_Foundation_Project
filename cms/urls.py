@@ -148,4 +148,8 @@ urlpatterns = [
     path('dashboard/admin/media/videos/add/', views.video_create_view, name='video_create'),
     path('dashboard/admin/media/videos/<int:pk>/edit/', views.video_edit_view, name='video_edit'),
     path('dashboard/admin/media/videos/<int:pk>/delete/', views.video_delete_view, name='video_delete'),
+
+    # ── Volunteer Registrations (Admin) — Assignment 6 ────────
+    path('dashboard/admin/volunteer-registrations/', views.vol_registration_list_view, name='vol_registration_list'),
+    path('dashboard/admin/volunteer-registrations/<int:pk>/update-status/', views.vol_registration_update_status_view, name='vol_registration_update_status'),
 ]

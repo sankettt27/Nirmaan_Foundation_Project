@@ -1,0 +1,142 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Volunteer Registrations — Nirmaan Foundation CMS{% endblock %}
+{% block dash_role_class %}dash-admin{% endblock %}
+{% block sidebar_role_label %}Admin Panel{% endblock %}
+{% block header_title %}Volunteer Registrations{% endblock %}
+
+{% block sidebar_nav %}
+  {% include 'cms/_sidebar.html' with active_cms='vol_registrations' %}
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <p style="color: var(--dash-text-secondary); font-size: 0.9rem; margin: 0;">
+      All volunteer registrations submitted via the Volunteer Dashboard. Update status below.
+    </p>
+    <span style="font-size: 0.82rem; color: var(--dash-text-muted);">
+      {{ registrations.count }} total registration{{ registrations.count|pluralize }}
+    </span>
+  </div>
+
+  {% if registrations %}
+  <div class="widget-card" style="max-width: 100%;">
+    <div class="widget-body" style="padding: 0; overflow-x: auto;">
+      <table class="cms-reg-table" id="admin-registrations-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Volunteer</th>
+            <th>Email</th>
+            <th>Opportunity</th>
+            <th>Registered</th>
+            <th>Current Status</th>
+            <th>Update Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reg in registrations %}
+          <tr id="admin-reg-row-{{ reg.pk }}">
+            <td style="color: var(--dash-text-muted); font-size: 0.78rem;">{{ forloop.counter }}</td>
+            <td>
+              <div style="font-weight: 600; font-size: 0.88rem; color: var(--dash-text-primary);">{{ reg.volunteer.full_name }}</div>
+            </td>
+            <td style="font-size: 0.82rem; color: var(--dash-text-secondary);">{{ reg.volunteer.email }}</td>
+            <td>
+              <div style="font-weight: 600; font-size: 0.85rem;">{{ reg.opportunity.title }}</div>
+              <div style="font-size: 0.73rem; color: var(--dash-text-muted);">{{ reg.opportunity.location }}</div>
+            </td>
+            <td style="font-size: 0.82rem; color: var(--dash-text-secondary); white-space: nowrap;">{{ reg.registered_at|date:"M d, Y" }}</td>
+            <td>
+              <span class="cms-reg-badge cms-reg-badge-{{ reg.status }}">{{ reg.get_status_display }}</span>
+            </td>
+            <td>
+              <form method="post" action="{% url 'cms:vol_registration_update_status' reg.pk %}" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                {% csrf_token %}
+                <select name="status" class="cms-status-select" id="status-select-{{ reg.pk }}">
+                  <option value="pending"  {% if reg.status == 'pending'  %}selected{% endif %}>Pending</option>
+                  <option value="approved" {% if reg.status == 'approved' %}selected{% endif %}>Approved</option>
+                  <option value="rejected" {% if reg.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+                <button type="submit" class="cms-status-update-btn" id="update-btn-{{ reg.pk }}">Update</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="empty-state" style="padding: 80px 20px; border: 2px dashed var(--dash-border); border-radius: var(--radius-lg);">
+    <div class="empty-state-icon"><i class="bi bi-clipboard-x"></i></div>
+    <div class="empty-state-title">No registrations yet</div>
+    <div class="empty-state-desc">Volunteers haven't registered for any opportunities. Registrations will appear here once volunteers apply.</div>
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .cms-reg-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+  .cms-reg-table thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dash-text-muted);
+    border-bottom: 1px solid var(--dash-border);
+    background: #f8fafc;
+    white-space: nowrap;
+  }
+  .cms-reg-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--dash-border-light);
+    vertical-align: middle;
+  }
+  .cms-reg-table tbody tr:last-child td { border-bottom: none; }
+  .cms-reg-table tbody tr:hover td { background: #f8fafc; }
+
+  .cms-reg-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .cms-reg-badge-pending  { background:#fffbeb; color:#92400e; border:1px solid #fde68a; }
+  .cms-reg-badge-approved { background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; }
+  .cms-reg-badge-rejected { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+
+  .cms-status-select {
+    padding: 5px 10px;
+    border: 1px solid var(--dash-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-family: var(--font-dash);
+    background: #fff;
+    color: var(--dash-text-primary);
+    cursor: pointer;
+  }
+  .cms-status-update-btn {
+    padding: 5px 12px;
+    background: var(--accent-admin);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-dash);
+    white-space: nowrap;
+    transition: background 0.18s;
+  }
+  .cms-status-update-btn:hover { background: var(--accent-admin-mid); }
+</style>
+{% endblock %}

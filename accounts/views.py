@@ -339,14 +339,137 @@ def admin_dashboard_view(request):
 @role_required('user')
 def volunteer_dashboard_view(request):
     """
-    Volunteer dashboard — personalized portal for volunteers.
-    Protected by role_required('user') — volunteers and users can access.
+    Volunteer dashboard — pulls real data from DB for the authenticated volunteer.
+    Shows opportunities, events, and their personal registration stats.
     """
+    from cms.models import VolunteerOpportunity, AboutEvent, VolunteerRegistration, Project
+
+    # Real DB data
+    opportunities = VolunteerOpportunity.objects.filter(is_active=True).order_by('order')[:6]
+    events = AboutEvent.objects.filter(is_active=True).order_by('order')[:4]
+    ongoing_projects = Project.objects.filter(status='Ongoing').count()
+
+    # Volunteer's own registrations
+    my_registrations = VolunteerRegistration.objects.filter(
+        volunteer=request.user
+    ).select_related('opportunity').order_by('-registered_at')
+
+    # Registration IDs for quick template lookup
+    registered_opportunity_ids = set(my_registrations.values_list('opportunity_id', flat=True))
+    registration_status_map = {r.opportunity_id: r.status for r in my_registrations}
+
+    # Summary stats (real numbers)
+    total_opportunities = VolunteerOpportunity.objects.filter(is_active=True).count()
+    total_events = AboutEvent.objects.filter(is_active=True).count()
+    my_reg_count = my_registrations.count()
+    my_pending_count = my_registrations.filter(status='pending').count()
+
     context = {
         'time_of_day': _get_time_of_day(),
         'current_date': datetime.now().strftime('%B %d, %Y'),
+        'opportunities': opportunities,
+        'events': events,
+        'ongoing_projects': ongoing_projects,
+        'my_registrations': my_registrations[:5],
+        'registered_opportunity_ids': registered_opportunity_ids,
+        'registration_status_map': registration_status_map,
+        'total_opportunities': total_opportunities,
+        'total_events': total_events,
+        'my_reg_count': my_reg_count,
+        'my_pending_count': my_pending_count,
+        'active_nav': 'dashboard',
     }
     return render(request, 'accounts/volunteer_dashboard.html', context)
+
+
+@role_required('user')
+def volunteer_opportunities_view(request):
+    """
+    Dedicated page: Browse all active volunteer opportunities.
+    """
+    from cms.models import VolunteerOpportunity, VolunteerRegistration
+
+    opportunities = VolunteerOpportunity.objects.filter(is_active=True).order_by('order')
+    my_registrations = VolunteerRegistration.objects.filter(
+        volunteer=request.user
+    ).values_list('opportunity_id', 'status')
+
+    registration_status_map = {opp_id: status for opp_id, status in my_registrations}
+
+    context = {
+        'opportunities': opportunities,
+        'registration_status_map': registration_status_map,
+        'active_nav': 'opportunities',
+        'current_date': datetime.now().strftime('%B %d, %Y'),
+    }
+    return render(request, 'accounts/volunteer_opportunities.html', context)
+
+
+@role_required('user')
+def volunteer_register_opportunity_view(request, pk):
+    """
+    POST: Register authenticated volunteer for a given opportunity.
+    Prevents duplicate registrations with a 409-style redirect + message.
+    """
+    from cms.models import VolunteerOpportunity, VolunteerRegistration
+    from django.shortcuts import get_object_or_404
+
+    opportunity = get_object_or_404(VolunteerOpportunity, pk=pk, is_active=True)
+
+    if request.method == 'POST':
+        existing = VolunteerRegistration.objects.filter(
+            volunteer=request.user, opportunity=opportunity
+        ).first()
+
+        if existing:
+            messages.warning(
+                request,
+                f'You have already registered for "{opportunity.title}" '
+                f'(Status: {existing.get_status_display()}).'
+            )
+        else:
+            VolunteerRegistration.objects.create(
+                volunteer=request.user,
+                opportunity=opportunity,
+                status='pending',
+            )
+            messages.success(
+                request,
+                f'Successfully registered for "{opportunity.title}"! '
+                f'Your application is pending admin review.'
+            )
+    return redirect('accounts:volunteer_opportunities')
+
+
+@role_required('user')
+def volunteer_my_registrations_view(request):
+    """
+    Shows the authenticated volunteer's personal registration history.
+    """
+    from cms.models import VolunteerRegistration
+
+    my_registrations = VolunteerRegistration.objects.filter(
+        volunteer=request.user
+    ).select_related('opportunity').order_by('-registered_at')
+
+    context = {
+        'my_registrations': my_registrations,
+        'active_nav': 'registrations',
+        'current_date': datetime.now().strftime('%B %d, %Y'),
+    }
+    return render(request, 'accounts/volunteer_my_registrations.html', context)
+
+
+@role_required('user')
+def volunteer_profile_view(request):
+    """
+    Volunteer profile view — displays current account information.
+    """
+    context = {
+        'active_nav': 'profile',
+        'current_date': datetime.now().strftime('%B %d, %Y'),
+    }
+    return render(request, 'accounts/volunteer_profile.html', context)
 
 
 @role_required('user')

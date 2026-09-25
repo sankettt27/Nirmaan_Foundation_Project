@@ -1,0 +1,227 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}My Profile — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-volunteer{% endblock %}
+{% block sidebar_role_label %}Volunteer Portal{% endblock %}
+{% block header_title %}My Profile{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+  <a href="{% url 'accounts:volunteer_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+  </a>
+  <div class="sidebar-nav-label">Volunteer</div>
+  <a href="{% url 'accounts:volunteer_opportunities' %}" class="sidebar-nav-item" id="nav-opportunities">
+    <i class="bi bi-calendar-event-fill"></i> Opportunities
+  </a>
+  <a href="{% url 'accounts:volunteer_my_registrations' %}" class="sidebar-nav-item" id="nav-registrations">
+    <i class="bi bi-clipboard-check-fill"></i> My Registrations
+  </a>
+  <div class="sidebar-nav-label">Account</div>
+  <a href="{% url 'accounts:volunteer_profile' %}" class="sidebar-nav-item active" id="nav-profile">
+    <i class="bi bi-person-fill"></i> My Profile
+  </a>
+  <div class="sidebar-nav-label">Public Site</div>
+  <a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-public-site">
+    <i class="bi bi-box-arrow-up-right"></i> View Website
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div class="profile-layout" id="profile-layout">
+
+    <!-- Profile Card -->
+    <div class="profile-card widget-card" id="profile-card">
+      <div class="profile-avatar-section">
+        <div class="profile-avatar-large" id="profile-avatar">
+          {{ user.get_short_name|first|upper }}
+        </div>
+        <div class="profile-name">{{ user.get_full_name }}</div>
+        <div class="profile-role-tag">
+          <i class="bi bi-patch-check-fill"></i>
+          {{ user.get_role_display }}
+        </div>
+        <div class="profile-status-tag {% if user.status == 'active' %}profile-status-active{% else %}profile-status-inactive{% endif %}">
+          {{ user.status|title }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Details -->
+    <div class="widget-card" id="account-details-card" style="flex: 1;">
+      <div class="widget-header">
+        <div class="widget-title">
+          <i class="bi bi-person-vcard"></i>
+          Account Information
+        </div>
+      </div>
+      <div class="widget-body">
+        <div class="profile-detail-grid">
+          <div class="profile-detail-item" id="detail-fullname">
+            <div class="profile-detail-label">
+              <i class="bi bi-person"></i> Full Name
+            </div>
+            <div class="profile-detail-value">{{ user.get_full_name }}</div>
+          </div>
+          <div class="profile-detail-item" id="detail-email">
+            <div class="profile-detail-label">
+              <i class="bi bi-envelope"></i> Email Address
+            </div>
+            <div class="profile-detail-value">{{ user.email }}</div>
+          </div>
+          <div class="profile-detail-item" id="detail-role">
+            <div class="profile-detail-label">
+              <i class="bi bi-shield-check"></i> Role
+            </div>
+            <div class="profile-detail-value">{{ user.get_role_display }}</div>
+          </div>
+          <div class="profile-detail-item" id="detail-status">
+            <div class="profile-detail-label">
+              <i class="bi bi-activity"></i> Account Status
+            </div>
+            <div class="profile-detail-value">
+              <span class="{% if user.status == 'active' %}profile-status-active{% else %}profile-status-inactive{% endif %}" style="font-weight:600;">
+                {{ user.status|title }}
+              </span>
+            </div>
+          </div>
+          <div class="profile-detail-item" id="detail-joined">
+            <div class="profile-detail-label">
+              <i class="bi bi-calendar-check"></i> Member Since
+            </div>
+            <div class="profile-detail-value">{{ user.created_at|date:"F d, Y" }}</div>
+          </div>
+        </div>
+
+        <div class="profile-note" id="profile-security-note">
+          <i class="bi bi-info-circle"></i>
+          Your role and status are managed by the Nirmaan Foundation admin team. To update your information, please contact the admin.
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .profile-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .profile-card {
+    width: 260px;
+    flex-shrink: 0;
+  }
+
+  .profile-avatar-section {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--accent-volunteer);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .profile-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dash-text-primary);
+  }
+
+  .profile-role-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    background: var(--accent-volunteer-light);
+    color: var(--accent-volunteer);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .profile-status-tag {
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .profile-status-active   { color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .profile-status-inactive { color: #991b1b; background: #fef2f2; border: 1px solid #fecaca; }
+
+  .profile-detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .profile-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--dash-border-light);
+    gap: 16px;
+  }
+  .profile-detail-item:last-child { border-bottom: none; }
+
+  .profile-detail-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--dash-text-muted);
+    font-weight: 500;
+    min-width: 160px;
+    flex-shrink: 0;
+  }
+  .profile-detail-label i { color: var(--accent-volunteer); }
+
+  .profile-detail-value {
+    font-size: 0.88rem;
+    color: var(--dash-text-primary);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .profile-note {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: #0369a1;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .profile-note i { flex-shrink: 0; margin-top: 2px; }
+
+  @media (max-width: 768px) {
+    .profile-card { width: 100%; }
+    .profile-detail-item { flex-direction: column; align-items: flex-start; }
+    .profile-detail-value { text-align: left; }
+  }
+</style>
+{% endblock %}

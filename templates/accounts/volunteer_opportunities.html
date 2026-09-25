@@ -1,0 +1,232 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Volunteer Opportunities — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-volunteer{% endblock %}
+{% block sidebar_role_label %}Volunteer Portal{% endblock %}
+{% block header_title %}Volunteer Opportunities{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+  <a href="{% url 'accounts:volunteer_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+  </a>
+  <div class="sidebar-nav-label">Volunteer</div>
+  <a href="{% url 'accounts:volunteer_opportunities' %}" class="sidebar-nav-item active" id="nav-opportunities">
+    <i class="bi bi-calendar-event-fill"></i> Opportunities
+  </a>
+  <a href="{% url 'accounts:volunteer_my_registrations' %}" class="sidebar-nav-item {% if active_nav == 'registrations' %}active{% endif %}" id="nav-registrations">
+    <i class="bi bi-clipboard-check-fill"></i> My Registrations
+  </a>
+  <div class="sidebar-nav-label">Account</div>
+  <a href="{% url 'accounts:volunteer_profile' %}" class="sidebar-nav-item" id="nav-profile">
+    <i class="bi bi-person-fill"></i> My Profile
+  </a>
+  <div class="sidebar-nav-label">Public Site</div>
+  <a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-public-site">
+    <i class="bi bi-box-arrow-up-right"></i> View Website
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div style="margin-bottom: 24px;">
+    <p style="color: var(--dash-text-secondary); font-size: 0.9rem;">
+      Browse all available volunteer opportunities. Click <strong>Register</strong> to apply for a role.
+    </p>
+  </div>
+
+  {% if opportunities %}
+  <div class="opp-card-grid" id="opportunities-grid">
+    {% for opp in opportunities %}
+    <div class="opp-card" id="opp-card-{{ opp.pk }}">
+      <div class="opp-card-header">
+        <div class="opp-card-tag">{{ opp.get_mode_display }}</div>
+        <div class="opp-card-title">{{ opp.title }}</div>
+      </div>
+      <div class="opp-card-body">
+        <p class="opp-card-desc">{{ opp.description|truncatewords:25 }}</p>
+        <div class="opp-card-details">
+          <div class="opp-detail-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            {{ opp.location }}
+          </div>
+          <div class="opp-detail-item">
+            <i class="bi bi-clock-fill"></i>
+            {{ opp.commitment }}
+          </div>
+        </div>
+        {% if opp.requirements %}
+        <div class="opp-requirements">
+          <div class="opp-req-label">Requirements</div>
+          <ul class="opp-req-list">
+            {% for req in opp.requirements.splitlines %}
+            {% if req.strip %}
+            <li>{{ req.strip }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+      <div class="opp-card-footer">
+        {% if opp.pk in registration_status_map %}
+          <span class="opp-registered-badge opp-badge-pending" id="badge-opp-{{ opp.pk }}">
+            <i class="bi bi-check-circle-fill"></i>
+            Registered
+          </span>
+        {% else %}
+          <form method="post" action="{% url 'accounts:volunteer_register_opportunity' opp.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="opp-register-btn" id="register-{{ opp.pk }}">
+              <i class="bi bi-plus-circle"></i> Register
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state" style="padding: 60px 20px;">
+    <div class="empty-state-icon"><i class="bi bi-calendar-plus"></i></div>
+    <div class="empty-state-title">No opportunities available</div>
+    <div class="empty-state-desc">Volunteer opportunities will appear here when the team posts them. Check back soon!</div>
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .opp-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .opp-card {
+    background: var(--dash-surface);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .opp-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .opp-card-header {
+    padding: 20px 20px 12px;
+    border-bottom: 1px solid var(--dash-border-light);
+  }
+  .opp-card-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--accent-volunteer-light);
+    color: var(--accent-volunteer);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .opp-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dash-text-primary);
+    line-height: 1.3;
+  }
+  .opp-card-body { padding: 16px 20px; flex: 1; }
+  .opp-card-desc {
+    font-size: 0.83rem;
+    color: var(--dash-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .opp-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .opp-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--dash-text-secondary);
+  }
+  .opp-detail-item i { color: var(--accent-volunteer); font-size: 0.85rem; }
+  .opp-requirements { margin-top: 12px; }
+  .opp-req-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--dash-text-muted);
+    margin-bottom: 6px;
+  }
+  .opp-req-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .opp-req-list li {
+    font-size: 0.78rem;
+    color: var(--dash-text-secondary);
+    padding-left: 14px;
+    position: relative;
+  }
+  .opp-req-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-volunteer);
+  }
+  .opp-card-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--dash-border-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .opp-register-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: var(--accent-volunteer);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-dash);
+    transition: background 0.18s;
+  }
+  .opp-register-btn:hover { background: var(--accent-volunteer-mid); }
+  .opp-registered-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .opp-badge-pending  { background:#fffbeb; color:#92400e; border:1px solid #fde68a; }
+  .opp-badge-approved { background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; }
+  .opp-badge-rejected { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+
+  @media (max-width: 768px) {
+    .opp-card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}

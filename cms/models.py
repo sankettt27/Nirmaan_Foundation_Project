@@ -815,3 +815,70 @@ class Video(models.Model):
             video_id = self.video_url.split('youtu.be/')[1][:11]
             return f"https://www.youtube-nocookie.com/embed/{video_id}"
         return self.video_url
+
+
+# ============================================================
+# VOLUNTEER REGISTRATION MODEL (ASSIGNMENT 6 — VOLUNTEER DASHBOARD)
+# ============================================================
+
+class VolunteerRegistration(models.Model):
+    """
+    Tracks a volunteer's registration for a VolunteerOpportunity.
+
+    Flow:
+        Volunteer registers → status=Pending
+        Admin reviews → sets Approved or Rejected
+        Volunteer dashboard shows real-time status
+
+    Enforces: one registration per volunteer per opportunity (unique_together).
+    """
+    STATUS_CHOICES = [
+        ('pending',  'Pending Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    volunteer = models.ForeignKey(
+        'accounts.CustomUser',
+        on_delete=models.CASCADE,
+        related_name='volunteer_registrations',
+        verbose_name='Volunteer',
+    )
+    opportunity = models.ForeignKey(
+        'VolunteerOpportunity',
+        on_delete=models.CASCADE,
+        related_name='registrations',
+        verbose_name='Opportunity',
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name='Status',
+    )
+    note = models.TextField(
+        blank=True,
+        verbose_name='Admin Note',
+        help_text='Internal note from admin about this registration',
+    )
+    registered_at = models.DateTimeField(auto_now_add=True, verbose_name='Registered At')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Last Updated')
+
+    class Meta:
+        db_table = 'volunteer_registration'
+        unique_together = ('volunteer', 'opportunity')
+        ordering = ['-registered_at']
+        verbose_name = 'Volunteer Registration'
+        verbose_name_plural = 'Volunteer Registrations'
+
+    def __str__(self):
+        return f'{self.volunteer.full_name} → {self.opportunity.title} [{self.get_status_display()}]'
+
+    @property
+    def status_badge_class(self):
+        """Return CSS class for status badge."""
+        return {
+            'pending':  'badge-warning',
+            'approved': 'badge-success',
+            'rejected': 'badge-danger',
+        }.get(self.status, 'badge-secondary')

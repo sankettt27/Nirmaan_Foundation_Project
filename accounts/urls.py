@@ -40,6 +40,12 @@ urlpatterns = [
     path('dashboard/donor/', views.donor_dashboard_view, name='donor_dashboard'),
     path('dashboard/user/', views.volunteer_dashboard_view, name='user_dashboard'),
 
+    # ── Volunteer Sub-Pages ────────────────────────────────────
+    path('dashboard/volunteer/opportunities/', views.volunteer_opportunities_view, name='volunteer_opportunities'),
+    path('dashboard/volunteer/opportunities/<int:pk>/register/', views.volunteer_register_opportunity_view, name='volunteer_register_opportunity'),
+    path('dashboard/volunteer/my-registrations/', views.volunteer_my_registrations_view, name='volunteer_my_registrations'),
+    path('dashboard/volunteer/profile/', views.volunteer_profile_view, name='volunteer_profile'),
+
     # ── Password Reset (OTP-Based) ───────────────────────────
     path(
         'password-reset/',

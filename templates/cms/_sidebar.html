@@ -124,6 +124,13 @@ Include with: {% include 'cms/_sidebar.html' %}
   Videos
 </a>
 
+<div class="sidebar-nav-label">Volunteer Dashboard (Ass6)</div>
+
+<a href="{% url 'cms:vol_registration_list' %}" class="sidebar-nav-item {% if active_cms == 'vol_registrations' %}active{% endif %}" id="nav-vol-registrations">
+  <i class="bi bi-clipboard-check-fill"></i>
+  Volunteer Registrations
+</a>
+
 <div class="sidebar-nav-label">Live Site</div>
 
 <a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-view-site">

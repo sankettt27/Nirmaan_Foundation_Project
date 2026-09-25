@@ -1,0 +1,128 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}My Registrations — Nirmaan Foundation{% endblock %}
+{% block dash_role_class %}dash-volunteer{% endblock %}
+{% block sidebar_role_label %}Volunteer Portal{% endblock %}
+{% block header_title %}My Registrations{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-nav-label">Main</div>
+  <a href="{% url 'accounts:volunteer_dashboard' %}" class="sidebar-nav-item" id="nav-dashboard">
+    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+  </a>
+  <div class="sidebar-nav-label">Volunteer</div>
+  <a href="{% url 'accounts:volunteer_opportunities' %}" class="sidebar-nav-item" id="nav-opportunities">
+    <i class="bi bi-calendar-event-fill"></i> Opportunities
+  </a>
+  <a href="{% url 'accounts:volunteer_my_registrations' %}" class="sidebar-nav-item active" id="nav-registrations">
+    <i class="bi bi-clipboard-check-fill"></i> My Registrations
+  </a>
+  <div class="sidebar-nav-label">Account</div>
+  <a href="{% url 'accounts:volunteer_profile' %}" class="sidebar-nav-item" id="nav-profile">
+    <i class="bi bi-person-fill"></i> My Profile
+  </a>
+  <div class="sidebar-nav-label">Public Site</div>
+  <a href="{% url 'home:index' %}" target="_blank" class="sidebar-nav-item" id="nav-public-site">
+    <i class="bi bi-box-arrow-up-right"></i> View Website
+  </a>
+{% endblock %}
+
+{% block dashboard_content %}
+
+  <div style="margin-bottom: 24px;">
+    <p style="color: var(--dash-text-secondary); font-size: 0.9rem;">
+      Your complete registration history. The status below reflects the latest review by the admin team.
+    </p>
+  </div>
+
+  {% if my_registrations %}
+  <div class="widget-card" style="max-width: 100%;">
+    <div class="widget-body" style="padding: 0;">
+      <table class="reg-table" id="registrations-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Opportunity</th>
+            <th>Location</th>
+            <th>Mode</th>
+            <th>Registered On</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reg in my_registrations %}
+          <tr id="reg-row-{{ reg.pk }}">
+            <td style="color: var(--dash-text-muted); font-size: 0.8rem;">{{ forloop.counter }}</td>
+            <td>
+              <div style="font-weight: 600; color: var(--dash-text-primary); font-size: 0.88rem;">{{ reg.opportunity.title }}</div>
+              <div style="font-size: 0.75rem; color: var(--dash-text-muted); margin-top: 2px;">{{ reg.opportunity.commitment }}</div>
+            </td>
+            <td style="font-size: 0.83rem; color: var(--dash-text-secondary);">{{ reg.opportunity.location }}</td>
+            <td style="font-size: 0.8rem; color: var(--dash-text-secondary);">{{ reg.opportunity.get_mode_display }}</td>
+            <td style="font-size: 0.83rem; color: var(--dash-text-secondary); white-space: nowrap;">{{ reg.registered_at|date:"M d, Y" }}</td>
+            <td>
+              <span class="vol-badge vol-badge-{{ reg.status }}">{{ reg.get_status_display }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="empty-state" style="padding: 80px 20px;">
+    <div class="empty-state-icon"><i class="bi bi-clipboard-x"></i></div>
+    <div class="empty-state-title">No registrations yet</div>
+    <div class="empty-state-desc">
+      You haven't registered for any volunteer opportunities yet.
+      <a href="{% url 'accounts:volunteer_opportunities' %}" style="color: var(--accent-volunteer); font-weight: 600;">Browse opportunities →</a>
+    </div>
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .reg-table { width: 100%; border-collapse: collapse; }
+  .reg-table thead th {
+    padding: 12px 20px;
+    text-align: left;
+    color: var(--dash-text-muted);
+    font-size: 0.73rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--dash-border);
+    background: #f8fafc;
+    white-space: nowrap;
+  }
+  .reg-table tbody td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--dash-border-light);
+    vertical-align: middle;
+  }
+  .reg-table tbody tr:last-child td { border-bottom: none; }
+  .reg-table tbody tr:hover td { background: #f8fafc; }
+
+  .vol-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .vol-badge-pending  { background:#fffbeb; color:#92400e; border:1px solid #fde68a; }
+  .vol-badge-approved { background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; }
+  .vol-badge-rejected { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+
+  @media (max-width: 768px) {
+    .reg-table { font-size: 0.8rem; }
+    .reg-table th:nth-child(3),
+    .reg-table td:nth-child(3),
+    .reg-table th:nth-child(4),
+    .reg-table td:nth-child(4) { display: none; }
+  }
+</style>
+{% endblock %}

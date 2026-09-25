@@ -38,7 +38,8 @@ from .models import (
     PartnerOrganization, OfficeLocation, FAQ, ContactInquiry,
     OurStory, CoreValue, Program,
     Project, ProjectImage,
-    PressRelease, MediaCoverage, ImageGallery, Video
+    PressRelease, MediaCoverage, ImageGallery, Video,
+    VolunteerRegistration
 )
 
 
@@ -1478,3 +1479,46 @@ def video_delete_view(request, pk):
     return render(request, 'cms/confirm_delete.html', {
         'object': item, 'object_type': 'Video', 'cancel_url': 'cms:video_list', 'active_cms': 'media'
     })
+
+
+# ─────────────────────────────────────────────────────────────
+# VOLUNTEER REGISTRATIONS ADMIN (ASSIGNMENT 6)
+# ─────────────────────────────────────────────────────────────
+
+@role_required('admin')
+def vol_registration_list_view(request):
+    """
+    Admin view: Browse all volunteer registrations across all opportunities.
+    Admin can see volunteer name, opportunity, status and change status inline.
+    """
+    registrations = VolunteerRegistration.objects.select_related(
+        'volunteer', 'opportunity'
+    ).order_by('-registered_at')
+
+    context = {
+        'registrations': registrations,
+        'active_cms': 'vol_registrations',
+        'page_title': 'Volunteer Registrations',
+    }
+    return render(request, 'cms/vol_registration_list.html', context)
+
+
+@role_required('admin')
+def vol_registration_update_status_view(request, pk):
+    """
+    Admin: Update the status of a volunteer registration (Pending/Approved/Rejected).
+    """
+    registration = get_object_or_404(VolunteerRegistration, pk=pk)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in ('pending', 'approved', 'rejected'):
+            registration.status = new_status
+            registration.note = request.POST.get('note', '').strip()
+            registration.save(update_fields=['status', 'note', 'updated_at'])
+            messages.success(
+                request,
+                f'Registration status for {registration.volunteer.full_name} updated to {registration.get_status_display()}.'
+            )
+        else:
+            messages.error(request, 'Invalid status.')
+    return redirect('cms:vol_registration_list')
